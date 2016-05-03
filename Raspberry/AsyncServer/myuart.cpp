@@ -14,17 +14,17 @@ MyUART::MyUART(QObject *parent) :
         }
     }
 
-    if(serialPort->open(QIODevice::ReadWrite))
+    if(!serialPort->open(QIODevice::ReadWrite))
         qDebug() << "uart error: Unable to open port, error code" << serialPort->error();
-    if(serialPort->setBaudRate(QSerialPort::Baud115200))
+    if(!serialPort->setBaudRate(QSerialPort::Baud115200))
         qDebug() << "uart error: Baud rate:" << serialPort->baudRate();
-    if(serialPort->setDataBits(QSerialPort::Data8))
+    if(!serialPort->setDataBits(QSerialPort::Data8))
         qDebug() << "uart error: Data bits:" << serialPort->dataBits();
-    if(serialPort->setParity(QSerialPort::NoParity))
+    if(!serialPort->setParity(QSerialPort::NoParity))
         qDebug() << "uart error: Parity:" << serialPort->parity();
-    if(serialPort->setStopBits(QSerialPort::OneAndHalfStop))
+    if(!serialPort->setStopBits(QSerialPort::OneAndHalfStop))
         qDebug() << "uart error: Stop bits:" << serialPort->stopBits();
-    if(serialPort->setFlowControl(QSerialPort::SoftwareControl))
+    if(!serialPort->setFlowControl(QSerialPort::SoftwareControl))
         qDebug() << "uart error: Flow control:" << serialPort->flowControl();
 
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
@@ -39,7 +39,9 @@ void MyUART::serialReceived()
 
 void MyUART::writeData(QByteArray data)
 {
+
     serialPort->write(data, data.length());
+
 }
 
 void MyUART::getPortInfo()
