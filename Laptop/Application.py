@@ -8,6 +8,10 @@
 #include dependencies
 from Debugging.Debug  import logToAll
 from UI.UserInterface import buildUI
+from Communication.CommandEncoder  import GetCmd
+from Communication.CommandEncoder  import SetCmd
+from Communication.CommunicationBuffer  import PopCmd
+from Communication.CommunicationBuffer  import PushCmd
 
 import time
 
@@ -24,7 +28,9 @@ def main():
     buildUI()
 
     while 1:
-        #loop to read from UART
+        #read to see if there are commands
+        cmd = PopCmd()
+        
         print("test")
         time.sleep(1)
         #loop to read from TCP

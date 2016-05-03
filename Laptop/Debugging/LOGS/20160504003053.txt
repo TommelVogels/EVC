@@ -1,0 +1,57 @@
+[2016-05-04 00:30:53.937849]; InitUART ; COM5 115200 N 1 8
+[2016-05-04 00:30:53.940852]; COM port could not be opened, no UART communication available!
+[2016-05-04 00:30:53.943854]; Main application started
+[2016-05-04 00:30:53.945855]; buildUI
+[2016-05-04 00:30:54.168311]; done
+[2016-05-04 00:30:54.170312]; ReceiveUART ; 
+[2016-05-04 00:30:54.173315]; PopCmd ; QueueEmpty
+[2016-05-04 00:30:55.195745]; ReceiveUART ; 
+[2016-05-04 00:30:55.209755]; PopCmd ; QueueEmpty
+[2016-05-04 00:30:56.239193]; ReceiveUART ; 
+[2016-05-04 00:30:56.253231]; PopCmd ; QueueEmpty
+[2016-05-04 00:30:57.277335]; ReceiveUART ; 
+[2016-05-04 00:30:57.285341]; PopCmd ; QueueEmpty
+[2016-05-04 00:30:58.303772]; ReceiveUART ; 
+[2016-05-04 00:30:58.311778]; PopCmd ; QueueEmpty
+[2016-05-04 00:30:59.331872]; ReceiveUART ; 
+[2016-05-04 00:30:59.346887]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:00.372903]; ReceiveUART ; 
+[2016-05-04 00:31:00.380913]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:01.401759]; ReceiveUART ; 
+[2016-05-04 00:31:01.416770]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:02.442918]; ReceiveUART ; 
+[2016-05-04 00:31:02.449927]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:03.475725]; ReceiveUART ; 
+[2016-05-04 00:31:03.489735]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:04.511897]; ReceiveUART ; 
+[2016-05-04 00:31:04.526893]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:05.546954]; ReceiveUART ; 
+[2016-05-04 00:31:05.550957]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:06.570759]; ReceiveUART ; 
+[2016-05-04 00:31:06.583763]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:07.616018]; ReceiveUART ; 
+[2016-05-04 00:31:07.630991]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:08.653056]; ReceiveUART ; 
+[2016-05-04 00:31:08.660082]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:09.683567]; ReceiveUART ; 
+[2016-05-04 00:31:09.696576]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:10.720583]; ReceiveUART ; 
+[2016-05-04 00:31:10.727559]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:11.743876]; ReceiveUART ; 
+[2016-05-04 00:31:11.751882]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:12.784911]; ReceiveUART ; 
+[2016-05-04 00:31:12.794921]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:13.814991]; ReceiveUART ; 
+[2016-05-04 00:31:13.826998]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:14.894993]; ReceiveUART ; 
+[2016-05-04 00:31:14.902008]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:15.944552]; ReceiveUART ; 
+[2016-05-04 00:31:15.960567]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:17.012998]; ReceiveUART ; 
+[2016-05-04 00:31:17.024999]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:18.066199]; ReceiveUART ; 
+[2016-05-04 00:31:18.083202]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:19.205214]; ReceiveUART ; 
+[2016-05-04 00:31:19.209231]; PopCmd ; QueueEmpty
+[2016-05-04 00:31:20.228224]; ReceiveUART ; 
+[2016-05-04 00:31:20.242233]; PopCmd ; QueueEmpty
