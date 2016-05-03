@@ -1,11 +1,12 @@
 #include "myuart.h"
 
+
 MyUART::MyUART(QObject *parent) :
     QObject(parent)
 {
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
-        if(serialPortInfo.systemLocation() == "/dev/ttyS0")
+        if(serialPortInfo.systemLocation() == "/dev/ttyAMA0")
         {
             serialPort = new QSerialPort(serialPortInfo);
             portInfo = const_cast<QSerialPortInfo*>(&serialPortInfo);
@@ -13,12 +14,18 @@ MyUART::MyUART(QObject *parent) :
         }
     }
 
-    serialPort->setBaudRate(QSerialPort::Baud9600);
-    serialPort->setDataBits(QSerialPort::Data8);
-    serialPort->setParity(QSerialPort::NoParity);
-    //serialPort->stopBits(QSerialPort::OneAndHalfStop);
-    //serialPort->flowControl(QSerialPort::NoFlowControl);
-    serialPort->open(QIODevice::ReadWrite);
+    if(serialPort->open(QIODevice::ReadWrite))
+        qDebug() << "uart error: Unable to open port, error code" << serialPort->error();
+    if(serialPort->setBaudRate(QSerialPort::Baud115200))
+        qDebug() << "uart error: Baud rate:" << serialPort->baudRate();
+    if(serialPort->setDataBits(QSerialPort::Data8))
+        qDebug() << "uart error: Data bits:" << serialPort->dataBits();
+    if(serialPort->setParity(QSerialPort::NoParity))
+        qDebug() << "uart error: Parity:" << serialPort->parity();
+    if(serialPort->setStopBits(QSerialPort::OneAndHalfStop))
+        qDebug() << "uart error: Stop bits:" << serialPort->stopBits();
+    if(serialPort->setFlowControl(QSerialPort::SoftwareControl))
+        qDebug() << "uart error: Flow control:" << serialPort->flowControl();
 
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
 }
