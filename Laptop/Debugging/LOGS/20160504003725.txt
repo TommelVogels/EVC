@@ -1,0 +1,6 @@
+[2016-05-04 00:37:25.744961]; InitUART ; COM5 115200 N 1 8
+[2016-05-04 00:37:25.749965]; COM port could not be opened, no UART communication available!
+[2016-05-04 00:37:25.752967]; Main application started
+[2016-05-04 00:37:25.756971]; buildUI
+[2016-05-04 00:37:25.860259]; done
+[2016-05-04 00:37:25.863262]; ReceiveUART ; 

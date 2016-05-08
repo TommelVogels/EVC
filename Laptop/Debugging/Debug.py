@@ -15,8 +15,8 @@ def logToConsole(msg):
     print("["+str(datetime.now())+"]; "+msg)
 
 def logToFile(msg):
-    logFile = open(fileName,"w")
-    logFile.write("["+str(datetime.now())+"]; "+msg)
+    logFile = open(fileName,"a")
+    logFile.write("["+str(datetime.now())+"]; "+msg+"\n")
     logFile.close()
     
 def logToAll(msg):
