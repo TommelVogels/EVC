@@ -2,93 +2,115 @@
 
 MyTask::MyTask(QString received)
 {
-    receivedJSON.insert("UnParsed",received);
+    JSONcall.insert("UnParsed",received);
+
 }
 
 void MyTask::run()
 {
     qDebug() << "Task Start";
 
-    // convert the JSON string to QVariantMap
-    bool jsonOk = false;
-    receivedJSON = QtJson::parse(
-            receivedJSON["UnParsed"].toString(),
-            jsonOk).toMap();
-
-    // notify the client that this is a reply
-    sendJSON["type"] = "reply";
+    bool batch  = JSONcall["UnParsed"].toString().startsWith('[');
+    bool jsonOk;
+    QVariant parsedJSON = QtJson::parse(
+            JSONcall["UnParsed"].toString(), jsonOk);
 
     // check if the received string is valid JSON
     if(!jsonOk)
     {
         qDebug() << "Invalid JSON string";
-        sendJSON["status"] = "jsonFail";
-        finalize();
+        answer = true;
+        robjJSON["code"] = -32700;
+        robjJSON["message"] = "Parse error";
+        robjJSON["id"] = "null";
+        JSONresult["error"] = robjJSON;
+        emit Result(QtJson::serialize(JSONresult));
         return;
     }
 
+    if(batch)
+    {
+        QList<QVariant> batchResult;
+        foreach(QVariant rpCall, parsedJSON.toList())
+        {
+            JSONcall = rpCall.toMap();
+            processCall();
+            batchResult << JSONresult;
+        }
+        if(answer) emit Result(QtJson::serialize(batchResult));
+    }
+    else
+    {
+        JSONcall = parsedJSON.toMap();
+        processCall();
+        if(answer) emit Result(QtJson::serialize(JSONresult));
+    }
+
+    qDebug() << "Task Done";
+}
+
+void MyTask::processCall()
+{
+    // set the version of the json rpc
+    JSONresult["jsonrpc"] = "2.0";
+
     // Return the same message id if provided
-    QVariant id = receivedJSON["id"];
-    if(id.isValid()) sendJSON["id"] = id;
+    // if no id is provided, an answer will not be sent
+    QVariant id = JSONcall["id"];
+    answer = id.isValid();
+    if(answer)
+        JSONresult["id"] = id;
 
     // Save the parameters
-    paramsJSON = receivedJSON["params"].toMap();
+    paramsJSON = JSONcall["params"].toMap();
 
     // Check what kind of function came in
     int method;
-    method = qHash(receivedJSON["method"].toString());
+    method = qHash(JSONcall["method"].toString());
     switch(method)
     {
 
     // System control
-    case SETMODE:
+    case SYSTEM_SETMODE:
         setMode();
         break;
-    case SETVERBOSE:
-        setVerbose();
-        break;
-    case BUSWRITE:
+    //case SETVERBOSE:
+    //    setVerbose();
+    //    break;
+    case SYSTEM_SENDUART:
         busWrite();
         break;
-    case GETCURRENT:
-        getCurrent();
-        break;
-    case GETMODE:
+    //case GETCURRENT:
+    //    getCurrent();
+    //    break;
+    case SYSTEM_GETMODE:
         getMode();
         break;
 
     // Motor Control
-    case SETMOTOR:
+    case MOTOR_SETMOTOR:
         setMotor();
         break;
 
     // Turret Control
-    case SETTURRETANGLE:
+    case TURRET_SETANGLE:
         setTurretAngle();
         break;
-    case FIREMISSILE:
+    case TURRET_FIREMISSILE:
         fireMissile();
         break;
-    case SETLASER:
+    case TURRET_SETLASER:
         setLaser();
         break;
 
     // If none of the above is true, an unknown method is received
     default:
-        sendJSON["status"] = "unknownMethod";
+        robjJSON["code"] = -32601;
+        robjJSON["message"] = "Method does not exist";
+        JSONresult["error"] = robjJSON;
+        answer = true;
         break;
     }
-
-    qDebug() << "Task Done";
-
-    finalize();
-}
-
-void MyTask::finalize()
-{
-    if(sendJSON["status"].isNull())
-        sendJSON["status"] = "OK";
-    emit Result(QtJson::serialize(sendJSON));
 }
 
 void MyTask::setMode()
@@ -99,7 +121,7 @@ void MyTask::setMode()
 
     //TODO: set the actual mode
 
-    sendJSON["status"] = "notImplemented";
+    JSONresult["status"] = "notImplemented";
 }
 
 void MyTask::setVerbose()
@@ -110,29 +132,59 @@ void MyTask::setVerbose()
 
     //TODO: set the actual mode
 
-    sendJSON["status"] = "notImplemented";
+    JSONresult["status"] = "notImplemented";
 }
 
-void MyTask::busWrite()
+QVariantMap MyTask::busWrite()
 {
-    qDebug() << "Going to write to the bus";
+    QVariantMap result;
+    QVariantMap _result;
 
-    QByteArray data = paramsJSON["data"].toByteArray();
-    emit UARTsend(data);
-
-    sendJSON["status"] = "OK";
+    QString dataType = paramsJSON["dataType"].toString();
+    if(dataType.isNull())
+    {
+        qDebug() << "Invalid parameter";
+        answer = true;
+        _result["code"] = -32700;
+        _result["message"] = "Parse error";
+        result["error"] = _result;
+    }
+    else if(dataType == "string")
+    {
+        QByteArray data = paramsJSON["data"].toByteArray();
+        qDebug() << "Going to write \"" << data << "\" to the bus";
+        emit UARTsend(data);
+    }
+    else if(dataType == "hex")
+    {
+        bool ok;
+        QString stringData = paramsJSON["data"].toString();
+        stringData.toInt(&ok,16);
+        if(ok)
+        {
+            QByteArray data = QByteArray::fromHex(stringData.toLatin1());
+            qDebug() << "Going to write \"" << data << "\" to the bus";
+            emit UARTsend(data);
+        }
+        else
+        {
+            _result["code"] = -32602;
+            _result["message"] = "Parse error";
+            result["error"] = _result;
+        }
+    }
+    return result;
 }
 
-void MyTask::getCurrent()
+QVariantMap MyTask::getCurrent()
 {
     qDebug() << "Going to send the current";
-
-    //TODO:
-
     QVariantMap result;
 
-    sendJSON["result"] = result;
-    sendJSON["status"] = "notImplemented";
+
+    //TODO: implement
+
+    return result;
 }
 
 void MyTask::getMode()

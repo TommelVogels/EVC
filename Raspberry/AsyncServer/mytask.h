@@ -22,14 +22,17 @@ protected:
     void run();
 
 private:
-    QVariantMap receivedJSON;
-    QVariantMap sendJSON;
+    QVariantMap JSONcall;
+    QVariantMap JSONresult;
     QVariantMap paramsJSON;
+    QVariantMap robjJSON;
+    bool answer;
 
+    void processCall();
     void setMode();
-    void busWrite();
+    QVariantMap busWrite();
     void setVerbose();
-    void getCurrent();
+    QVariantMap getCurrent();
     void getMode();
     void setMotor();
     void setTurretAngle();

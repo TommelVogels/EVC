@@ -27,7 +27,7 @@ void MyClient::disconnected()
 
 void MyClient::readyRead()
 {
-    QString received = socket->readAll().trimmed();
+    QString received = socket->readAll().simplified();
 
     if(received != "")
     {
