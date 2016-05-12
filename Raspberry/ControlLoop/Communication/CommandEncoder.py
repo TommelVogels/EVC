@@ -2,7 +2,8 @@
 # Manages the encoding and decoding of commands
 
 #defines
-
+START_BYTE = bytes([0xA5])
+END_BYTE = bytes([0x5A])
 
 #include dependencies
 from Debugging.Debug  import logToAll
@@ -11,12 +12,12 @@ from Communication.Commands.Commands  import CommandType
 #variables
 
 #functions
-def GetCmd(inData):
-  logToAll("GetCmd ; "+str(inData))
+def DecodeCmd(inData):
+  logToAll("GetCmd ; inData ; "+str(inData), 1)
   return {'cmdID':0x01,'data':'1','valid':1}
 
-def SetCmd(inData):
-  logToAll("SetCmd ; "+str(inData))
+def EncodeCmd(inData):
+  logToAll("SetCmd ; inData ; "+str(inData), 1)
   return CommandType.ERROR_STATUS
   
 #calls
