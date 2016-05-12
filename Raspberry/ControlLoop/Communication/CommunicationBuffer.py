@@ -23,6 +23,7 @@ sendQueue = queue.Queue(maxsize=16)
 if USE_UART:
   InitUART()
 
+  #def PushCmd(inID,inData):
 def PushCmd(inData):
     logToAll("PushCmd ; " + str(inData))
 
@@ -30,6 +31,7 @@ def PushCmd(inData):
     
     #send via channels
 
+#{cmID:NONE,data:{0}}def PopCmd():
 def PopCmd():
 
     #receive via channels
