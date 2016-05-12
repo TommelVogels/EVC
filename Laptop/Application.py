@@ -27,7 +27,7 @@ def main():
 
     #build and run the UI
     buildUI()
-    a=0
+    
     while 1:
         #read to send/receive commands
         SendCmds()
