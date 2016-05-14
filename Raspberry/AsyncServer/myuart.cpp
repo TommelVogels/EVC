@@ -28,6 +28,7 @@ MyUART::MyUART(QObject *parent) :
         qDebug() << "uart error: Flow control:" << serialPort->flowControl();
 
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
+
 }
 
 void MyUART::serialReceived()
@@ -39,9 +40,8 @@ void MyUART::serialReceived()
 
 void MyUART::writeData(QByteArray data)
 {
-
+    qDebug() << "Going to write \"" << data << "\" to the bus";
     serialPort->write(data, data.length());
-
 }
 
 void MyUART::getPortInfo()

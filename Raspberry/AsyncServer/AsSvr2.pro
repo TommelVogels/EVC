@@ -8,25 +8,33 @@ QT       += core
 QT       += network
 QT       -= gui
 QT       += serialport
+QT       += dbus
 
 TARGET = AsSvr2
 CONFIG   += console
+CONFIG   += c++11
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    myserver.cpp \
-    myclient.cpp \
-    mytask.cpp \
+    tcp/myserver.cpp \
+    tcp/myclient.cpp \
+    tcp/mytask.cpp \
     json.cpp \
-    myuart.cpp
+    myuart.cpp \
+    mydbus.cpp \
+    interfacecollection.cpp
+
 
 HEADERS += \
-    myserver.h \
-    myclient.h \
-    mytask.h \
+    tcp/myserver.h \
+    tcp/myclient.h \
+    tcp/mytask.h \
     json.h \
     myuart.h \
-    globaldefines.h
+    globaldefines.h \
+    mydbus.h \
+    interfacecollection.h
+

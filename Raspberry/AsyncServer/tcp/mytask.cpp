@@ -1,9 +1,9 @@
 #include "mytask.h"
 
-MyTask::MyTask(QString received)
+MyTask::MyTask(QString received, uint mode)
 {
     JSONcall.insert("UnParsed",received);
-
+    this->mode = mode;
 }
 
 void MyTask::run()
@@ -20,11 +20,13 @@ void MyTask::run()
     {
         qDebug() << "Invalid JSON string";
         answer = true;
+        QVariantMap robjJSON;
+        QVariantMap result;
         robjJSON["code"] = -32700;
         robjJSON["message"] = "Parse error";
         robjJSON["id"] = "null";
-        JSONresult["error"] = robjJSON;
-        emit Result(QtJson::serialize(JSONresult));
+        result["error"] = robjJSON;
+        emit Result(QtJson::serialize(result));
         return;
     }
 
@@ -33,55 +35,62 @@ void MyTask::run()
         QList<QVariant> batchResult;
         foreach(QVariant rpCall, parsedJSON.toList())
         {
-            JSONcall = rpCall.toMap();
-            processCall();
-            batchResult << JSONresult;
+            QVariantMap result;
+            processCall(rpCall.toMap(), result);
+            batchResult << result;
         }
         if(answer) emit Result(QtJson::serialize(batchResult));
     }
     else
     {
-        JSONcall = parsedJSON.toMap();
-        processCall();
-        if(answer) emit Result(QtJson::serialize(JSONresult));
+        QVariantMap result;
+        processCall(parsedJSON.toMap(), result);
+        if(answer) emit Result(QtJson::serialize(result));
     }
 
     qDebug() << "Task Done";
 }
 
-void MyTask::processCall()
+void MyTask::processCall(QVariantMap json, QVariantMap &result)
 {
     // set the version of the json rpc
-    JSONresult["jsonrpc"] = "2.0";
+    result["jsonrpc"] = "2.0";
 
     // Return the same message id if provided
     // if no id is provided, an answer will not be sent
-    QVariant id = JSONcall["id"];
+    QVariant id = json["id"];
     answer = id.isValid();
     if(answer)
-        JSONresult["id"] = id;
+        result["id"] = id;
 
     // Save the parameters
-    paramsJSON = JSONcall["params"].toMap();
+    QVariantMap paramsJSON = json["params"].toMap();
 
     // Check what kind of function came in
     int method;
-    method = qHash(JSONcall["method"].toString());
+    method = qHash(json["method"].toString());
     switch(method)
     {
+    // JSON RPC
+    case JSONRPC_VERSION:
+        result["result"] = "0.1";
+        break;
+    case JSONRPC_GETMETHODS:
+        getMethods(result);
+        break;
 
     // System control
     case SYSTEM_SETMODE:
-        setMode();
+        setMode(paramsJSON, result);
         break;
     //case SETVERBOSE:
-    //    setVerbose();
+    //    setVerbose()paramsJSON;
     //    break;
     case SYSTEM_SENDUART:
-        busWrite();
+        busWrite(paramsJSON, result);
         break;
     //case GETCURRENT:
-    //    getCurrent();
+    //    getCurrent(paramsJSON);
     //    break;
     case SYSTEM_GETMODE:
         getMode();
@@ -89,58 +98,78 @@ void MyTask::processCall()
 
     // Motor Control
     case MOTOR_SETMOTOR:
-        setMotor();
+        setMotor(paramsJSON, result);
         break;
 
     // Turret Control
     case TURRET_SETANGLE:
-        setTurretAngle();
+        setTurretAngle(paramsJSON, result);
         break;
     case TURRET_FIREMISSILE:
-        fireMissile();
+        fireMissile(paramsJSON, result);
         break;
     case TURRET_SETLASER:
-        setLaser();
+        setLaser(paramsJSON, result);
         break;
 
     // If none of the above is true, an unknown method is received
     default:
-        robjJSON["code"] = -32601;
-        robjJSON["message"] = "Method does not exist";
-        JSONresult["error"] = robjJSON;
+        QVariantMap _result;
+        _result["code"] = -32601;
+        _result["message"] = "Method does not exist";
+        result["error"] = _result;
         answer = true;
         break;
     }
 }
 
-void MyTask::setMode()
+void MyTask::getMethods(QVariantMap &result)
+{
+    QStringList methods{
+        "JSONRPC.Version",
+        "JSONRPC.GetMethods",
+
+        "System.SetMode",
+        "System.GetMode",
+        "System.SetVerbose",
+        "System.SendUart",
+
+        "Motor.SetMotor",
+        "Motor.GetMotorAngle",
+        "Motor.GetMotorSpeed",
+
+        "Turret.SetAngle",
+        "Turret.GetAngle",
+        "Turret.SetLaser",
+        "Turret.GetLaser",
+        "Turret.FireMissile"
+    };
+    result["result"] = methods;
+}
+
+void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to set the mode";
 
-    QString mode = paramsJSON["mode"].toString();
+    QString mode = params["mode"].toString();
 
     //TODO: set the actual mode
-
-    JSONresult["status"] = "notImplemented";
 }
 
-void MyTask::setVerbose()
+void MyTask::setVerbose(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to change the verbosity level of client ";
 
-    QString mode = paramsJSON["mode"].toString();
+    QString mode = params["mode"].toString();
 
     //TODO: set the actual mode
-
-    JSONresult["status"] = "notImplemented";
 }
 
-QVariantMap MyTask::busWrite()
+void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
 {
-    QVariantMap result;
     QVariantMap _result;
 
-    QString dataType = paramsJSON["dataType"].toString();
+    QString dataType = params["dataType"].toString();
     if(dataType.isNull())
     {
         qDebug() << "Invalid parameter";
@@ -151,19 +180,19 @@ QVariantMap MyTask::busWrite()
     }
     else if(dataType == "string")
     {
-        QByteArray data = paramsJSON["data"].toByteArray();
-        qDebug() << "Going to write \"" << data << "\" to the bus";
+        QByteArray data = params["data"].toByteArray();
+        result["result"] = "OK";
         emit UARTsend(data);
     }
     else if(dataType == "hex")
     {
         bool ok;
-        QString stringData = paramsJSON["data"].toString();
+        QString stringData = params["data"].toString();
         stringData.toInt(&ok,16);
         if(ok)
         {
             QByteArray data = QByteArray::fromHex(stringData.toLatin1());
-            qDebug() << "Going to write \"" << data << "\" to the bus";
+            result["result"] = "OK";
             emit UARTsend(data);
         }
         else
@@ -173,18 +202,13 @@ QVariantMap MyTask::busWrite()
             result["error"] = _result;
         }
     }
-    return result;
 }
 
-QVariantMap MyTask::getCurrent()
+void MyTask::getCurrent(QVariantMap &result)
 {
     qDebug() << "Going to send the current";
-    QVariantMap result;
-
 
     //TODO: implement
-
-    return result;
 }
 
 void MyTask::getMode()
@@ -193,25 +217,25 @@ void MyTask::getMode()
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
-void MyTask::setMotor()
+void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to set the motor speeds";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
-void MyTask::setTurretAngle()
+void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to set the turret angle";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
-void MyTask::fireMissile()
+void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to fire a missile";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
-void MyTask::setLaser()
+void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "Going to set the laser";
     //emit(Result("{\"status\": \"notImplemented\"}"));

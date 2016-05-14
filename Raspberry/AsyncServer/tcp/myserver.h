@@ -13,7 +13,6 @@ class MyServer : public QTcpServer
 public:
     explicit MyServer(QObject *parent = 0);
     void StartServer(int port);
-    MyUART *uart;
 
 protected:
     void incomingConnection(int handle);
