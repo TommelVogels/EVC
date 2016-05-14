@@ -6,15 +6,16 @@
 
 
 #include dependencies
-from Debugging.Debug  import logToAll
-from UI.UserInterface import buildUI
-from Communication.CommandEncoder  import GetCmd
-from Communication.CommandEncoder  import SetCmd
-from Communication.CommunicationBuffer  import PopCmd
-from Communication.CommunicationBuffer  import PushCmd
-
 import time
 
+from Debugging.Debug  import logToAll
+from UI.UserInterface import buildUI
+from Communication.CommandEncoder  import DecodeCmd
+from Communication.CommandEncoder  import EncodeCmd
+from Communication.CommunicationBuffer  import PopCmd
+from Communication.CommunicationBuffer  import PushCmd
+from Communication.CommunicationBuffer  import SendCmds
+from Communication.CommunicationBuffer  import ReceiveCmds
 
 #variables
 
@@ -22,19 +23,19 @@ import time
 #functions
 
 def main():
-    logToAll("Main application started")
+    logToAll("main ; Main application started ; ",1)
 
     #build and run the UI
     buildUI()
-
+    
     while 1:
-        #read to see if there are commands
-        cmd = PopCmd()
+        #read to send/receive commands
+        SendCmds()
+        ReceiveCmds()
         
-        print("test")
-        time.sleep(1)
-        #loop to read from TCP
+        cmd = PopCmd()
 
+        #time.sleep(0.5)
 
     
 #calls
