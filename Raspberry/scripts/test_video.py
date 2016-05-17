@@ -320,8 +320,9 @@ def thresholds():
 		preview = cv2.bitwise_and(image, image, mask=thresh)
 		cv2.imshow("Preview", preview)
 	else:
-		cv2.imshow("Original", image)
+		#cv2.imshow("Original", image)
 		cv2.imshow("Thresh", thresh)
+	return image
 
 	
 def colordetection_video():
@@ -467,7 +468,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 #	image = testfetchcontours()
 #	image = colordetection()
 #	image = surf()
-	image = colordetection2()
+#	image = colordetection2()
+	image = thresholds()
 	
 	# grab the raw NumPy array representing the image, then initialize the timestamp		
 #	lines = cv2.HoughLinesP(edges, 1, np.pi / 4, 2, None, 10, 1)
