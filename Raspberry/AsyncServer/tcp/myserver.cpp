@@ -15,12 +15,10 @@ void MyServer::StartServer(int port)
     {
         qDebug() << "not started!";
     }
-
-    uart = new MyUART();
 }
 
 void MyServer::incomingConnection(int handle)
 {
-    MyClient *client = new MyClient(this);
+    MyClient *client = new MyClient(this->parent());
     client->SetSocket(handle);
 }

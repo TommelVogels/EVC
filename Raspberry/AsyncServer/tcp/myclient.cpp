@@ -1,5 +1,6 @@
 #include "myclient.h"
 #include "myserver.h"
+#include "interfacecollection.h"
 
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
@@ -27,22 +28,38 @@ void MyClient::disconnected()
 
 void MyClient::readyRead()
 {
-    QString received = socket->readAll().trimmed();
+    QString received = socket->readAll().simplified();
 
     if(received != "")
     {
         qDebug() << received;
-        MyTask *mytask = new MyTask(received);
+
+        //Initialize a task
+        MyTask *mytask = new MyTask(received, mode);
         mytask->setAutoDelete(true);
         connect(mytask,SIGNAL(Result(QByteArray)),SLOT(TaskResult(QByteArray)), Qt::QueuedConnection);
 
-        connect(mytask,SIGNAL(UARTsend(QByteArray)),qobject_cast<MyServer *>(this->parent())->uart,SLOT(writeData(QByteArray)));
-        //connect(mytask,SIGNAL(UARTsend(QByteArray)),qobject_cast<MyServer *>(this->parent())->uart,writeData(QByteArray));
+        //Connect to the other interfaces
+        InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
+        connect(mytask,SIGNAL(UARTsend(QByteArray)),ic->Uart,SLOT(writeData(QByteArray)));
+
+        //Start the task
         QThreadPool::globalInstance()->start(mytask);
     }
 }
 
 void MyClient::TaskResult(QByteArray rData)
 {
+    //Send the data straight to the client
     socket->write(rData);
+}
+
+void MyClient::setVerbose(uint level)
+{
+
+}
+
+void MyClient::setMode(uint level)
+{
+
 }

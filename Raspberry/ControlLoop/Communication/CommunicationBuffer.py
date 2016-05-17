@@ -9,22 +9,66 @@ USE_TCP  = 1
 
 
 #include dependencies
+import serial #https://pypi.python.org/pypi/pyserial
 import queue
+
+from Debugging.Debug  import logToAll
+from Communication.CommChannels.UART.UART  import ReceiveUART
+from Communication.CommChannels.UART.UART  import SendUART
 
 #variables
 
 # Queue to contain commands received over UART/TCP
-receiveQueue = queue.Queue(maxsize=32)
+receiveQueue = queue.Queue(maxsize=16)
 #Queue to contain commands to send over UART/TCP
-sendQueue = queue.Queue(maxsize=32)
+sendQueue = queue.Queue(maxsize=16)
 
-def GetCmd():
-    print("GetCmd")
+<<<<<<< HEAD
+if USE_UART:
+  InitUART()
 
-    receive_Queue.put("test")
+  #def PushCmd(inID,inData):
+def PushCmd(inData):
+    logToAll("PushCmd ; " + str(inData))
 
-    queuedCmd = 
-
+    sendQueue.put(inData)
     
+=======
+def SendCmds():
+  try:
+    command = sendQueue.get(False)
+    logToAll("SendCmds ; command ; " + str(command), 1)
+        
+>>>>>>> 3aa1c305fc122508e602dd01e5c733925de99dba
+    #send via channels
+    if USE_UART==1:
+      SendUART(command)
+      
+  except queue.Empty:
+    # Handle empty queue here        
+    logToAll("PushCmd ; command ;  QueueEmpty", 2)
+  
+def ReceiveCmds():
+  #receive via channels
+  if USE_UART==1:
+    dataIn = ReceiveUART()
+    if dataIn['cmdAvailable']==1:
+      logToAll("PushCmd ; dataIn ; cmdAvailable",1)
+      receiveQueue.put(dataIn['data'])
 
-GetCmd()
+<<<<<<< HEAD
+#{cmID:NONE,data:{0}}def PopCmd():
+=======
+def PushCmd(inData):
+  logToAll("PushCmd ; inData ; " + str(inData),1)
+  sendQueue.put(inData)
+  
+>>>>>>> 3aa1c305fc122508e602dd01e5c733925de99dba
+def PopCmd():
+  try:
+    command = receiveQueue.get(False)
+    logToAll("PopCmd ; command ; " + str(command),1)
+  except queue.Empty:
+    # Handle empty queue here        
+    logToAll("PopCmd ; command ; QueueEmpty", 2)
+  return "test"

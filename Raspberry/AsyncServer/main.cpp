@@ -1,5 +1,8 @@
 #include <QtCore/QCoreApplication>
-#include "myserver.h"
+#include "interfacecollection.h"
+#include "globaldefines.h"
+
+uint mode = MODE_MANUAL;
 
 int main(int argc, char *argv[])
 {
@@ -7,12 +10,8 @@ int main(int argc, char *argv[])
 
     QStringList arguments = QCoreApplication::arguments();
 
-    int port = 0;
-    if(argc > 1)
-        port = arguments[1].toInt();
-
-    MyServer Server;
-    Server.StartServer(port?port:1234);
+    InterfaceCollection ic(arguments);
+    ic.startInterfaces();
 
     return a.exec();
 }
