@@ -12,9 +12,10 @@ import argparse
 
 def hough():
 	image = frame.array
+	image = image[240:480,0:640]
 	gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 	edges = cv2.Canny(gray,50,150,apertureSize = 3)
-	lines = cv2.HoughLines(edges,1,np.pi/180,75)
+	lines = cv2.HoughLines(edges,1,np.pi/180,200,80)
 
 	if lines is not None:
 		for x in range(0,len(lines)):
@@ -230,10 +231,11 @@ def colordetection():
 	
 def colordetection2():
 	image = frame.array
+	image = image[120:360,0:640]
 	hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
 
 	#hsv = imutils.resize(hsv, width=600)
-	#hsv = cv2.GaussianBlur(hsv, (11, 11), 0)
+	hsv = cv2.GaussianBlur(hsv, (11, 11), 0)
  
 	# construct a mask for the color "green", then perform
 	# a series of dilations and erosions to remove any small
@@ -243,8 +245,10 @@ def colordetection2():
 	mask3 = cv2.inRange(hsv, YellowLower, YellowUpper)
 	
 	mask = mask1 | mask2 | mask3
-	mask = cv2.erode(mask, None, iterations=2)
-	mask = cv2.dilate(mask, None, iterations=6)
+	mask = cv2.medianBlur(mask, 9)
+	#mask = cv2.erode(mask, None, iterations=2)
+	mask = cv2.dilate(mask, None, iterations=15)
+	mask = cv2.erode(mask, None, iterations=15)
 
 	
 		# find contours in the mask and initialize the current
@@ -257,21 +261,112 @@ def colordetection2():
 	if len(cnts) > 0:
 		# find the largest contour in the mask, then use
 		# it to compute the minimum enclosing circle and
-		# centroid		
+		# centroid	q
 #		c = max(cnts, key=cv2.contourArea)
 		#find largests contours
-		cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:10]
+		cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:3]
 		for c in cnts:
 		
 			area = cv2.contourArea(c)
-			if area > 500.0:
+			if area > 1000.0:
 				peri = cv2.arcLength(c, True)
-				approx = cv2.approxPolyDP(c, 0.10 * peri, True)
-				cv2.drawContours(image, approx, -1, (0, 255, 0), 3)
+				approx = cv2.approxPolyDP(c, 0.20 * peri, True)
+#				cv2.drawContours(image, approx, -1, (0, 255, 0), 3)
 				(x,y),radius = cv2.minEnclosingCircle(approx)
 				radius = int(radius)
 				center = (int(x),int(y))
+				
+#				print('radius is',radius, 'x is',x, 'y is',y)
 				cv2.circle(image,center,radius,(255,255,255),2)
+				yr = int(y-radius)
+				xr = int(x-radius)
+				yr2 = int(y+radius)
+				xr2 = int(x+radius)
+				y = int (y)
+				x = int (x)
+				if yr < 0:	
+					yr = 0
+				if xr < 0:
+					xr = 0
+				if yr2 > 480:		##possibly redundant
+					yr2 = 480
+				if xr2 > 640:
+					xr2 = 640
+					
+#				print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2)
+				
+				roi = image[yr:yr2,xr:xr2]
+				roi1 = mask1[yr:yr2,xr:xr2]
+				roi2 = mask2[yr:yr2,xr:xr2]
+				roi3 = mask3[yr:yr2,xr:xr2]
+				if cv2.countNonZero(roi2) > 150:
+					color = "blue"
+				elif cv2.countNonZero(roi1) > 150:
+					color = "red"
+				elif cv2.countNonZero(roi3) > 150:
+					color = "yellow"
+				else:
+					color = "nothing"
+				##ADD PRIORITY BASED ON RADIUS
+#					roi = image[50:200,50:100]
+#					cv2.imwrite("derp.png", roi)
+				roi = cv2.cvtColor(roi,cv2.COLOR_BGR2GRAY)
+				_, roi = cv2.threshold(roi,127,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+#				roi = cv2.Canny(roi,80,150,apertureSize = 3) 
+				roi= cv2.resize(roi,(int(250),int(250)))
+				
+				result = [0,0,0,0,0]
+				white = -1
+				i = -1
+				str = ""
+				if color == "red":
+					result[0] = cv2.bitwise_and(roi,stop_and)
+					white2 = cv2.countNonZero(result[0])
+					if white2 > 10000 and white2 < 15832:
+						white = white2
+						i = 0
+						str="stop"
+				
+				elif color == "blue":
+					result[1] = cv2.bitwise_and(roi,right_and)
+					white2 = cv2.countNonZero(result[1])
+					if white2 > white and white2 > 6000 and white2 < 11018:
+						white = white2
+						i = 1
+						str="right"
+					
+					result[2] = cv2.bitwise_and(roi,straight_and)
+					white2 = cv2.countNonZero(result[2])
+					if white2 > white and white2 > 6000 and white2 < 8897:
+						white = white2
+						i = 2
+						str="straight"
+						
+					result[3] = cv2.bitwise_and(roi,left_and)
+					white2 = cv2.countNonZero(result[3])
+					if white2 > white and white2 > 6000 and white2 < 11016:
+						white = white2
+						i = 3
+						str="left"
+					
+				elif color == "yellow":	
+					result[4] = cv2.bitwise_and(roi,uturn_and)
+					white2 = cv2.countNonZero(result[4])
+					if white2 > white and white2 > 14500 and white2 < 20503:
+						white = white2
+						i = 4
+						str="uturn"
+
+				cv2.putText(image, str+repr(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,255)
+				
+				#print (i)
+				
+				
+				
+				cv2.imshow("derp", roi)
+				key = cv2.waitKey(1000) & 0xFF
+				
+				
 		
 		
 	#		((x, y), radius) = cv2.minEnclosingCircle(c)
@@ -289,8 +384,11 @@ def colordetection2():
 	# update the points queue
 #	pts.appendleft(center)
 	
-
-	return mask
+#	if i == -1:
+#		return roi
+#	else:
+#		return result[i]
+	return mask1
 	
 def setup_trackbars(range_filter):
     cv2.namedWindow("Trackbars", 0)
@@ -311,17 +409,16 @@ def get_trackbar_values(range_filter):
 
     return values
 	
+def callback(value):
+    pass
+	
 def thresholds():
 	image = frame.array
 	hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
-	v1_min, v2_min, v3_min, v1_max, v2_max, v3_max = get_trackbar_values(HSV.upper())
-	thresh = cv2.inRange(frame_to_thresh, (v1_min, v2_min, v3_min), (v1_max, v2_max, v3_max))
-	if args['preview']:
-		preview = cv2.bitwise_and(image, image, mask=thresh)
-		cv2.imshow("Preview", preview)
-	else:
+	v1_min, v2_min, v3_min, v1_max, v2_max, v3_max = get_trackbar_values("HSV")
+	thresh = cv2.inRange(hsv, (v1_min, v2_min, v3_min), (v1_max, v2_max, v3_max))
 		#cv2.imshow("Original", image)
-		cv2.imshow("Thresh", thresh)
+	cv2.imshow("Thresh", thresh)
 	return image
 
 	
@@ -435,9 +532,12 @@ def surf():
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
 camera.resolution = (640, 480)
+#camera.iso = 200
 camera.awb_mode = 'off'
+camera.exposure_mode = 'auto'
 
-rg, bg = (1.4, 1.4)
+
+rg, bg = (1.9, 1.2)
 camera.awb_gains = (rg, bg)
 			
 camera.framerate = 32
@@ -446,15 +546,21 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 BlueLower = (100, 86, 6)
 BlueUpper = (125, 255, 255)
 
-RedLower = (160, 86, 6)
-RedUpper = (200, 255, 255)
+RedLower = (170, 136, 130)
+RedUpper = (190, 255, 255)
 
-YellowLower = (10, 86, 6)
-YellowUpper = (25, 255, 255)
+YellowLower = (10, 90, 100)
+YellowUpper = (55, 255, 255)
 
+left_and = cv2.imread("left_and.png",0)
+stop_and = cv2.imread("stop_and.png",0)
+uturn_and = cv2.imread("uturn_and.png",0)
+right_and = cv2.imread("right_and.png",0)
+straight_and = cv2.imread("straight_and.png",0)
  
 # allow the camera to warmup
 time.sleep(0.1)
+#setup_trackbars("HSV")
 
 #colordetection_video()
  
@@ -468,8 +574,8 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 #	image = testfetchcontours()
 #	image = colordetection()
 #	image = surf()
-#	image = colordetection2()
-	image = thresholds()
+	image = colordetection2()
+#	image = thresholds()
 	
 	# grab the raw NumPy array representing the image, then initialize the timestamp		
 #	lines = cv2.HoughLinesP(edges, 1, np.pi / 4, 2, None, 10, 1)
