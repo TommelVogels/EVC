@@ -274,10 +274,10 @@ def colordetection2():
 #				cv2.drawContours(image, approx, -1, (0, 255, 0), 3)
 				(x,y),radius = cv2.minEnclosingCircle(approx)
 				radius = int(radius)
-				center = (int(x),int(y))
+#				center = (int(x),int(y))
 				
 #				print('radius is',radius, 'x is',x, 'y is',y)
-				cv2.circle(image,center,radius,(255,255,255),2)
+#				cv2.circle(image,center,radius,(255,255,255),2)
 				yr = int(y-radius)
 				xr = int(x-radius)
 				yr2 = int(y+radius)
@@ -299,11 +299,11 @@ def colordetection2():
 				roi1 = mask1[yr:yr2,xr:xr2]
 				roi2 = mask2[yr:yr2,xr:xr2]
 				roi3 = mask3[yr:yr2,xr:xr2]
-				if cv2.countNonZero(roi2) > 150:
+				if cv2.countNonZero(roi2) > 250:
 					color = "blue"
-				elif cv2.countNonZero(roi1) > 150:
+				elif cv2.countNonZero(roi1) > 200:
 					color = "red"
-				elif cv2.countNonZero(roi3) > 150:
+				elif cv2.countNonZero(roi3) > 200:
 					color = "yellow"
 				else:
 					color = "nothing"
@@ -322,7 +322,8 @@ def colordetection2():
 				if color == "red":
 					result[0] = cv2.bitwise_and(roi,stop_and)
 					white2 = cv2.countNonZero(result[0])
-					if white2 > 10000 and white2 < 15832:
+#					print "red"
+					if white2 > 11000 and white2 < 18832:
 						white = white2
 						i = 0
 						str="stop"
@@ -337,7 +338,7 @@ def colordetection2():
 					
 					result[2] = cv2.bitwise_and(roi,straight_and)
 					white2 = cv2.countNonZero(result[2])
-					if white2 > white and white2 > 6000 and white2 < 8897:
+					if white2 > white and white2 > 6000 and white2 < 11097:
 						white = white2
 						i = 2
 						str="straight"
@@ -357,7 +358,7 @@ def colordetection2():
 						i = 4
 						str="uturn"
 
-				cv2.putText(image, str+repr(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,255)
+				cv2.putText(image, str+repr(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
 				
 				#print (i)
 				
@@ -388,7 +389,7 @@ def colordetection2():
 #		return roi
 #	else:
 #		return result[i]
-	return mask1
+	return image
 	
 def setup_trackbars(range_filter):
     cv2.namedWindow("Trackbars", 0)
@@ -549,8 +550,8 @@ BlueUpper = (125, 255, 255)
 RedLower = (170, 136, 130)
 RedUpper = (190, 255, 255)
 
-YellowLower = (10, 90, 100)
-YellowUpper = (55, 255, 255)
+YellowLower = (10, 130, 130)
+YellowUpper = (15, 255, 255)
 
 left_and = cv2.imread("left_and.png",0)
 stop_and = cv2.imread("stop_and.png",0)
@@ -567,14 +568,14 @@ time.sleep(0.1)
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	
-#	image = hough()
+	image = hough()
 #	image = contours()
 #	image = circles()
 #	image = robotcircles()
 #	image = testfetchcontours()
 #	image = colordetection()
 #	image = surf()
-	image = colordetection2()
+#	image = colordetection2()
 #	image = thresholds()
 	
 	# grab the raw NumPy array representing the image, then initialize the timestamp		
