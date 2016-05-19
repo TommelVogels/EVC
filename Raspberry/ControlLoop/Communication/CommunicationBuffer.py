@@ -23,23 +23,11 @@ receiveQueue = queue.Queue(maxsize=16)
 #Queue to contain commands to send over UART/TCP
 sendQueue = queue.Queue(maxsize=16)
 
-<<<<<<< HEAD
-if USE_UART:
-  InitUART()
-
-  #def PushCmd(inID,inData):
-def PushCmd(inData):
-    logToAll("PushCmd ; " + str(inData))
-
-    sendQueue.put(inData)
-    
-=======
 def SendCmds():
   try:
     command = sendQueue.get(False)
     logToAll("SendCmds ; command ; " + str(command), 1)
         
->>>>>>> 3aa1c305fc122508e602dd01e5c733925de99dba
     #send via channels
     if USE_UART==1:
       SendUART(command)
@@ -56,14 +44,12 @@ def ReceiveCmds():
       logToAll("PushCmd ; dataIn ; cmdAvailable",1)
       receiveQueue.put(dataIn['data'])
 
-<<<<<<< HEAD
 #{cmID:NONE,data:{0}}def PopCmd():
-=======
+
 def PushCmd(inData):
   logToAll("PushCmd ; inData ; " + str(inData),1)
   sendQueue.put(inData)
   
->>>>>>> 3aa1c305fc122508e602dd01e5c733925de99dba
 def PopCmd():
   try:
     command = receiveQueue.get(False)

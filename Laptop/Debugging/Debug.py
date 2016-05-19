@@ -11,6 +11,14 @@ from datetime import datetime
 fileName =  __file__.replace("Debug.py","")+"LOGS/"
 fileName += datetime.now().strftime('%Y%m%d%H%M%S')+".txt"
 
+variablesState = {"leftMotorSpeed":0,"rightMotorSpeed":0,"angle":0}
+
+def setVariableState(variable, value):
+  variablesState[variable] = value;
+
+def getVariableState(variable):
+  return variablesState[variable];
+
 def logToConsole(msg, level):
     if DEBUG_LEVEL>=level:
       print("["+str(datetime.now())+"]; "+msg)
