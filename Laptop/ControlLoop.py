@@ -9,6 +9,9 @@ import math
 import time
 
 from Debugging.Debug  import logToAll
+from Debugging.Debug import setVariableState
+from Debugging.Debug import getVariableState
+
 from Communication.CommandEncoder  import DecodeCmd
 from Communication.CommandEncoder  import EncodeCmd
 from Communication.CommunicationBuffer  import PopCmd
@@ -43,12 +46,12 @@ def main():
     signData = findSigns()
     
     pathData["angle"] = pathData["angle"] + 1
+    setVariableState("angle", pathData["angle"])
     
     motorSpeeds = calculateMotorSpeeds()
-
-    SendCmds()
-    ReceiveCmds()
-        
+    
+    setVariableState("leftMotorSpeed", motorSpeeds["left"])
+    setVariableState("rightMotorSpeed", motorSpeeds["right"])
     
     time.sleep(1)
     
@@ -80,8 +83,8 @@ def calculateMotorSpeeds():
     motorSpeeds["left"] = speed2
     motorSpeeds["right"] = speed1
   
-  print(str(pathData["angle"])+" "+str(angle)+ " Left:" + str(motorSpeeds["left"])+ " Right:" + str(motorSpeeds["right"]));
+  return motorSpeeds
     
 #calls
-main()
+#main()
     
