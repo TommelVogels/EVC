@@ -21,7 +21,6 @@ from ImageProcessing.SignDetection.SignDetection  import findSigns
 
 #variables
 pathData = {"angle":0,"leftEdge":0,"leftMiddle":0,"rightMidle":0,"rightEdge":0}
-signData = {"signPresent":0,"distance":0}
 
 desiredMotorSpeed = 100
 
@@ -37,7 +36,6 @@ def main():
     #cmd = PopCmd()
     
     global pathData
-    global signData
     
     #pathData = findPath()
     signData = findSigns()

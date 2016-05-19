@@ -3,7 +3,7 @@
 # from the Laptop
 
 #defines
-EMULATE_CONTROL_LOOP = 0
+EMULATE_CONTROL_LOOP = 1
 
 #include dependencies
 import time

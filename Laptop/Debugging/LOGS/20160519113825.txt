@@ -1,0 +1,10 @@
+[2016-05-19 11:38:25.637962]; Init ; Opening COM port ;
+[2016-05-19 11:38:25.653582]; Init ; COM port could not be opened, no UART communication available! ; 
+[2016-05-19 11:38:25.684853]; LaptopApplication ; Main LaptopApplication started ; 
+[2016-05-19 11:38:25.700479]; buildUI ; ; 
+[2016-05-19 11:38:27.611050]; PushCmd ; inData ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-19 11:38:27.716890]; SendCmds ; command ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-19 11:38:27.826270]; PushCmd ; inData ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-19 11:38:27.857520]; SendCmds ; command ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-19 11:38:27.935645]; PushCmd ; inData ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
+[2016-05-19 11:38:27.982545]; SendCmds ; command ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
