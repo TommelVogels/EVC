@@ -22,8 +22,8 @@ from tkinter import *
 import threading
 
 from Debugging.Debug import logToAll
-from Debugging.Debug import setVariableState
-from Debugging.Debug import getVariableState
+from Parameters.Parameters import setVariableState
+from Parameters.Parameters import getVariableState
 from Communication.CommunicationBuffer  import PushCmd
 
 #variables
