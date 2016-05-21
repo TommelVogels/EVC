@@ -1,0 +1,1079 @@
+[2016-05-21 13:42:47.327221]; Init ; Opening COM port ;
+[2016-05-21 13:42:47.327221]; LaptopApplication ; Main LaptopApplication started ; 
+[2016-05-21 13:42:47.342856]; buildUI ; ; 
+[2016-05-21 13:42:47.467843]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:47.467843]; PushCmd ; inData ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
+[2016-05-21 13:42:47.467843]; PushCmd ; inData ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-21 13:42:47.483472]; PushCmd ; inData ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-21 13:42:47.983535]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:47.983535]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:48.499151]; SendCmds ; command ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
+[2016-05-21 13:42:48.514720]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:49.026166]; SendCmds ; command ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-21 13:42:49.041744]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:49.041744]; PopCmd ; command ; bytearray(b'\x02\x13\x01\x10')
+[2016-05-21 13:42:49.057388]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:49.558158]; SendCmds ; command ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-21 13:42:49.558158]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:49.558158]; PopCmd ; command ; bytearray(b'\x02\x12\x01\x11')
+[2016-05-21 13:42:49.558158]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:50.071812]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:50.071812]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:50.087374]; PopCmd ; command ; bytearray(b'\x02\x11\x01\x12')
+[2016-05-21 13:42:50.087374]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:50.637513]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:50.637513]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:50.653127]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:42:50.653127]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:51.159353]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:51.174949]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:51.174949]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:42:51.190545]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:51.703837]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:51.719462]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:51.735088]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:42:51.750712]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:52.250774]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:52.250774]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:52.266337]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:42:52.266337]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:52.771051]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:52.771051]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:52.786621]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:42:52.786621]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:53.297725]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:53.313331]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:53.313331]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:42:53.313331]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:53.825939]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:53.841527]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:53.857152]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:42:53.857152]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:54.372767]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:54.372767]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:54.372767]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:42:54.372767]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:54.873592]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:54.889192]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:54.904785]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:42:54.904785]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:55.404802]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:55.404802]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:55.404802]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:42:55.404802]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:55.915982]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:55.931604]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:55.947235]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xa8\x8c')
+[2016-05-21 13:42:55.947235]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:56.447959]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:56.447959]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:56.447959]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:42:56.447959]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:56.960732]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:56.976349]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:56.992002]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:42:57.007628]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:57.512395]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:57.512395]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:57.512395]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:42:57.512395]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:58.020937]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:58.036501]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:58.052125]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:42:58.052125]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:58.557437]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:58.557437]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:58.557437]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xc8\xed')
+[2016-05-21 13:42:58.557437]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:59.057496]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:59.073070]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:59.088719]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:42:59.104342]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:59.605423]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:42:59.605423]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:42:59.605423]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xf8\xdc')
+[2016-05-21 13:42:59.605423]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:00.105427]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:00.121031]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:00.136676]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:00.152302]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:00.653531]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:00.669113]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:00.684714]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xc8\xed')
+[2016-05-21 13:43:00.684714]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:01.190683]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:01.206267]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:01.206267]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:01.221872]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:01.735545]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:01.736665]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:01.767918]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:01.783571]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:02.299173]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:02.299173]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:02.314796]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:02.314796]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:02.820638]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:02.836215]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:02.851832]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:02.851832]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:03.351913]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:03.367457]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:03.383111]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:03.398708]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:03.899933]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:03.915507]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:03.931133]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:03.946779]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:04.457450]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:04.457450]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:04.457450]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:04.473024]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:04.979527]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:04.980917]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:04.980917]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:04.996563]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:05.509975]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:05.509975]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:05.525599]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:05.525599]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:06.032099]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:06.047653]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:06.065800]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:06.071802]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:06.575332]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:06.590939]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:06.606583]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:43:06.606583]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:07.123547]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:07.123547]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:07.139113]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:07.139113]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:07.639138]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:07.654740]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:07.654740]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:43:07.654740]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:08.164068]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:08.179634]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:08.195259]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:08.195259]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:08.698881]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:08.702883]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:08.706886]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:08.708120]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:09.219661]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:09.235231]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:09.250880]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:09.266477]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:09.779197]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:09.794766]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:09.810420]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:09.826044]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:10.326075]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:10.341670]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:10.357269]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:10.357269]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:10.868597]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:10.884158]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:10.884158]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:10.884158]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:11.384163]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:11.399786]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:11.415411]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:11.431035]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:11.944693]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:11.960293]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:11.975929]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:11.975929]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:12.507178]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:12.522802]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:12.538421]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:12.554046]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:13.054806]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:13.070432]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:13.086035]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:13.101660]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:13.601713]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:13.601713]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:13.617297]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:13.617297]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:14.119877]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:14.135446]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:14.151098]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:14.166723]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:14.667745]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:14.667745]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:14.667745]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:14.683350]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:15.183367]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:15.198979]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:15.214603]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:15.214603]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:15.734316]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:15.734316]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:15.749941]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:15.765566]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:16.276941]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:16.287939]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:16.291602]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:16.291602]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:16.800597]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:16.816191]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:16.831825]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:16.847414]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:17.363024]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:17.378584]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:17.394209]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:17.394209]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:17.901050]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:17.901050]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:17.901050]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:17.901050]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:18.416672]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:18.432273]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:18.432273]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:18.447898]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:18.950390]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:18.950390]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:18.950390]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:18.965961]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:19.466014]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:19.481586]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:19.497216]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:19.497216]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:19.997269]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:20.019059]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:20.026064]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:20.033069]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:20.537255]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:20.537255]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:20.537255]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:20.537255]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:21.046113]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:21.061665]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:21.077289]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:43:21.077289]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:21.589892]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:21.605489]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:21.621091]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:21.636717]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:22.161323]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:22.161323]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:22.176951]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:22.192595]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:22.692639]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:22.712861]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:22.719846]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:22.727853]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:23.236171]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:23.251771]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:23.267401]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:23.267401]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:23.773549]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:23.773549]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:23.773549]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:23.789173]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:24.289234]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:24.304810]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:24.320453]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:24.336057]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:24.843968]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:24.859567]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:24.875173]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:24.875173]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:25.375174]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:25.390820]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:25.406445]; PopCmd ; command ; bytearray(b'\x04!\x01\x01\x127')
+[2016-05-21 13:43:25.406445]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:25.912840]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:25.928401]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:25.928401]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:25.944030]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:26.444032]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:26.459676]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:26.475306]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:43:26.490931]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:26.991741]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:27.007325]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:27.022926]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:27.022926]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:27.522988]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:27.538586]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:27.554186]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:27.569832]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:28.084672]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:28.100283]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:28.115936]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:28.115936]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:28.616888]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:28.632488]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:28.648113]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:28.663738]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:29.164448]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:29.180074]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:29.195699]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:29.211339]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:29.715171]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:29.717355]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:29.717355]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:29.717355]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:30.221563]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:30.221563]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:30.221563]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xe3\xc6')
+[2016-05-21 13:43:30.237137]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:30.742407]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:30.742407]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:30.742407]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:30.757993]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:31.258045]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:31.258045]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:31.258045]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:31.258045]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:31.759145]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:31.759145]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:31.759145]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:31.759145]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:32.259200]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:32.259200]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:32.259200]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:32.259200]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:32.767361]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:32.767361]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:32.767361]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:32.782988]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:33.283004]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:33.283004]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:33.283004]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:33.298612]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:33.807936]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:33.823582]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:33.839207]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:33.839207]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:34.339239]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:34.339239]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:34.339239]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xae\x8b')
+[2016-05-21 13:43:34.354805]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:34.854835]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:34.870461]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:34.886085]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:34.901711]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:35.417365]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:35.432961]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:35.448587]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:35.464186]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:35.977616]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:35.977616]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:35.977616]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:35.977616]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:36.506716]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:36.506716]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:36.522340]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:36.522340]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:37.032998]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:37.048624]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:37.048624]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:37.048624]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:37.549699]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:37.565262]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:37.580882]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:43:37.580882]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:38.086378]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:38.102006]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:38.102006]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:38.102006]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:38.617641]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:38.617641]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:38.617641]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:38.617641]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:39.131417]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:39.147071]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:39.162672]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:39.178292]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:39.678349]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:39.696947]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:39.712581]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:39.728200]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:40.243854]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:40.259479]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:40.259479]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:43:40.259479]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:40.777626]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:40.777626]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:40.808897]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:40.808897]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:41.308933]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:41.324505]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:41.340123]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:41.340123]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:41.847225]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:41.847225]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:41.847225]; PopCmd ; command ; bytearray(b'\x04!\x00\x01\x18<')
+[2016-05-21 13:43:41.862862]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:42.362862]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:42.362862]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:42.362862]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:43:42.378474]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:42.892739]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:42.892739]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:42.908305]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:42.908305]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:43.439611]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:43.455207]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:43.470833]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:43.486457]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:43.987510]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:44.003119]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:44.003119]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:44.018742]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:44.522842]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:44.526843]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:44.535850]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:44.539852]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:45.116410]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:45.131992]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:45.147636]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:45.163261]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:45.663753]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:45.679352]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:45.703599]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:45.717631]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:46.228163]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:46.243722]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:46.259348]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:46.274972]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:46.783160]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:46.798747]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:46.814349]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:46.814349]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:47.314350]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:47.329977]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:47.345627]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:47.361254]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:47.861288]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:47.876873]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:47.891375]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:43:47.896365]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:48.409557]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:48.425128]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:48.440755]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:48.456373]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:48.966914]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:48.982473]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:48.998117]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:48.998117]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:49.522078]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:49.522078]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:49.522078]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:49.537662]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:50.044943]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:50.060596]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:50.076220]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:43:50.091846]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:50.604537]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:50.604537]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:50.604537]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:43:50.604537]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:51.104546]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:51.104546]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:51.120182]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:51.120182]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:51.620181]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:51.620181]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:51.620181]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:51.620181]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:52.132748]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:52.148313]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:52.163938]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:52.179571]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:52.679579]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:52.679579]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:52.679579]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:43:52.679579]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:53.180718]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:53.196285]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:53.211904]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:43:53.211904]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:53.715656]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:53.718572]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:53.718572]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:53.718572]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:54.218604]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:54.234208]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:54.249854]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:43:54.249854]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:54.749885]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:54.765481]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:54.781086]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:43:54.796703]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:55.297498]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:55.313075]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:55.328720]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:55.344325]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:55.857870]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:55.873473]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:55.873473]; PopCmd ; command ; bytearray(b'\x04!\x00\x01\x18<')
+[2016-05-21 13:43:55.873473]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:56.373496]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:56.389102]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:56.404724]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:56.420371]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:56.935676]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:56.935676]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:56.935676]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:43:56.935676]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:57.435684]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:57.451256]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:57.466879]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:43:57.482505]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:57.993756]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:57.998058]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:57.998058]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:43:58.013689]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:58.513750]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:58.529342]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:58.544946]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:43:58.544946]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:59.057010]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:59.072587]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:59.088195]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:43:59.088195]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:59.588224]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:43:59.603821]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:43:59.619465]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:43:59.619465]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:00.127813]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:00.143370]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:00.158996]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:00.158996]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:00.659050]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:00.674649]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:00.712669]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:00.723860]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:01.237431]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:01.252997]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:01.268650]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:44:01.284275]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:01.793198]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:01.808790]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:01.824415]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:01.824415]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:02.324438]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:02.340063]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:02.355687]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:44:02.355687]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:02.871341]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:02.871341]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:02.871341]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:02.886923]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:03.393472]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:03.409096]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:03.424741]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:03.440366]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:03.952495]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:03.968087]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:03.983713]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:03.999314]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:04.514935]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:04.530590]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:04.530590]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:04.546217]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:05.052435]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:05.068028]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:05.083626]; PopCmd ; command ; bytearray(b'\x04!\x00\x012\x16')
+[2016-05-21 13:44:05.083626]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:05.592988]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:05.608625]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:05.624247]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:05.624247]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:06.132887]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:06.148511]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:06.164144]; PopCmd ; command ; bytearray(b'\x04!\x01\x01,\t')
+[2016-05-21 13:44:06.164144]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:06.743579]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:06.759204]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:06.759204]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:06.759204]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:07.259263]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:07.274837]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:07.290484]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:07.306083]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:07.807678]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:07.823242]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:07.823242]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:07.838867]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:08.348078]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:08.363649]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:08.379269]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:08.379269]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:08.886342]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:08.886342]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:08.886342]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xc8\xed')
+[2016-05-21 13:44:08.901941]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:09.407523]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:09.423104]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:09.423104]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:09.423104]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:09.923140]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:09.923140]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:09.923140]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:09.938712]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:10.439274]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:10.454899]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:10.486173]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:10.505162]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:11.013854]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:11.029487]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:11.060735]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:11.060735]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:11.560791]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:11.576355]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:11.576355]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:11.576355]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:12.084824]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:12.100449]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:12.116076]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:12.131698]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:12.634993]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:12.668422]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:12.676426]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:12.684452]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:13.186265]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:13.201862]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:13.217491]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:44:13.217491]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:13.727909]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:13.727909]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:13.743548]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:44:13.743548]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:14.243560]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:14.259157]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:14.259157]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:14.274783]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:14.782605]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:14.782605]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:14.782605]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:44:14.782605]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:15.282653]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:15.298236]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:15.298236]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:15.298236]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:15.806660]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:15.822256]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:15.837858]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:15.837858]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:16.350315]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:16.365939]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:16.365939]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xa8\x8c')
+[2016-05-21 13:44:16.365939]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:16.865964]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:16.881546]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:16.897192]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:16.912795]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:17.412844]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:17.428423]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:17.444048]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:17.444048]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:17.944068]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:17.959675]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:17.975293]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:17.975293]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:18.480373]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:18.480373]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:18.480373]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xae\x8b')
+[2016-05-21 13:44:18.495954]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:19.010203]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:19.025797]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:19.041402]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:19.041402]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:19.556571]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:19.572164]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:19.587789]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:19.603386]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:20.106608]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:20.122204]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:20.137808]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:20.153432]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:20.653434]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:20.653434]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:20.653434]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:20.669054]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:21.181021]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:21.196618]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:21.212222]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:44:21.227841]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:21.729360]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:21.744988]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:21.760612]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xfd\xd8')
+[2016-05-21 13:44:21.760612]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:22.273100]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:22.288662]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:22.304288]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:44:22.304288]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:22.829395]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:22.829395]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:22.829395]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:22.845009]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:23.345048]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:23.360641]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:23.360641]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:23.376257]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:23.877057]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:23.877057]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:23.877057]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:23.892680]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:24.392745]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:24.408338]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:24.439572]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xfd\xd8')
+[2016-05-21 13:44:24.439572]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:24.960388]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:24.960388]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:24.976018]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:44:24.976018]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:25.476075]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:25.491667]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:25.507294]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:25.522889]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:26.025842]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:26.025842]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:26.041425]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xae\x8b')
+[2016-05-21 13:44:26.041425]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:26.541464]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:26.557062]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:26.572666]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:26.572666]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:27.075501]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:27.091068]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:27.106726]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:27.106726]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:27.606752]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:27.622349]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:27.637973]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:27.653578]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:28.165559]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:28.181126]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:28.196773]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:28.212397]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:28.720201]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:28.725205]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:28.726288]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xe3\xc6')
+[2016-05-21 13:44:28.726288]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:29.226353]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:29.241946]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:29.257550]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:29.273174]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:29.779442]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:29.779442]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:29.779442]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:29.795056]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:30.295127]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:30.310710]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:30.326316]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:44:30.341940]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:30.842873]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:30.858469]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:30.874074]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:30.889705]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:31.389750]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:31.389750]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:31.389750]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:31.389750]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:31.897990]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:31.897990]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:31.913556]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:44:31.929188]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:32.429243]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:32.429243]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:32.444807]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:32.460452]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:32.970007]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:32.985655]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:32.985655]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:44:32.985655]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:33.485700]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:33.501284]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:33.516887]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:33.532511]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:34.052673]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:34.052673]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:34.052673]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:34.068299]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:34.568361]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:34.583928]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:34.599560]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:34.599560]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:35.102939]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:35.118565]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:35.118565]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:44:35.118565]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:35.635070]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:35.650638]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:35.666263]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:35.681888]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:36.203243]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:36.203243]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:36.218872]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:44:36.218872]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:36.730717]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:36.736133]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:36.736133]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:36.751760]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:37.251832]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:37.267387]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:37.283038]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:37.283038]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:37.792111]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:37.807692]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:37.823322]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:37.823322]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:38.324480]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:38.340099]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:38.355735]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:38.355735]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:38.855736]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:38.855736]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:38.855736]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:38.855736]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:39.371412]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:39.386978]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:39.402630]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xfd\xd8')
+[2016-05-21 13:44:39.418255]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:39.919449]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:39.919449]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:39.919449]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:39.919449]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:40.419450]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:40.435047]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:40.450672]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:40.466297]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:40.968122]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:40.968122]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:40.983746]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:40.983746]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:41.512636]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:41.528268]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:41.528268]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:44:41.543886]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:42.051776]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:42.067372]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:42.082997]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:44:42.082997]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:42.583004]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:42.598624]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:42.614249]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:42.614249]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:43.129854]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:43.129854]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:43.145476]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:43.161097]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:43.661161]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:43.676752]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:43.692376]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:43.708001]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:44.210317]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:44.225891]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:44.241511]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:44.241511]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:44.750991]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:44.750991]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:44.750991]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:44.750991]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:45.266629]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:45.282253]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:45.282253]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:44:45.297853]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:45.805885]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:45.821479]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:45.837102]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:45.852727]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:46.368341]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:46.368341]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:46.368341]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xc8\xed')
+[2016-05-21 13:44:46.383949]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:46.883981]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:46.899609]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:46.915223]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:46.915223]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:47.430839]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:47.430839]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:47.430839]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:47.430839]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:47.945822]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:47.945822]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:47.945822]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:47.961447]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:48.461449]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:48.461449]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:48.461449]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:48.461449]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:48.972646]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:48.976658]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:48.992292]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:49.007919]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:49.523536]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:49.523536]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:49.523536]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:49.523536]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:50.029361]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:50.060565]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:50.060565]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:50.076204]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:50.576242]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:50.591817]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:50.607440]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:50.623067]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:51.123996]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:51.123996]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:51.123996]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:51.139606]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:51.639666]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:51.655260]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:51.670885]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:51.670885]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:52.182654]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:52.182654]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:52.182654]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:52.182654]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:52.682701]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:52.704059]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:52.714067]; PopCmd ; command ; bytearray(b'\x04!\x01\x00tP')
+[2016-05-21 13:44:52.720071]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:53.222320]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:53.222320]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:53.237962]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:53.237962]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:53.751667]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:53.751667]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:53.751667]; PopCmd ; command ; bytearray(b'\x04!\x01\x00$\x00')
+[2016-05-21 13:44:53.751667]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:54.251708]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:54.267280]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:54.282911]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:44:54.282911]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:54.792114]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:54.792114]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:54.792114]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:54.807712]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:55.320943]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:55.320943]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:55.320943]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xa8\x8c')
+[2016-05-21 13:44:55.320943]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:55.841889]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:55.857510]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:55.873135]; PopCmd ; command ; bytearray(b'\x04!\x00\x00y\\')
+[2016-05-21 13:44:55.888731]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:56.400099]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:56.415667]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:56.431320]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:56.446944]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:56.953026]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:56.953026]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:56.953026]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xc3\xe7')
+[2016-05-21 13:44:56.953026]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:57.453068]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:57.468655]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:57.484279]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:44:57.499937]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:58.000866]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:58.016448]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:58.032074]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:44:58.032074]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:58.532129]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:58.547697]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:58.563329]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:44:58.578953]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:59.092958]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:59.092958]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:59.092958]; PopCmd ; command ; bytearray(b'\x04!\x00\x00Da')
+[2016-05-21 13:44:59.092958]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:59.593017]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:44:59.608569]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:44:59.624194]; PopCmd ; command ; bytearray(b'\x04!\x01\x00Y}')
+[2016-05-21 13:44:59.624194]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:00.136257]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:00.151883]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:00.167504]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xa8\x8c')
+[2016-05-21 13:45:00.167504]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:00.667573]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:00.683155]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:00.702567]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:45:00.709574]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:01.221561]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:01.237158]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:01.252784]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:45:01.252784]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:01.758932]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:01.774497]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:01.790122]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:45:01.790122]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:02.290128]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:02.305725]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:02.321349]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:45:02.321349]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:02.821597]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:02.821597]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:02.821597]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:45:02.821597]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:03.321654]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:03.337232]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:03.352851]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:45:03.352851]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:03.866852]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:03.882415]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:03.913665]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:45:03.913665]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:04.413666]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:04.413666]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:04.413666]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:45:04.413666]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:04.922940]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:04.938566]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:04.954191]; PopCmd ; command ; bytearray(b'\x04!\x01\x01\x127')
+[2016-05-21 13:45:04.969793]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:05.469847]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:05.469847]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:05.469847]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\x8e\xaa')
+[2016-05-21 13:45:05.485430]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:06.001043]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:06.001043]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:06.001043]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xdd\xf9')
+[2016-05-21 13:45:06.016668]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:06.516699]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:06.532296]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:06.547940]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x94\xb1')
+[2016-05-21 13:45:06.547940]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:07.054696]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:07.070279]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:07.085911]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\xe3\xc6')
+[2016-05-21 13:45:07.101535]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:07.601566]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:07.617163]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:07.640622]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:45:07.646635]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:08.160798]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:08.176395]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:08.176395]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:45:08.192011]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:08.707175]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:08.720000]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:08.735636]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\xf8\xdc')
+[2016-05-21 13:45:08.751262]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:09.266878]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:09.266878]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:09.282504]; PopCmd ; command ; bytearray(b'\x04!\x01\x00?\x1b')
+[2016-05-21 13:45:09.282504]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:09.790412]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:09.806007]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:09.821605]; PopCmd ; command ; bytearray(b'\x04!\x00\x00*\x0f')
+[2016-05-21 13:45:09.837257]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:10.345823]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:10.361398]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:10.377035]; PopCmd ; command ; bytearray(b'\x04!\x00\x00_z')
+[2016-05-21 13:45:10.377035]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:10.903226]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:10.918851]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:10.934475]; PopCmd ; command ; bytearray(b'\x04!\x00\x00\x105')
+[2016-05-21 13:45:10.950135]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:11.450153]; SendCmds ; command ; bytearray(b'\xa5\x01! Z')
+[2016-05-21 13:45:11.465760]; PushCmd ; dataIn ; cmdAvailable
+[2016-05-21 13:45:11.481379]; PopCmd ; command ; bytearray(b'\x04!\x01\x00\n.')
+[2016-05-21 13:45:11.481379]; PushCmd ; inData ; bytearray(b'\xa5\x01! Z')

@@ -89,6 +89,6 @@ translate([0,0,14])
 {
     rotate([-90,0,0])
     {
-    //import("servo.stl");
+    import("servo.stl");
     }
 }

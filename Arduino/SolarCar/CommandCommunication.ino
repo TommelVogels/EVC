@@ -74,8 +74,19 @@ CommandType CommandComm_FetchCmd(unsigned char* outBuff)
   return decodedCommand;
 }
 
-void CommandComm_SendCmd()
+void CommandComm_SendAckCmd(CommandType inCmd)
 {
+  unsigned char ack = ACK;
   
+  CommandComm_SendCmd(inCmd, &ack, 1);
+}
+
+void CommandComm_SendCmd(CommandType inCmd, unsigned char* inData, char inDataLen)
+{
+  unsigned char outBuffer[MAX_BUFF_LEN] = {0};
+
+  int len = CommandEncoder(inCmd, inData,inDataLen, outBuffer);
+
+  Serial.write(outBuffer, len);
 }
 

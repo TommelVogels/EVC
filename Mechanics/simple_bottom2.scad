@@ -20,7 +20,7 @@ difference()
 {
 translate([0.75,-3,-4])
 {
-    cube([37,24,3]);
+    cube([37,20,3]);
 }
 
 translate([20.5,9,-4.5])
@@ -91,6 +91,6 @@ translate([0,0,14])
 {
     rotate([-90,0,0])
     {
-    //import("servo.stl");
+    import("servo.stl");
     }
 }
