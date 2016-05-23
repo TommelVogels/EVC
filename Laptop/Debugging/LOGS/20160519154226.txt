@@ -1,0 +1,11 @@
+[2016-05-19 15:42:26.925816]; Init ; Opening COM port ;
+[2016-05-19 15:42:26.941427]; LaptopApplication ; Main LaptopApplication started ; 
+[2016-05-19 15:42:26.941427]; buildUI ; ; 
+[2016-05-19 15:42:27.081968]; PushCmd ; inData ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
+[2016-05-19 15:42:27.081968]; SendCmds ; command ; bytearray(b'\xa5\x05\x13\x00\x00\x00\x00\x16Z')
+[2016-05-19 15:42:27.097586]; PushCmd ; inData ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-19 15:42:27.097586]; SendCmds ; command ; bytearray(b'\xa5\x03\x12\x00\x00\x11Z')
+[2016-05-19 15:42:27.097586]; PushCmd ; inData ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-19 15:42:27.113218]; SendCmds ; command ; bytearray(b'\xa5\x03\x11\x00\x00\x12Z')
+[2016-05-19 15:42:33.774705]; PushCmd ; inData ; bytearray(b'\xa5\x028\x01;Z')
+[2016-05-19 15:42:33.774705]; SendCmds ; command ; bytearray(b'\xa5\x028\x01;Z')

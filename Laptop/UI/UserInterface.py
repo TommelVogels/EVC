@@ -75,11 +75,11 @@ class UI:
     #buttons for firing:
     Button(root,text = "Laser ON", command = self.LaserOn).place(x=10, y=510)
     Button(root,text = "Laser OFF", command = self.LaserOff).place(x=100, y=510)
-    Button(root,text = "T1 FIRE ONE").place(x=10, y=560)
-    Button(root,text = "T1 FIRE ALL").place(x=110, y=560)
-    Button(root,text = "T2 FIRE ONE").place(x=10, y=610)
-    Button(root,text = "T2 FIRE ALL").place(x=110, y=610)
-    Button(root,text = "T1 & T2 FIRE ALL").place(x=10, y=660)
+    Button(root,text = "T1 FIRE ONE", command = self.Fire1).place(x=10, y=560)
+    Button(root,text = "T1 FIRE ALL", command = self.Fire1All).place(x=110, y=560)
+    Button(root,text = "T2 FIRE ONE", command = self.Fire2).place(x=10, y=610)
+    Button(root,text = "T2 FIRE ALL", command = self.Fire2All).place(x=110, y=610)
+    Button(root,text = "T1 & T2 FIRE ALL", command = self.FireAll).place(x=10, y=660)
     
     #canvas to plot motor speeds
     self.plot = Canvas(root, width=840, height=400)
@@ -183,7 +183,23 @@ class UI:
     PushCmd(bytearray([0xA5,0x02,0x31,int(value)+90,0x33^(int(value)+90),0x5A])) 
   def VerTurretChange(obj, value):
     logToAll("VerTurretChange ; Slider changed; "+str(value), 3)
-    PushCmd(bytearray([0xA5,0x02,0x32,int(value),0x30^(int(value)),0x5A]))     
+    PushCmd(bytearray([0xA5,0x02,0x32,int(value),0x30^(int(value)),0x5A]))
+
+  def Fire1(arg):
+    logToAll("Fire1 ; buttonClicked; ", 3)
+    PushCmd(bytearray([0xA5,0x01,0x33,0x32,0x5A]))
+  def Fire2(arg):
+    logToAll("Fire2 ; buttonClicked; ", 3)
+    PushCmd(bytearray([0xA5,0x01,0x34,0x35,0x5A]))
+  def Fire1All(arg):
+    logToAll("Fire1All ; buttonClicked; ", 3)
+    PushCmd(bytearray([0xA5,0x01,0x35,0x34,0x5A]))
+  def Fire2All(arg):
+    logToAll("Fire2All ; buttonClicked; ", 3)
+    PushCmd(bytearray([0xA5,0x01,0x36,0x37,0x5A]))
+  def FireAll(arg):
+    logToAll("FireAll ; buttonClicked; ", 3)
+    PushCmd(bytearray([0xA5,0x01,0x37,0x36,0x5A]))     
 
   def mouseMove(obj, event): 
     global aimActive

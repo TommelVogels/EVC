@@ -62,6 +62,17 @@ CommandType CommandDecoder(char* inBuff, char inReadLen, char inTotalLen, unsign
       cmdRecognised = true;
     }
     break;
+    case BATTERY_CURRENT:
+    case SYSTEM_CURRENT:
+    case TURRET_FIRE_1:
+    case TURRET_FIRE_2:
+    case TURRET_FIRE_ALL_1:
+    case TURRET_FIRE_ALL_2:
+    case TURRET_FIRE_ALL:
+    {
+      cmdRecognised = true;
+    }
+    break;
   }
 
   char recvChecksum = inBuff[inBuff[0] + 1]; //length
@@ -75,4 +86,43 @@ CommandType CommandDecoder(char* inBuff, char inReadLen, char inTotalLen, unsign
   
   return (CommandType)(inBuff[1]);
 }
+
+int CommandEncoder(CommandType inCmd, unsigned char* inData, char inDataLen, unsigned char *outBuff)
+{
+  char checksum = 0;
+  int len = 0;
+
+  //0xA5,0x02,0x38,0x01,0x3B,0x5A
+
+  outBuff[len] = START_BYTE;
+  len++;
+
+  //length
+  outBuff[len] = (unsigned char)(inDataLen+1);
+  len++;
+  checksum ^= (unsigned char)(inDataLen+1);
+
+  //cmd id
+  outBuff[len] = (unsigned char)(inCmd);
+  len++;
+  checksum ^= (unsigned char)(inCmd);
+
+  //data
+  for(int i=0;i<inDataLen;i++)
+  {
+    outBuff[len] = inData[i];
+    len++;
+    checksum ^= inData[i];
+  }
+
+  //checksum
+  outBuff[len] = checksum;
+  len++;
+
+  outBuff[len] = END_BYTE;
+  len++;
+
+  return len;
+}
+
 

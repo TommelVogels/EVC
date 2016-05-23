@@ -3,7 +3,7 @@
 # from the Laptop
 
 #defines
-EMULATE_CONTROL_LOOP = 1
+EMULATE_CONTROL_LOOP = 0
 
 #include dependencies
 import time
@@ -41,8 +41,10 @@ def LaptopApplication():
         ReceiveCmds()
         
         cmd = PopCmd()
+        
+        #PushCmd(bytearray([0xA5,0x01,0x22,0x23,0x5A]))
 
-        #time.sleep(0.5)
+        time.sleep(0.5)
     
     
 #calls
