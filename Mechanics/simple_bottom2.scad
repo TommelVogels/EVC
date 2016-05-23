@@ -63,9 +63,9 @@ translate([32.75,-2,-1])
     cube([3,5,14]);
 }
 
-translate([-16.25,-3,-4])
+translate([-16.25,-3,-14])
 {
-    cube([72,1,17]);
+    cube([72,1,37]);
 }
 
 
@@ -91,6 +91,6 @@ translate([0,0,14])
 {
     rotate([-90,0,0])
     {
-    import("servo.stl");
+    //import("servo.stl");
     }
 }
