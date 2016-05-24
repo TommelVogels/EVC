@@ -9,6 +9,14 @@
 
 #define MAX_CMD_DATA_LEN 10
 
+#define MOTOR_CONTROL_TASK_INTERVAL 1
+#define CURRENT_SENSE_TASK_INTERVAL 200
+#define TURRET_CONTROL_TASK_INTERVAL 1
+
+unsigned int motorControlCount = 0;
+unsigned int currentSenseCount = 0;
+unsigned int turretControlCount = 0;
+
 void Command_DoCommand(CommandType inCmd, unsigned char *inBuff);
 
  
@@ -33,13 +41,26 @@ void loop() {
   Command_DoCommand(currentCommand, recvBuff);
 
   /* tick everything */
-  MotorControl_DriveMotors();
-  CurrentSensing_UpdateCurrents();
-  Turret_Maintain();
+  if(motorControlCount >= MOTOR_CONTROL_TASK_INTERVAL)
+  {
+    MotorControl_DriveMotors();
+    motorControlCount = 0;
+  }
+  if(currentSenseCount >= CURRENT_SENSE_TASK_INTERVAL)
+  {
+    CurrentSensing_UpdateCurrents();
+    currentSenseCount = 0;
+  }
+  if(turretControlCount >= TURRET_CONTROL_TASK_INTERVAL)
+  {
+    Turret_Maintain();
+    turretControlCount = 0;
+  }
 
-  //At end of loop send possible command to Pi
-  CommandComm_SendCmd();
-
+  motorControlCount++;
+  currentSenseCount++;
+  turretControlCount++;
+  
   delay(1);
 }
 
@@ -60,6 +81,8 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
       {
         MotorControl_SetMotorSpeed(inBuff[1]*-1, LEFT_MOTOR);
       }
+
+      CommandComm_SendAckCmd(LEFT_MOTOR_SPEED);
     break;
     case RIGHT_MOTOR_SPEED:
       if(inBuff[0]==1)
@@ -70,6 +93,8 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
       {
         MotorControl_SetMotorSpeed(inBuff[1]*-1, RIGHT_MOTOR);
       }
+
+      CommandComm_SendAckCmd(RIGHT_MOTOR_SPEED);
     break;
     case BOTH_MOTOR_SPEED:
       if(inBuff[0]==1)
@@ -89,6 +114,8 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
       {
         MotorControl_SetMotorSpeed(inBuff[3]*-1, RIGHT_MOTOR);
       }
+
+      CommandComm_SendAckCmd(BOTH_MOTOR_SPEED);
     break;
     
 
@@ -102,12 +129,52 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
       {
         Turret_SetLaser(0);
       }
+
+      CommandComm_SendAckCmd(TURRET_LASER_SET);
     break;
     case TURRET_HOR_ANGLE:
         Turret_SetHorAngle(inBuff[0]);
+        CommandComm_SendAckCmd(TURRET_HOR_ANGLE);
     break;
     case TURRET_VER_ANGLE:
         Turret_SetVerAngle(inBuff[0]);
+        CommandComm_SendAckCmd(TURRET_VER_ANGLE);
+    break;
+    case TURRET_FIRE_1:
+        Turret_SetFire(1, false);
+        CommandComm_SendAckCmd(TURRET_FIRE_1);
+    break;
+    case TURRET_FIRE_2:
+        Turret_SetFire(2, false);
+        CommandComm_SendAckCmd(TURRET_FIRE_2);
+    break;
+    case TURRET_FIRE_ALL_1:
+        Turret_SetFire(1, true);
+        CommandComm_SendAckCmd(TURRET_FIRE_ALL_1);
+    break;
+    case TURRET_FIRE_ALL_2:
+        Turret_SetFire(2, true);
+        CommandComm_SendAckCmd(TURRET_FIRE_ALL_2);
+    break;
+    case TURRET_FIRE_ALL:
+        Turret_SetFire(3, true);
+        CommandComm_SendAckCmd(TURRET_FIRE_ALL);
+    break;
+
+    /* current commands */
+    case BATTERY_CURRENT:
+    {
+        unsigned char buff[3] = {0};
+        CurrentSensing_FetchCurrent(1, buff);
+        CommandComm_SendCmd(BATTERY_CURRENT, buff, 3);
+    }
+    break;
+    case SYSTEM_CURRENT:
+    {
+        unsigned char buff[3] = {0};
+        CurrentSensing_FetchCurrent(0, buff);
+        CommandComm_SendCmd(SYSTEM_CURRENT, buff, 3);
+    }
     break;
   }
 }

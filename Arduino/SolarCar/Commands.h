@@ -25,3 +25,9 @@ typedef enum{
   COMMAND_INVALID   = 0xFF
 } CommandType;
 
+#define ACK 1
+#define NACK 0
+
+#define START_BYTE 0xA5
+#define END_BYTE   0x5A
+

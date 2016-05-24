@@ -9,6 +9,8 @@
 #variables
 
 #functions
+def findSigns():
+  print("test")
     
 #calls
     

@@ -46,7 +46,11 @@ def ReceiveCmds():
 
 def PushCmd(inData):
   logToAll("PushCmd ; inData ; " + str(inData),1)
-  sendQueue.put(inData)
+  try:
+    sendQueue.put(inData, False)
+  except queue.Full:
+    #handle full queue here
+    logToAll("PopCmd ; command ; QueueFull", 2)
   
 def PopCmd():
   try:

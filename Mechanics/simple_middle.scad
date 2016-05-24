@@ -1,12 +1,12 @@
 
 difference()
 {
-translate([2.75,-2,-1])
+translate([3.75,-2,-1])
 {
     cube([5,16,14]);
 }
 
-translate([5.25,14,5.5])
+translate([6.25,14,5.5])
 {
     rotate([90,0,0])
     {
@@ -18,9 +18,9 @@ translate([5.25,14,5.5])
 
 difference()
 {
-translate([2.75,-3,-4])
+translate([0.75,-3,-4])
 {
-    cube([35,24,3]);
+    cube([37,24,3]);
 }
 
 translate([20.5,9,-4.5])
@@ -61,9 +61,9 @@ translate([32.75,-2,-1])
     cube([3,5,14]);
 }
 
-translate([2.75,-3,-1])
+translate([3.75,-3,-1])
 {
-    cube([33,1,14]);
+    cube([32,1,14]);
 }
 
 
@@ -89,6 +89,6 @@ translate([0,0,14])
 {
     rotate([-90,0,0])
     {
-    //import("servo.stl");
+    import("servo.stl");
     }
 }
