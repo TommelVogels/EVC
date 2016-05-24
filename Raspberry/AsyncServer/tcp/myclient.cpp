@@ -35,7 +35,7 @@ void MyClient::readyRead()
         qDebug() << received;
 
         //Initialize a task
-        MyTask *mytask = new MyTask(received, mode);
+        MyTask *mytask = new MyTask(received, 1); //TODO: MODE
         mytask->setAutoDelete(true);
         connect(mytask,SIGNAL(Result(QByteArray)),SLOT(TaskResult(QByteArray)), Qt::QueuedConnection);
 

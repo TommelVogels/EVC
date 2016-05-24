@@ -1,8 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <QtCore/QCoreApplication>
+#include <QDebug>
+
 #include "interfacecollection.h"
 #include "globaldefines.h"
-
-uint mode = MODE_MANUAL;
 
 int main(int argc, char *argv[])
 {
@@ -12,6 +15,7 @@ int main(int argc, char *argv[])
 
     InterfaceCollection ic(arguments);
     ic.startInterfaces();
+    a.exec();
 
-    return a.exec();
+    return 0;
 }

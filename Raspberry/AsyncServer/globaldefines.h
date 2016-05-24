@@ -1,6 +1,10 @@
 #ifndef GLOBALDEFINES_H
 #define GLOBALDEFINES_H
 
+// DBUS
+#define SERVICE_NAME        "evc.PushPop"
+#define PP_OBJECT_PATH       "/PushPopServerObject"
+
 extern uint mode;
 
 enum EjsonKeywords{
