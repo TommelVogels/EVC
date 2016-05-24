@@ -17,13 +17,13 @@ void MyClient::SetSocket(int Descriptor)
 
     socket->setSocketDescriptor(Descriptor);
 
-    qDebug() << "client connected";
+    qDebug() << "TCP: \tclient connected";
 
 }
 
 void MyClient::disconnected()
 {
-    qDebug() << "client disconnected";
+    qDebug() << "TCP: \tclient disconnected";
 }
 
 void MyClient::readyRead()

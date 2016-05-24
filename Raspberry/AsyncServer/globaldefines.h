@@ -1,9 +1,8 @@
 #ifndef GLOBALDEFINES_H
 #define GLOBALDEFINES_H
 
-// DBUS
-#define SERVICE_NAME        "evc.PushPop"
-#define PP_OBJECT_PATH       "/PushPopServerObject"
+#define SERVICE_NAME1        "evc.CommunicationInterface"
+#define ECHO_OBJECT_PATH1    "/"
 
 extern uint mode;
 

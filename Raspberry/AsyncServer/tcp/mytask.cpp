@@ -8,7 +8,7 @@ MyTask::MyTask(QString received, uint mode)
 
 void MyTask::run()
 {
-    qDebug() << "Task Start";
+    qDebug() << "TCP: \tTask Start";
 
     bool batch  = JSONcall["UnParsed"].toString().startsWith('[');
     bool jsonOk;
@@ -18,7 +18,7 @@ void MyTask::run()
     // check if the received string is valid JSON
     if(!jsonOk)
     {
-        qDebug() << "Invalid JSON string";
+        qDebug() << "TCP: \tInvalid JSON string";
         answer = true;
         QVariantMap robjJSON;
         QVariantMap result;
@@ -48,7 +48,7 @@ void MyTask::run()
         if(answer) emit Result(QtJson::serialize(result));
     }
 
-    qDebug() << "Task Done";
+    qDebug() << "TCP: \tTask Done";
 }
 
 void MyTask::processCall(QVariantMap json, QVariantMap &result)
@@ -149,7 +149,7 @@ void MyTask::getMethods(QVariantMap &result)
 
 void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to set the mode";
+    qDebug() << "TCP: \tGoing to set the mode";
 
     QString mode = params["mode"].toString();
 
@@ -158,7 +158,7 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 
 void MyTask::setVerbose(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to change the verbosity level of client ";
+    qDebug() << "TCP: \tGoing to change the verbosity level of client ";
 
     QString mode = params["mode"].toString();
 
@@ -172,7 +172,7 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
     QString dataType = params["dataType"].toString();
     if(dataType.isNull())
     {
-        qDebug() << "Invalid parameter";
+        qDebug() << "TCP: \tInvalid parameter";
         answer = true;
         _result["code"] = -32700;
         _result["message"] = "Parse error";
@@ -206,38 +206,38 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
 
 void MyTask::getCurrent(QVariantMap &result)
 {
-    qDebug() << "Going to send the current";
+    qDebug() << "TCP: \tGoing to send the current";
 
     //TODO: implement
 }
 
 void MyTask::getMode()
 {
-    qDebug() << "Going to send the Mode";
+    qDebug() << "TCP: \tGoing to send the Mode";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
 void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to set the motor speeds";
+    qDebug() << "TCP: \tGoing to set the motor speeds";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
 void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to set the turret angle";
+    qDebug() << "TCP: \tGoing to set the turret angle";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
 void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to fire a missile";
+    qDebug() << "TCP: \tGoing to fire a missile";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 
 void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "Going to set the laser";
+    qDebug() << "TCP: \tGoing to set the laser";
     //emit(Result("{\"status\": \"notImplemented\"}"));
 }
 

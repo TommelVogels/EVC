@@ -3,20 +3,22 @@
 MyDbus::MyDbus(QObject *parent) :
     QObject(parent)
 {
-    if (!QDBusConnection::sessionBus().isConnected()) {
-        qDebug() << "Cannot connect to the D-Bus session bus.";
-        exit(1);
+    bool success = QDBusConnection::sessionBus().isConnected();
+    if (!success)
+        qDebug() << "D-Bus: \tCannot connect to the D-Bus session bus.";
+
+    if (success && !QDBusConnection::sessionBus().registerService(SERVICE_NAME1)) {
+        qDebug() << "D-Bus: \tCould not register service";
+        success = false;
     }
 
-    if (!QDBusConnection::sessionBus().registerService(SERVICE_NAME)) {
-        fprintf(stderr, "%s\n", qPrintable(QDBusConnection::sessionBus().lastError().message()));
-        qDebug() << "error";
-        exit(1);
-    }
-    else
+    if(success)
     {
-        QDBusConnection::sessionBus().registerObject(PP_OBJECT_PATH, &ext, QDBusConnection::ExportScriptableSlots);
-        qDebug() << "Dbus Started";
+        success = QDBusConnection::sessionBus().registerObject(ECHO_OBJECT_PATH1, &ext, QDBusConnection::ExportScriptableSlots);
+        if(success)
+            qDebug() << "D-Bus: \tStarted without errors";
+        else
+            qDebug() << "D-Bus: \tDid not start correctly";
     }
 }
 
@@ -27,13 +29,13 @@ int MyDbus::test(QString str)
 
 QString Dbus_ext::push(const QString &arg)
 {
-    qDebug() << "received: " << arg;
+    qDebug() << "D-Bus: \tReceived: " << arg;
     QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
     return QString("ping(\"%1\") got called").arg(arg);
 }
 
 QString Dbus_ext::pop(const QString &arg)
 {
-    qDebug() << "received: " << arg;
+    qDebug() << "D-Bus: \tReceived: " << arg;
     return QString("vlees(\"%1\") got called").arg(arg);
 }

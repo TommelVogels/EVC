@@ -17,7 +17,6 @@ void InterfaceCollection::startInterfaces()
         port = args[1].toInt();
 
     Server->StartServer(port?port:1234);
-    //Dbus->StartBus();
 }
 
 

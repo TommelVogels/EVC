@@ -15,17 +15,17 @@ MyUART::MyUART(QObject *parent) :
     }
 
     if(!serialPort->open(QIODevice::ReadWrite))
-        qDebug() << "uart error: Unable to open port, error code" << serialPort->error();
+        qDebug() << "UART: \tError: Unable to open port, error code" << serialPort->error();
     if(!serialPort->setBaudRate(QSerialPort::Baud115200))
-        qDebug() << "uart error: Baud rate:" << serialPort->baudRate();
+        qDebug() << "UART: \tError: Baud rate:" << serialPort->baudRate();
     if(!serialPort->setDataBits(QSerialPort::Data8))
-        qDebug() << "uart error: Data bits:" << serialPort->dataBits();
+        qDebug() << "UART: \tError: Data bits:" << serialPort->dataBits();
     if(!serialPort->setParity(QSerialPort::NoParity))
-        qDebug() << "uart error: Parity:" << serialPort->parity();
+        qDebug() << "UART: \tError: Parity:" << serialPort->parity();
     if(!serialPort->setStopBits(QSerialPort::OneAndHalfStop))
-        qDebug() << "uart error: Stop bits:" << serialPort->stopBits();
+        qDebug() << "UART: \tError: Stop bits:" << serialPort->stopBits();
     if(!serialPort->setFlowControl(QSerialPort::SoftwareControl))
-        qDebug() << "uart error: Flow control:" << serialPort->flowControl();
+        qDebug() << "UART: \tError: Flow control:" << serialPort->flowControl();
 
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
 
@@ -35,40 +35,40 @@ void MyUART::serialReceived()
 {
     QByteArray data;
     data = serialPort->readAll();
-    qDebug() << "UART: " << data;
+    qDebug() << "UART: \tReceived: \"" << data << "\"";
 }
 
 void MyUART::writeData(QByteArray data)
 {
-    qDebug() << "Going to write \"" << data << "\" to the bus";
+    qDebug() << "UART: \tGoing to write \"" << data << "\" to the bus";
     serialPort->write(data, data.length());
 }
 
 void MyUART::getPortInfo()
 {
-    qDebug() << "Number of serial ports: " << QSerialPortInfo::availablePorts().count();
+    qDebug() << "UART: \tNumber of serial ports: " << QSerialPortInfo::availablePorts().count();
 
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
-        qDebug() << "\nPort:" << serialPortInfo.portName();
-        qDebug() << "Location:" << serialPortInfo.systemLocation();
-        qDebug() << "Description:" << serialPortInfo.description();
-        qDebug() << "Manufacturer:" << serialPortInfo.manufacturer();
-        qDebug() << "Vendor Identifier:" << (serialPortInfo.hasVendorIdentifier() ? QByteArray::number(serialPortInfo.vendorIdentifier(), 16) : QByteArray());
-        qDebug() << "Product Identifier:" << (serialPortInfo.hasProductIdentifier() ? QByteArray::number(serialPortInfo.productIdentifier(), 16) : QByteArray());
-        qDebug() << "Busy:" << (serialPortInfo.isBusy() ? QObject::tr("Yes") : QObject::tr("No"));
+        qDebug() << "UART: \tPort:" << serialPortInfo.portName();
+        qDebug() << "UART: \tLocation:" << serialPortInfo.systemLocation();
+        qDebug() << "UART: \tDescription:" << serialPortInfo.description();
+        qDebug() << "UART: \tManufacturer:" << serialPortInfo.manufacturer();
+        qDebug() << "UART: \tVendor Identifier:" << (serialPortInfo.hasVendorIdentifier() ? QByteArray::number(serialPortInfo.vendorIdentifier(), 16) : QByteArray());
+        qDebug() << "UART: \tProduct Identifier:" << (serialPortInfo.hasProductIdentifier() ? QByteArray::number(serialPortInfo.productIdentifier(), 16) : QByteArray());
+        qDebug() << "UART: \tBusy:" << (serialPortInfo.isBusy() ? QObject::tr("Yes") : QObject::tr("No"));
 
         QSerialPort *port = new QSerialPort(serialPortInfo);
         if (port->open(QIODevice::ReadWrite)) {
-            qDebug() << "Baud rate:" << port->baudRate();
-            qDebug() << "Data bits:" << port->dataBits();
-            qDebug() << "Stop bits:" << port->stopBits();
-            qDebug() << "Parity:" << port->parity();
-            qDebug() << "Flow control:" << port->flowControl();
-            qDebug() << "Read buffer size:" << port->readBufferSize();
+            qDebug() << "UART: \tBaud rate:" << port->baudRate();
+            qDebug() << "UART: \tData bits:" << port->dataBits();
+            qDebug() << "UART: \tStop bits:" << port->stopBits();
+            qDebug() << "UART: \tParity:" << port->parity();
+            qDebug() << "UART: \tFlow control:" << port->flowControl();
+            qDebug() << "UART: \tRead buffer size:" << port->readBufferSize();
             port->close();
         } else {
-            qDebug() << "Unable to open port, error code" << port->error();
+            qDebug() << "UART: \tUnable to open port, error code" << port->error();
         }
         delete port;
     }
