@@ -68,6 +68,16 @@ translate([-16.25,-3,-14])
     cube([72,1,37]);
 }
 
+translate([39.5,-3,-4])
+{
+    cube([3,20,3]);
+}
+
+translate([37.5,-3,-4])
+{
+    cube([3,3,3]);
+}
+
 
 difference()
 {

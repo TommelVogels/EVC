@@ -8,17 +8,69 @@ END_BYTE = bytes([0x5A])
 #include dependencies
 from Debugging.Debug  import logToAll
 from Communication.Commands.Commands  import CommandType
+from Communication.Commands.Commands  import CommandTypeToInt
+from Communication.Commands.Commands  import IntToCommandType
 
 #variables
 
 #functions
 def DecodeCmd(inData):
-  logToAll("GetCmd ; inData ; "+str(inData), 1)
-  return {'cmdID':0x01,'data':'1','valid':1}
+  logToAll("DecodeCmd ; inData ; "+str(inData), 3)
+  
+  length = inData[0];
+  
+  checksum = int(length)
+  
+  if len(inData) != (length + 2):
+    return {'cmdID':CommandType.NO_COMMAND,'data':bytearray([])}
+  
+  
+  cmdID = inData[1]
+  checksum = checksum ^ cmdID
+  
+  found = 0
+  for value in list(CommandType):
+    if (CommandTypeToInt(value) == int(cmdID)):
+      found = 1
+  
+  if found == 0:
+    logToAll("DecodeCmd ; Command unknown ; "+ str(int(cmdID)), 2)
+    return {'cmdID':CommandType.NO_COMMAND,'data':bytearray([])}
+  
+  data = bytearray([])
+  
+  for value in inData[2:-1]:
+    data.append(value)
+    checksum = checksum ^ value
 
-def EncodeCmd(inData):
-  logToAll("SetCmd ; inData ; "+str(inData), 1)
-  return CommandType.ERROR_STATUS
+  if checksum!=int(inData[-1]):
+    logToAll("DecodeCmd ; Checksum mismatch ; "+ str(checksum) + " " + str((inData[-1])), 2)
+    return {'cmdID':CommandType.NO_COMMAND,'data':bytearray([])}
+  
+  return {'cmdID':IntToCommandType(cmdID),'data':data}
+
+def EncodeCmd(inCmd,inData):
+  logToAll("EncodeCmd ; inData ;" + str(inCmd) +  " " + str(inData), 3)
+
+  checksum = 0
+  length = (len(inData)+1)
+  
+  checksum = checksum ^ length
+  checksum = checksum ^ int(CommandTypeToInt(inCmd))
+  
+  array = bytearray();
+  array.append(START_BYTE[0])
+  array.append(length)
+  array.append(CommandTypeToInt(inCmd))
+  
+  for value in inData:
+    checksum = checksum ^ value
+    array.append(value)
+    
+  array.append(checksum)
+  array.append(END_BYTE[0])
+  
+  return array
   
 #calls
     

@@ -12,13 +12,10 @@ from Debugging.Debug  import logToAll
 from UI.UserInterface import buildUI
 
 from ControlLoop import main
-from Communication.CommandEncoder  import DecodeCmd
-from Communication.CommandEncoder  import EncodeCmd
 from Communication.CommunicationBuffer  import PopCmd
 from Communication.CommunicationBuffer  import PushCmd
-from Communication.CommunicationBuffer  import SendCmds
-from Communication.CommunicationBuffer  import ReceiveCmds
-
+from Communication.Commands.Commands  import CommandType
+from Communication.Commands.Commands  import CommandTypeToInt
 #variables
 
 
@@ -35,16 +32,11 @@ def LaptopApplication():
       main()
     else:
     
-      while 1:
-        #read to send/receive commands
-        SendCmds()
-        ReceiveCmds()
-        
+      while 1:        
         cmd = PopCmd()
         
-        #PushCmd(bytearray([0xA5,0x01,0x22,0x23,0x5A]))
 
-        time.sleep(0.5)
+        #time.sleep(0.5)
     
     
 #calls

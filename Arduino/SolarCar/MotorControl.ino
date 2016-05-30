@@ -1,20 +1,20 @@
 /*
  * MotorControl
  */
-#define PWM_L 10
-#define PWM_R 11
+#define PWM_L 11
+#define PWM_R 5
 
-#define EN_L_BWD 12
-#define EN_L_FWD 13
+#define EN_L_BWD 8
+#define EN_L_FWD 4
 
-#define EN_R_BWD 9
-#define EN_R_FWD 8
+#define EN_R_BWD 6
+#define EN_R_FWD 7
 
-#define ENCODER_R 7
-#define ENCODER_L 6
+//#define ENCODER_R 9
+//#define ENCODER_L 10
 
-#define ENCODER_R_2 5
-#define ENCODER_L_2 4
+//#define ENCODER_R_2 2
+//#define ENCODER_L_2 3
 
 #define COUNTS_PER_REVOLUTION 408 //12*34
 #define DISTANCE_PER_REVOLUTION 20 // 20 cm ???? TBD
