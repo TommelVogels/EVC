@@ -122,12 +122,12 @@ void MyUART::queueData(QByteArray data, uint function)
     if(function)
     {
         QByteArray uartComm;
-        uartComm.append(UART_STARTBYTE);
-        uartComm.append(data.length()+UART_OVERHEAD);
-        uartComm.append(function);
+        uartComm.append((quint8)(UART_STARTBYTE));
+        uartComm.append((quint8)(data.length()+UART_OVERHEAD));
+        uartComm.append((quint8)(function));
         uartComm.append(data);
-        uartComm.append(function ^ data[data.length()-1]);
-        uartComm.append(UART_STOPBYTE);
+        uartComm.append((quint8)(function ^ data[data.length()-1]));
+        uartComm.append((quint8)(UART_STOPBYTE));
         data = uartComm;
     }
 
@@ -159,7 +159,6 @@ void MyUART::writeData()
     //Based on the type of message we will send a notification
     QVariantMap json;
     json["jsonrpc"] = "2.0";
-    json["notification"] = "UART";
     json["direction"] = "RA";
     uint verbosity = 0;
 
@@ -167,54 +166,54 @@ void MyUART::writeData()
     switch(function)
     {
     case UART_FIREALLT1:
-        json["function"] = "fireAllT1";
+        json["update"] = "fireAllT1";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT2:
-        json["function"] = "fireAllT2";
+        json["update"] = "fireAllT2";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT12:
-        json["function"] = "fireAllT12";
+        json["update"] = "fireAllT12";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET1:
-        json["function"] = "fireMissileT1";
+        json["update"] = "fireMissileT1";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET2:
-        json["function"] = "fireMissileT2";
+        json["update"] = "fireMissileT2";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FLIPLASER:
-        json["function"] = "flipLaser";
+        json["update"] = "flipLaser";
         verbosity = V_TURRETLASER;
         break;
     case UART_LEFTMOTORSPEED:
-        json["function"] = "leftMotorSpeed";
+        json["update"] = "leftMotorSpeed";
         verbosity = V_MOTORSPEED;
         break;
     case UART_RESETPERIPHERALS:
-        json["function"] = "resetPeripherals";
+        json["update"] = "resetPeripherals";
         break;
     case UART_RIGHTMOTORSPEED:
-        json["function"] = "rightMotorSpeed";
+        json["update"] = "rightMotorSpeed";
         verbosity = V_MOTORSPEED;
         break;
     case UART_TESTSEQUENCE:
-        json["function"] = "testSequence";
+        json["update"] = "testSequence";
         break;
     case UART_TURRETHORIZONTAL:
-        json["function"] = "turretHorizontal";
+        json["update"] = "turretHorizontal";
         verbosity = V_TURRETANGLE;
         break;
     case UART_TURRETVERTICAL:
-        json["function"] = "turretVertical";
+        json["update"] = "turretVertical";
         verbosity = V_TURRETANGLE;
         break;
 
     default:
-        json["function"] = "unknown";
+        json["update"] = "unknown";
         break;
     }
 
