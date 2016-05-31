@@ -3,8 +3,8 @@
  */
 #define TURRET_LASER_PIN A2
 
-#define TURRET_HOR_SERVO_PIN 2
-#define TURRET_VER_SERVO_PIN 3
+#define TURRET_HOR_SERVO_PIN 12
+#define TURRET_VER_SERVO_PIN 13
 
 #define FIRE1_PIN A3
 #define FIRE2_PIN A4
@@ -21,8 +21,8 @@ Servo horServo;
 Servo verServo;
 
 unsigned char turretLaserOn = 0;
-unsigned char turretHorAngle = 0;
-unsigned char turretVerAngle = 0;
+unsigned char turretHorAngle = 90;
+unsigned char turretVerAngle = 15;
 
 typedef struct{
   char turret;
@@ -107,7 +107,7 @@ void Turret_SetLaser(unsigned char inState)
 
 void Turret_SetHorAngle(unsigned char inAngle)
 {
-  turretHorAngle = inAngle;
+ turretHorAngle = inAngle;
 }
 
 void Turret_SetVerAngle(unsigned char inAngle)

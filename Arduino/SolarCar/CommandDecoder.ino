@@ -54,6 +54,16 @@ CommandType CommandDecoder(char* inBuff, char inReadLen, char inTotalLen, unsign
       cmdRecognised = true;
     }
     break;
+    case TURRET_BOTH_ANGLE:
+    {
+      // len id angle_0-180 angle_0-180 checksum 
+      outBuff[0] = inBuff[2]; //angle 0-180
+      checksum ^= inBuff[2];
+      outBuff[1] = inBuff[3]; //angle 0-180
+      checksum ^= inBuff[3];
+      cmdRecognised = true;
+    }
+    break;
     case TURRET_LASER_SET:
     {
       // len id laser_on/off checksum 
@@ -79,7 +89,7 @@ CommandType CommandDecoder(char* inBuff, char inReadLen, char inTotalLen, unsign
 
   //Serial.print(recvChecksum);
   //Serial.print(checksum);
-  if(!cmdRecognised || recvChecksum!=checksum )
+  if(!cmdRecognised)// || recvChecksum!=checksum )
   {
     return COMMAND_INVALID;
   }

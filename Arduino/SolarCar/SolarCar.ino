@@ -10,7 +10,7 @@
 #define MAX_CMD_DATA_LEN 10
 
 #define MOTOR_CONTROL_TASK_INTERVAL 1
-#define CURRENT_SENSE_TASK_INTERVAL 200
+#define CURRENT_SENSE_TASK_INTERVAL 20000
 #define TURRET_CONTROL_TASK_INTERVAL 1
 
 unsigned int motorControlCount = 0;
@@ -61,7 +61,7 @@ void loop() {
   currentSenseCount++;
   turretControlCount++;
   
-  delay(1);
+  //delayMicroseconds(10);
 }
 
 void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
@@ -75,11 +75,11 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
     case LEFT_MOTOR_SPEED:
       if(inBuff[0]==1)
       {
-        MotorControl_SetMotorSpeed(inBuff[1], LEFT_MOTOR);
+       MotorControl_SetMotorSpeed(inBuff[1], LEFT_MOTOR);
       }
       else
       {
-        MotorControl_SetMotorSpeed(inBuff[1]*-1, LEFT_MOTOR);
+       MotorControl_SetMotorSpeed((inBuff[1])*-1, LEFT_MOTOR);
       }
 
       CommandComm_SendAckCmd(LEFT_MOTOR_SPEED);
@@ -140,6 +140,10 @@ void Command_DoCommand(CommandType inCmd, unsigned char *inBuff)
         Turret_SetVerAngle(inBuff[0]);
         CommandComm_SendAckCmd(TURRET_VER_ANGLE);
     break;
+    case TURRET_BOTH_ANGLE:
+        Turret_SetHorAngle(inBuff[0]);
+        Turret_SetVerAngle(inBuff[1]);
+        CommandComm_SendAckCmd(TURRET_BOTH_ANGLE);
     case TURRET_FIRE_1:
         Turret_SetFire(1, false);
         CommandComm_SendAckCmd(TURRET_FIRE_1);

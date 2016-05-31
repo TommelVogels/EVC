@@ -1,2 +1,0 @@
-[2016-05-19 13:12:43.063720]; Init ; Opening COM port ;
-[2016-05-19 13:12:43.063720]; Init ; COM port could not be opened, no UART communication available! ; 

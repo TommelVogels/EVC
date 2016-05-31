@@ -21,6 +21,7 @@ typedef enum{
   TURRET_FIRE_ALL_2 = 0x36,
   TURRET_FIRE_ALL   = 0x37,
   TURRET_LASER_SET  = 0x38,
+  TURRET_BOTH_ANGLE = 0x39,
 
   COMMAND_INVALID   = 0xFF
 } CommandType;
