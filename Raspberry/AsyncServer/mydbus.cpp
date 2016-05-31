@@ -1,4 +1,5 @@
 #include "mydbus.h"
+#include "interfacecollection.h"
 
 MyDbus::MyDbus(QObject *parent) :
     QObject(parent)
@@ -30,8 +31,17 @@ int MyDbus::test(QString str)
 QString Dbus_ext::push(const QString &arg)
 {
     qDebug() << "D-Bus: \tReceived: " << arg;
-    QMetaObject::invokeMethod(QCoreApplication::instance(), "quit");
-    return QString("ping(\"%1\") got called").arg(arg);
+
+    QString stringData = arg;
+    QByteArray data = QByteArray::fromHex(stringData.toLatin1());
+    emit busWrite(data);
+
+    return QString("push(\"%1\") got called").arg(arg);
+}
+
+void MyDbus::push(QByteArray &data)
+{
+
 }
 
 QString Dbus_ext::pop(const QString &arg)

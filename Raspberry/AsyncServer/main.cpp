@@ -4,6 +4,9 @@
 #include <QtCore/QCoreApplication>
 #include <QDebug>
 #include "interfacecollection.h"
+#include "globaldefines.h"
+
+uint mode = MODE_MANUAL;
 
 int main(int argc, char *argv[])
 {

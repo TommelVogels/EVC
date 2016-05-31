@@ -16,7 +16,7 @@ public:
 
 signals:
     void Result(QByteArray rData);
-    void UARTsend(QByteArray data);
+    void UARTsend(QByteArray data, uint function = 0);
     void Verbose(uint level);
     void Mode(uint mode);
 
@@ -34,7 +34,7 @@ private:
     void busWrite(QVariantMap &params, QVariantMap &result);
     void setVerbose(QVariantMap &params, QVariantMap &result);
     void getCurrent(QVariantMap &result);
-    void getMode();
+    void getMode(QVariantMap &result);
     void setMotor(QVariantMap &params, QVariantMap &result);
     void setTurretAngle(QVariantMap &params, QVariantMap &result);
     void fireMissile(QVariantMap &params, QVariantMap &result);

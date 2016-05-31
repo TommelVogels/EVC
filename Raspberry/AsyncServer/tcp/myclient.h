@@ -14,19 +14,19 @@ class MyClient : public QObject
 public:
     explicit MyClient(QObject *parent = 0);
     void SetSocket(int Descriptor);
+    uint verbositylevel;
 
 signals:
 
 public slots:
     void disconnected();
     void readyRead();
-    void TaskResult(QByteArray rData);
+    void sendData(QByteArray rData);
     void setVerbose(uint level);
     void setMode(uint mode);
 
 private:
     QTcpSocket *socket;
-    uint verbositylevel;
 };
 
 #endif // MYCLIENT_H

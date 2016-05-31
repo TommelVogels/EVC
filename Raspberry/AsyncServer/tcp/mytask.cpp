@@ -1,4 +1,6 @@
 #include "mytask.h"
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 MyTask::MyTask(QString received, uint mode)
 {
@@ -93,12 +95,21 @@ void MyTask::processCall(QVariantMap json, QVariantMap &result)
     //    getCurrent(paramsJSON);
     //    break;
     case SYSTEM_GETMODE:
-        getMode();
+        getMode(result);
         break;
 
     // Motor Control
     case MOTOR_SETMOTOR:
-        setMotor(paramsJSON, result);
+        if(mode == MODE_MANUAL)
+            setMotor(paramsJSON, result);
+        else
+        {
+            QVariantMap _result;
+            _result["code"] = -32600;
+            _result["message"] = "Invalid request (wrong mode)";
+            result["error"] = _result;
+            answer = true;
+        }
         break;
 
     // Turret Control
@@ -152,6 +163,9 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
     qDebug() << "TCP: \tGoing to set the mode";
 
     QString mode = params["mode"].toString();
+    if(mode.toLower() == "autonomous")
+        result["result"] = "OK";
+
 
     //TODO: set the actual mode
 }
@@ -159,7 +173,6 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 void MyTask::setVerbose(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to change the verbosity level of client ";
-
     QString mode = params["mode"].toString();
 
     //TODO: set the actual mode
@@ -170,15 +183,7 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
     QVariantMap _result;
 
     QString dataType = params["dataType"].toString();
-    if(dataType.isNull())
-    {
-        qDebug() << "TCP: \tInvalid parameter";
-        answer = true;
-        _result["code"] = -32700;
-        _result["message"] = "Parse error";
-        result["error"] = _result;
-    }
-    else if(dataType == "string")
+    if(dataType == "string")
     {
         QByteArray data = params["data"].toByteArray();
         result["result"] = "OK";
@@ -186,10 +191,10 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
     }
     else if(dataType == "hex")
     {
-        bool ok;
         QString stringData = params["data"].toString();
-        stringData.toInt(&ok,16);
-        if(ok)
+        QRegularExpression hexMatcher("^[\\dABCDEF]+$");
+        QRegularExpressionMatch match = hexMatcher.match(stringData);
+        if(match.hasMatch())
         {
             QByteArray data = QByteArray::fromHex(stringData.toLatin1());
             result["result"] = "OK";
@@ -202,6 +207,14 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
             result["error"] = _result;
         }
     }
+    else
+    {
+        qDebug() << "TCP: \tInvalid parameter";
+        answer = true;
+        _result["code"] = -32700;
+        _result["message"] = "Parse error";
+        result["error"] = _result;
+    }
 }
 
 void MyTask::getCurrent(QVariantMap &result)
@@ -211,16 +224,68 @@ void MyTask::getCurrent(QVariantMap &result)
     //TODO: implement
 }
 
-void MyTask::getMode()
+void MyTask::getMode(QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to send the Mode";
-    //emit(Result("{\"status\": \"notImplemented\"}"));
+    switch(mode)
+    {
+    case MODE_MANUAL:
+        result["result"] = "manual";
+        break;
+    case MODE_AUTONOMOUS:
+        result["result"] = "autonomous";
+    }
 }
 
 void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to set the motor speeds";
-    //emit(Result("{\"status\": \"notImplemented\"}"));
+    bool paramError = false;
+    bool ok,l,r;
+    QByteArray leftba, rightba;
+
+    QString checkstr = params["left"].toString();
+    if(!checkstr.isEmpty() && !checkstr.isNull())
+    {
+        quint8 left = checkstr.toShort(&ok,10);
+        if(!ok)
+            paramError = true;
+        else
+        {
+            qDebug() << "TCP: \tGoing to set the left motor speeds";
+            leftba.append(left);
+            l=true;
+
+        }
+    }
+    checkstr = params["right"].toString();
+    if(!paramError && !checkstr.isEmpty() && !checkstr.isNull())
+    {
+        quint8 right = checkstr.toShort(&ok,10);
+        if(!ok)
+            paramError = true;
+        else
+        {
+            qDebug() << "TCP: \tGoing to set the right motor speeds";
+            rightba.append(right);
+            r=true;
+        }
+    }
+
+    if(paramError)
+    {
+        QVariantMap _result;
+        qDebug() << "TCP: \tInvalid parameter";
+        answer = true;
+        _result["code"] = -32602;
+        _result["message"] = "Parse error";
+        result["error"] = _result;
+    }
+    else
+    {
+        if(l) emit UARTsend(leftba,UART_LEFTMOTORSPEED);
+        if(r) emit UARTsend(rightba,UART_RIGHTMOTORSPEED);
+        result["result"] = "OK";
+    }
 }
 
 void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)

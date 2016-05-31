@@ -6,7 +6,7 @@
 
 extern uint mode;
 
-enum EjsonKeywords{
+enum EjsonFuncList{
     JSONRPC_VERSION         = 530966439LL,
     JSONRPC_GETMETHODS      = 2319619661LL,
 
@@ -26,14 +26,25 @@ enum EjsonKeywords{
     TURRET_FIREMISSILE      = 4091903506LL,
 };
 
-enum EcommunicationCommands{
+enum EuartInfo{
+    UART_STARTBYTE_POS      = 0,
+    UART_LENGTH_POS         = 1,
+    UART_COMMANDID_POS      = 2,
+    UART_DATA_POS           = 3,
+    UART_OVERHEAD           = 5,
+
     UART_STARTBYTE          = 0x5A,
     UART_STOPBYTE           = 0xA5,
+};
 
+enum EcommunicationCommands{
     UART_ERROR              = 0x01,
     UART_GETQUEUELENGTH     = 0x02,
     UART_RESETPERIPHERALS   = 0x03,
     UART_TESTSEQUENCE       = 0x04,
+
+    UART_LEFTMOTORSPEED     = 0x11,
+    UART_RIGHTMOTORSPEED    = 0x12,
 
     UART_TURRETHORIZONTAL   = 0x31,
     UART_TURRETVERTICAL     = 0x32,
@@ -46,9 +57,9 @@ enum EcommunicationCommands{
 };
 
 enum EVerbose{
-    V_SYSTEMMODE            = 0b00000001,
-    V_MOTORSPEED            = 0b00000010,
-    V_MOTORANGLE            = 0b00000100,
+    V_REMAINING             = 0b00000001,
+    V_SYSTEMMODE            = 0b00000010,
+    V_MOTORSPEED            = 0b00000100,
     V_TURRETANGLE           = 0b00001000,
     V_TURRETMISSILE         = 0b00010000,
     V_TURRETLASER           = 0b00100000,

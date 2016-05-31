@@ -4,6 +4,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QAbstractSocket>
+#include <QList>
 #include "myclient.h"
 #include "myuart.h"
 
@@ -16,10 +17,11 @@ public:
 
 protected:
     void incomingConnection(int handle);
-
+    QList<MyClient *> clientList;
 signals:
 
 public slots:
+    void sendNotifications(QByteArray data, uint verbosity);
 
 
 };
