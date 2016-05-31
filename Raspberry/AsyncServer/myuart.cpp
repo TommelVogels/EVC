@@ -1,4 +1,3 @@
-#include <QTimer>
 #include "myuart.h"
 #include "globaldefines.h"
 #include "json.h"
@@ -6,6 +5,13 @@
 MyUART::MyUART(QObject *parent) :
     QObject(parent)
 {
+    // Set the timer
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
+    timer->setInterval(500);
+    connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
+
+    //Iterate over the available serial ports and pick the one that is needed.
     foreach (const QSerialPortInfo &serialPortInfo, QSerialPortInfo::availablePorts())
     {
         if(serialPortInfo.systemLocation() == "/dev/ttyAMA0")
@@ -16,6 +22,7 @@ MyUART::MyUART(QObject *parent) :
         }
     }
 
+    //Try to open the device and try to set all the correct settings
     if(!serialPort->open(QIODevice::ReadWrite))
     {
         qDebug() << "UART: \tError: Unable to open port, error code" << serialPort->error();
@@ -33,44 +40,85 @@ MyUART::MyUART(QObject *parent) :
         qDebug() << "UART: \tError: Flow control:" << serialPort->flowControl();
 
     qDebug() << "UART: \tStarted without errors";
+
+
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
     waitingForAck = false;
-
-    QTimer::singleShot(500, this, SLOT(serialReceived()));
-
 }
 
+/* This function is automatically invoked when data is
+ * sent to the raspberry over uart
+ */
 void MyUART::serialReceived()
 {  
-    if(qobject_cast<QTimer *>(QObject::sender()))
-        qDebug() << "UART: \tTimeout";
+    //A timer is set when something is received, but does not hold a valid command (yet)
+    //If new data comes in we disable the timer and check again
+    timer->stop();
 
-
+    //Read all data and append it to the existing data
     QByteArray data = serialPort->readAll();
     receivedData.append(data);
     qDebug() << "UART: \tReceived:" << QString(data.toHex());
 
+    //If the data is to short we cannot do anything with it. It is kept
+    //in memory so that combined with future data it hopfully will form a command
     if(receivedData.length() < UART_LENGTH_POS + 1)
         return;
 
+    //The received messages start with 0x5A, followed by the lenght of the message
+    //If we have found a start byte, the length of the data and enough bytes to read
+    //   the message, we'll try to decode
     int idx = receivedData.indexOf(0x5A);
     int len = receivedData[idx + UART_LENGTH_POS];
     if(idx > -1 && len > -1 && receivedData.length() >= idx + len)
     {
+        //We found something that looks like a command
         QByteArray com = receivedData.mid(idx, len);
         qDebug() << "UART: \tFound command:" << QString(com.toHex());
 
+        //Cut the used part of the received data
+        //We need to keep the rest as it might be part of a new message
         receivedData = receivedData.right(receivedData.length() - (idx + len));
         waitingForAck = false;
         writeData();
     } 
+    // If no message can be decoded directly, we start a timer and hope that
+    // future data will complement it to a fully readable command.
+    else
+    {
+        timer->start();
+        waitingForAck = false;
+        writeData();
+    }
 }
 
+/* This function is fired automatically when the timer times out.
+ * It means that there is unreadable data in the receivedData variable.
+ * The only thing that we can do is reset the variable and hope for the best.
+ */
+void MyUART::timeOut()
+{
+    qDebug() << "UART: \tTimer timed out";
+    receivedData = "";
+    waitingForAck = false;
+    writeData();
+}
+
+/* When some other program (via IPC or RPC) wants to send data over UART, it is
+ * queued in a fifo. A new message can only be sent if the previous is acknowledged.
+ *
+ * the 'uint function' variable might be 0 (and is so by default). This means that
+ * it is assumed that the data does not need formatting. This is for examplethe case
+ * for the Dbus push(..) interface and the JSON PRC SendUART(..) interface.
+ */
 void MyUART::queueData(QByteArray data, uint function)
 {
-    if(data.length() == 0 || (function == 0 && data.length() < 3))
+    //If there is no function argument we need at least a data length equal to
+    //the position of the command 'overhead', otherwise it cannot be valid
+    if(data.isNull() || (function == 0 && data.length() < UART_OVERHEAD))
         return;
 
+    //If function is defined we format the command.
     if(function)
     {
         QByteArray uartComm;
@@ -84,21 +132,31 @@ void MyUART::queueData(QByteArray data, uint function)
     }
 
     qDebug() << "UART: \tEnqueued:" << QString(data.toHex());
+
+    //Put the data in the queue and try to write it on the bus.
+    //It depends on writeData if this happens immediately.
     queue.enqueue(data);
     writeData();
 }
 
+/* This function handles the actual sending of the data over uart
+ * in addition it sends a notification that it sent a command
+ */
 void MyUART::writeData()
 {
+    //If we are still awaiting the ack of a previous message we won't do anything now
     if(waitingForAck || queue.isEmpty())
         return;
 
+    //We are going to send a new command, hence we get a command from the fifo,
+    //send it, and wait for the ack
     waitingForAck = true;
     QByteArray head = queue.dequeue();
+    lastCommand = head;
     qDebug() << "UART: \tGoing to write" << QString(head.toHex()) << "to the bus";
     serialPort->write(head, head.length());
 
-    //Send a notification
+    //Based on the type of message we will send a notification
     QVariantMap json;
     json["jsonrpc"] = "2.0";
     json["notification"] = "UART";

@@ -6,6 +6,7 @@
 #include <QSerialPortInfo>
 #include <QDebug>
 #include <QQueue>
+#include <QTimer>
 
 class MyUART : public QObject
 {
@@ -18,15 +19,21 @@ signals:
 
 public slots:
     void serialReceived();
+    void timeOut();
     void queueData(QByteArray data, uint function = 0);
+
 
 private:
     void writeData();
+    QTimer *timer;
     QSerialPort *serialPort;
     QSerialPortInfo *portInfo;
     QQueue<QByteArray> queue;
     QByteArray receivedData;
+    QByteArray lastCommand;
     bool waitingForAck;
+
+
 
 
 };
