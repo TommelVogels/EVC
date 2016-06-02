@@ -266,11 +266,8 @@ class UI:
   def mouseMove(obj, event): 
     global aimActive
     logToAll("mouseMove ; Aim mouse move; "+str(event.x/2)+","+str(event.y/2), 3)
-    print(int(90-int(int(event.y)/2)))
     if aimActive == 1:
-      #PushCmd(CommandType.TURRET_HOR_ANGLE,bytearray([int(int(event.x)/2)]))
-      #PushCmd(CommandType.TURRET_VER_ANGLE,bytearray([int(90-int(int(event.y)/2))]))
-      PushCmd(CommandType.TURRET_BOTH_ANGLE,bytearray([int(int(event.x)/2),int(90-int(int(event.y)/2))]))
+        PushCmd(CommandType.TURRET_BOTH_ANGLE,bytearray([int(int(event.x)/2),int(90-int(int(event.y)/2))]))
   
   def activateAim(obj, event):
     global aimActive

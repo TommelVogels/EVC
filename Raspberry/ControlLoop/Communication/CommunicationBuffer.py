@@ -16,6 +16,10 @@ from Debugging.Debug  import logToAll
 from Communication.CommChannels.UART.UART  import ReceiveUART
 from Communication.CommChannels.UART.UART  import SendUART
 
+from Communication.CommandEncoder import EncodeCmd
+from Communication.CommandEncoder import DecodeCmd
+from Communication.Commands.Commands  import CommandType
+
 #variables
 
 # Queue to contain commands received over UART/TCP
@@ -34,27 +38,39 @@ def SendCmds():
       
   except queue.Empty:
     # Handle empty queue here        
-    logToAll("PushCmd ; command ;  QueueEmpty", 2)
+    logToAll("SendCmd ; command ;  QueueEmpty", 2)
   
 def ReceiveCmds():
   #receive via channels
   if USE_UART==1:
     dataIn = ReceiveUART()
     if dataIn['cmdAvailable']==1:
-      logToAll("PushCmd ; dataIn ; cmdAvailable",1)
-      receiveQueue.put(dataIn['data'])
+      decoded = DecodeCmd(dataIn['data'])
+      logToAll("ReceiveCmds ; dataIn ; cmdAvailable",1)
+      receiveQueue.put(decoded)
 
-#{cmID:NONE,data:{0}}def PopCmd():
-
-def PushCmd(inData):
-  logToAll("PushCmd ; inData ; " + str(inData),1)
-  sendQueue.put(inData)
+def PushCmd(inID,inData):
+  logToAll("PushCmd ; inData ; " + str(inID) + " " + str(inData),1)
+  encoded = EncodeCmd(inID,inData)
+  try:
+    sendQueue.put(encoded, False)
+  except queue.Full:
+    #handle full queue here
+    logToAll("PushCmd ; command ; QueueFull", 2)
+    
+  SendCmds()
   
 def PopCmd():
+
+  ReceiveCmds()
+  SendCmds()
+  
+  command = {'cmdID':CommandType.NO_COMMAND,'data':bytearray([])}
+  
   try:
     command = receiveQueue.get(False)
     logToAll("PopCmd ; command ; " + str(command),1)
   except queue.Empty:
     # Handle empty queue here        
     logToAll("PopCmd ; command ; QueueEmpty", 2)
-  return "test"
+  return command

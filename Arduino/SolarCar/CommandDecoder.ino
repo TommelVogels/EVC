@@ -89,7 +89,7 @@ CommandType CommandDecoder(char* inBuff, char inReadLen, char inTotalLen, unsign
 
   //Serial.print(recvChecksum);
   //Serial.print(checksum);
-  if(!cmdRecognised)// || recvChecksum!=checksum )
+  if(!cmdRecognised || recvChecksum!=checksum )
   {
     return COMMAND_INVALID;
   }

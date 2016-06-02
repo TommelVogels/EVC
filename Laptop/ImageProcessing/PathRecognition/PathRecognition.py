@@ -19,7 +19,7 @@ def findPath():
   global destination
   
   if destination==current:
-    destination = random.randint(0,320)
+    destination = random.randint(0,200)
   
   if current>destination:
     current = current-1

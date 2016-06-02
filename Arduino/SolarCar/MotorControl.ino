@@ -1,6 +1,7 @@
 /*
  * MotorControl
  */
+
 #define PWM_L 11
 #define PWM_R 5
 
@@ -10,14 +11,16 @@
 #define EN_R_BWD 6
 #define EN_R_FWD 7
 
-//#define ENCODER_R 9
-//#define ENCODER_L 10
+#define ENCODER_L_1 2
+#define ENCODER_L_2 3
 
-//#define ENCODER_R_2 2
-//#define ENCODER_L_2 3
+#define ENCODER_R_1 9
+#define ENCODER_R_2 10
 
 #define COUNTS_PER_REVOLUTION 408 //12*34
-#define DISTANCE_PER_REVOLUTION 20 // 20 cm ???? TBD
+#define DISTANCE_PER_REVOLUTION 25.3 // 25.3 cm diameter
+
+#define PULSE_RESOLUTION 6 //for each increase in motor speed we expect 6 pulses 1500/255 = 6
 
 void setMotor(const unsigned char cucPWM, const unsigned char cucFWD , const unsigned char cucBWD, const int ciSpeed);
 
@@ -26,6 +29,9 @@ void setMotor(const unsigned char cucPWM, const unsigned char cucFWD , const uns
 
 int leftMotorSpeed = 0;
 int rightMotorSpeed = 0;
+
+int leftMotorPower = 0;
+int rightMotorPower = 0;
 
 
 void MotorControl_Init()
@@ -47,8 +53,52 @@ void MotorControl_Init()
 
 void MotorControl_DriveMotors()
 {
-  MotorControl_SetMotorPower(leftMotorSpeed, LEFT_MOTOR);
-  MotorControl_SetMotorPower(rightMotorSpeed, RIGHT_MOTOR);
+  /* LEFT MOTOR */
+  unsigned long pulseL = pulseIn(ENCODER_L_1, HIGH, 5000);
+  unsigned int InputLeft = (pulseL)?(1000000L/pulseL):(0);
+
+ if(InputLeft<abs(leftMotorSpeed*PULSE_RESOLUTION))
+ {
+  leftMotorPower+=1;
+  if(leftMotorPower>255){leftMotorPower=255;}
+ }
+ else if(InputLeft>abs(leftMotorSpeed*PULSE_RESOLUTION))
+ {
+  leftMotorPower-=1;
+  if(leftMotorPower<0){leftMotorPower=0;}
+ }
+ else if(leftMotorSpeed==0)
+ {
+  leftMotorPower = 0;
+ }
+
+ if(leftMotorSpeed<0)
+ {
+ // leftMotorPower*=-1;
+ }
+  
+  MotorControl_SetMotorPower((int)((leftMotorSpeed<0)?leftMotorPower*-1:leftMotorPower), LEFT_MOTOR);
+
+  /* RIGHT MOTOR */
+  unsigned long pulseR = pulseIn(ENCODER_R_1, HIGH, 5000);
+  unsigned int InputRight = (pulseR)?(1000000L/pulseR):(0);
+
+ if(InputRight<abs(rightMotorSpeed*PULSE_RESOLUTION))
+ {
+  rightMotorPower+=1;
+  if(rightMotorPower>255){rightMotorPower=255;}
+ }
+ else if(InputRight>abs(rightMotorSpeed*PULSE_RESOLUTION))
+ {
+  rightMotorPower-=1;
+  if(rightMotorPower<0){rightMotorPower=0;}
+ }
+ else if(rightMotorSpeed==0)
+ {
+  rightMotorPower = 0;
+ }
+
+  MotorControl_SetMotorPower((int)((rightMotorSpeed<0)?rightMotorPower*-1:rightMotorPower), RIGHT_MOTOR);
 }
 
 void MotorControl_SetMotorSpeed(int inSpeed, MotorType inMotor)

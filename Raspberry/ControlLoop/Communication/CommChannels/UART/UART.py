@@ -9,7 +9,7 @@ from Communication.CommandEncoder import START_BYTE
 from Communication.CommandEncoder import END_BYTE
 
 #defines
-PORT = 'COM7' #'COM3'
+PORT = 'COM5' # 'COM7' # 'COM3'
 BAUDRATE = 115200
 PARITY = serial.PARITY_NONE
 STOPBITS = serial.STOPBITS_ONE
