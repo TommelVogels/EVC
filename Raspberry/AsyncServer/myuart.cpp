@@ -46,9 +46,9 @@ MyUART::MyUART(QObject *parent) :
     waitingForAck = false;
 }
 
-/* This function is automatically invoked when data is
- * sent to the raspberry over uart
- */
+/** This function is automatically invoked when data is
+ ** sent to the raspberry over uart
+ **/
 void MyUART::serialReceived()
 {  
     //A timer is set when something is received, but does not hold a valid command (yet)
@@ -92,10 +92,10 @@ void MyUART::serialReceived()
     }
 }
 
-/* This function is fired automatically when the timer times out.
- * It means that there is unreadable data in the receivedData variable.
- * The only thing that we can do is reset the variable and hope for the best.
- */
+/** This function is fired automatically when the timer times out.
+ ** It means that there is unreadable data in the receivedData variable.
+ ** The only thing that we can do is reset the variable and hope for the best.
+ **/
 void MyUART::timeOut()
 {
     qDebug() << "UART: \tTimer timed out";
@@ -104,13 +104,13 @@ void MyUART::timeOut()
     writeData();
 }
 
-/* When some other program (via IPC or RPC) wants to send data over UART, it is
- * queued in a fifo. A new message can only be sent if the previous is acknowledged.
- *
- * the 'uint function' variable might be 0 (and is so by default). This means that
- * it is assumed that the data does not need formatting. This is for examplethe case
- * for the Dbus push(..) interface and the JSON PRC SendUART(..) interface.
- */
+/** When some other program (via IPC or RPC) wants to send data over UART, it is
+ ** queued in a fifo. A new message can only be sent if the previous is acknowledged.
+ **
+ ** the 'uint function' variable might be 0 (and is so by default). This means that
+ ** it is assumed that the data does not need formatting. This is for examplethe case
+ ** for the Dbus push(..) interface and the JSON PRC SendUART(..) interface.
+ **/
 void MyUART::queueData(QByteArray data, uint function)
 {
     //If there is no function argument we need at least a data length equal to
@@ -139,9 +139,9 @@ void MyUART::queueData(QByteArray data, uint function)
     writeData();
 }
 
-/* This function handles the actual sending of the data over uart
- * in addition it sends a notification that it sent a command
- */
+/** This function handles the actual sending of the data over uart
+ ** in addition it sends a notification that it sent a command
+ **/
 void MyUART::writeData()
 {
     //If we are still awaiting the ack of a previous message we won't do anything now
@@ -160,60 +160,61 @@ void MyUART::writeData()
     QVariantMap json;
     json["jsonrpc"] = "2.0";
     json["direction"] = "RA";
+    json["source"] = "UART";
     uint verbosity = 0;
 
     quint8 function = head[UART_COMMANDID_POS];
     switch(function)
     {
     case UART_FIREALLT1:
-        json["update"] = "fireAllT1";
+        json["method"] = "fireAllT1";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT2:
-        json["update"] = "fireAllT2";
+        json["method"] = "fireAllT2";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT12:
-        json["update"] = "fireAllT12";
+        json["method"] = "fireAllT12";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET1:
-        json["update"] = "fireMissileT1";
+        json["method"] = "fireMissileT1";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET2:
-        json["update"] = "fireMissileT2";
+        json["method"] = "fireMissileT2";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FLIPLASER:
-        json["update"] = "flipLaser";
+        json["method"] = "flipLaser";
         verbosity = V_TURRETLASER;
         break;
     case UART_LEFTMOTORSPEED:
-        json["update"] = "leftMotorSpeed";
+        json["method"] = "leftMotorSpeed";
         verbosity = V_MOTORSPEED;
         break;
     case UART_RESETPERIPHERALS:
-        json["update"] = "resetPeripherals";
+        json["method"] = "resetPeripherals";
         break;
     case UART_RIGHTMOTORSPEED:
-        json["update"] = "rightMotorSpeed";
+        json["method"] = "rightMotorSpeed";
         verbosity = V_MOTORSPEED;
         break;
     case UART_TESTSEQUENCE:
-        json["update"] = "testSequence";
+        json["method"] = "testSequence";
         break;
     case UART_TURRETHORIZONTAL:
-        json["update"] = "turretHorizontal";
+        json["method"] = "turretHorizontal";
         verbosity = V_TURRETANGLE;
         break;
     case UART_TURRETVERTICAL:
-        json["update"] = "turretVertical";
+        json["method"] = "turretVertical";
         verbosity = V_TURRETANGLE;
         break;
 
     default:
-        json["update"] = "unknown";
+        json["method"] = "unknown";
         break;
     }
 
