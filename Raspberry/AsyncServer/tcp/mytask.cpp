@@ -240,35 +240,24 @@ void MyTask::getMode(QVariantMap &result)
 void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 {
     bool paramError = false;
-    bool ok,l,r;
-    QByteArray leftba, rightba;
+    bool left_ok = false, right_ok = false;
+    int left, right;
+    unsigned char c;
+    QByteArray commandData;
+    QString checkstr;
 
-    QString checkstr = params["left"].toString();
+    checkstr = params["left"].toString();
     if(!checkstr.isEmpty() && !checkstr.isNull())
     {
-        quint8 left = checkstr.toShort(&ok,10);
-        if(!ok)
-            paramError = true;
-        else
-        {
-            qDebug() << "TCP: \tGoing to set the left motor speeds";
-            leftba.append(left);
-            l=true;
-
-        }
+        left = checkstr.toShort(&left_ok,10);
+        if(!left_ok) paramError = true;
     }
+
     checkstr = params["right"].toString();
-    if(!paramError && !checkstr.isEmpty() && !checkstr.isNull())
+    if(!checkstr.isEmpty() && !checkstr.isNull())
     {
-        quint8 right = checkstr.toShort(&ok,10);
-        if(!ok)
-            paramError = true;
-        else
-        {
-            qDebug() << "TCP: \tGoing to set the right motor speeds";
-            rightba.append(right);
-            r=true;
-        }
+        right = checkstr.toShort(&right_ok,10);
+        if(!right_ok) paramError = true;
     }
 
     if(paramError)
@@ -279,13 +268,33 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
         _result["code"] = -32602;
         _result["message"] = "Parse error";
         result["error"] = _result;
+        return;
     }
-    else
+
+    if(left_ok)
     {
-        if(l) emit UARTsend(leftba,UART_LEFTMOTORSPEED);
-        if(r) emit UARTsend(rightba,UART_RIGHTMOTORSPEED);
-        result["result"] = "OK";
+        if(left>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 left8 = (quint8)abs(left);
+        commandData.append(left8);
+
+
     }
+    if(right_ok)
+    {
+        if(right>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 right8 = (quint8)abs(right);
+        commandData.append(right8);
+    }
+
+    if(left_ok && right_ok) emit UARTsend(commandData,UART_BOTHMOTORSPEED);
+    else if(left_ok) emit UARTsend(commandData,UART_LEFTMOTORSPEED);
+    else if(right_ok) emit UARTsend(commandData,UART_RIGHTMOTORSPEED);
+
+    result["result"] = "OK";
 }
 
 void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
@@ -303,6 +312,24 @@ void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
 void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to set the laser";
-    //emit(Result("{\"status\": \"notImplemented\"}"));
+    QString checkstr = params["on"].toString();
+    bool send = false;
+    unsigned char c;
+
+    QByteArray ba;
+    if(checkstr == "true")
+    {
+        c = 0x01;
+        ba.append(c);
+        send = true;
+    }
+    else if(checkstr == "false")
+    {
+        c = 0x00;
+        ba.append(c);
+        send = true;
+    }
+
+    if(send) emit UARTsend(ba,UART_FLIPLASER);
 }
 

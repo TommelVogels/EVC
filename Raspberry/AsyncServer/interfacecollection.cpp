@@ -13,7 +13,7 @@ void InterfaceCollection::startInterfaces()
     Server = new MyServer(this);
     Dbus = new MyDbus(this);
 
-    connect(&(Dbus->ext),SIGNAL(busWrite(QByteArray)),Uart,SLOT(queueData(QByteArray)));
+    connect(&(Dbus->ext),SIGNAL(busWrite(QByteArray,uint)),Uart,SLOT(queueData(QByteArray,uint)));
     connect(Uart,SIGNAL(notification(QByteArray,uint)),Server,SLOT(sendNotifications(QByteArray,uint)));
 
     int port = 0;

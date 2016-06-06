@@ -122,11 +122,17 @@ void MyUART::queueData(QByteArray data, uint function)
     if(function)
     {
         QByteArray uartComm;
+        quint8 len = (quint8)(data.length()+1);
+        quint8 commID = (quint8)(function);
         uartComm.append((quint8)(UART_STARTBYTE));
-        uartComm.append((quint8)(data.length()+UART_OVERHEAD));
-        uartComm.append((quint8)(function));
+        uartComm.append(len);
+        uartComm.append(commID);
         uartComm.append(data);
-        uartComm.append((quint8)(function ^ data[data.length()-1]));
+        quint8 checksum = commID ^ len;
+        if(data.length() > 0)
+            for(int i = 0; i<data.length(); i++)
+                checksum ^= (quint8)data[i];
+        uartComm.append(checksum);
         uartComm.append((quint8)(UART_STOPBYTE));
         data = uartComm;
     }
@@ -145,11 +151,12 @@ void MyUART::queueData(QByteArray data, uint function)
 void MyUART::writeData()
 {
     //If we are still awaiting the ack of a previous message we won't do anything now
-    if(waitingForAck || queue.isEmpty())
+    if(/*waitingForAck ||*/ queue.isEmpty() )
         return;
 
     //We are going to send a new command, hence we get a command from the fifo,
     //send it, and wait for the ack
+    qDebug() << "fts";
     waitingForAck = true;
     QByteArray head = queue.dequeue();
     lastCommand = head;

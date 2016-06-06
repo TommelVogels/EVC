@@ -28,15 +28,15 @@ int MyDbus::test(QString str)
     return str.isEmpty() ? 1 : 0;
 }
 
-QString Dbus_ext::push(const QString &arg)
+QString Dbus_ext::push(const QByteArray &arg, char commandID)
 {
     qDebug() << "D-Bus: \tReceived: " << arg;
 
-    QString stringData = arg;
-    QByteArray data = QByteArray::fromHex(stringData.toLatin1());
+    //QString stringData = arg;
+    QByteArray data = arg;
     emit busWrite(data);
 
-    return QString("push(\"%1\") got called").arg(arg);
+    return QString("push(\"\") got called");
 }
 
 void MyDbus::push(QByteArray &data)

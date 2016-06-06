@@ -33,8 +33,8 @@ enum EuartInfo{
     UART_DATA_POS           = 3,
     UART_OVERHEAD           = 5,
 
-    UART_STARTBYTE          = 0x5A,
-    UART_STOPBYTE           = 0xA5,
+    UART_STARTBYTE          = 0xA5,
+    UART_STOPBYTE           = 0x5A,
 };
 
 enum EcommunicationCommands{
@@ -45,6 +45,7 @@ enum EcommunicationCommands{
 
     UART_LEFTMOTORSPEED     = 0x11,
     UART_RIGHTMOTORSPEED    = 0x12,
+    UART_BOTHMOTORSPEED     = 0x13,
 
     UART_TURRETHORIZONTAL   = 0x31,
     UART_TURRETVERTICAL     = 0x32,
