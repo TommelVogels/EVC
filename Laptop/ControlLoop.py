@@ -19,22 +19,21 @@ from Communication.CommunicationBuffer  import PushCmd
 from Communication.CommunicationBuffer  import SendCmds
 from Communication.CommunicationBuffer  import ReceiveCmds
 
+from Communication.Commands.Commands  import CommandType
+
 from ImageProcessing.PathRecognition.PathRecognition  import findPath
 from ImageProcessing.SignDetection.SignDetection  import findSigns
 
 #variables
-desiredMotorSpeed = 100
+desiredMotorSpeed = 255
 
 #functions
 def main():
   logToAll("main ; Main application started ; ",1)
 
   while 1:
-    #read to send/receive commands
-    #SendCmds()
-    #ReceiveCmds()
-              
-    #cmd = PopCmd()
+      
+    cmd = PopCmd()
     
     pathData = findPath()
     signData = findSigns()
@@ -44,16 +43,27 @@ def main():
     
     setVariableState("sign", signData)
     
-    runStateActions(signData,pathData)
+    runStateActions(signData,pathData)    
+	
+    # send motor speeds
+	
+    speedData = bytearray(4);
     
-    # pathData["angle"] = pathData["angle"] + 1
-    #setVariableState("angle", pathData["angle"])
+    if getVariableState("leftMotorSpeed")>0:
+      speedData[0]=0x01
+      speedData[1]=int(getVariableState("leftMotorSpeed"))
+    else:
+      speedData[0]=0x00
+      speedData[1]=int(int(getVariableState("leftMotorSpeed"))*-1)
     
-    #motorSpeeds = calculateMotorSpeeds()
-    
-    #setVariableState("leftMotorSpeed", motorSpeeds["left"])
-    #setVariableState("rightMotorSpeed", motorSpeeds["right"])
-    
+    if getVariableState("rightMotorSpeed")>0:
+      speedData[2]=0x01
+      speedData[3]=int(getVariableState("rightMotorSpeed"))
+    else:
+      speedData[2]=0x00
+      speedData[3]=int(int(getVariableState("rightMotorSpeed"))*-1)
+	
+    PushCmd(CommandType.BOTH_MOTOR_SPEED,speedData)
     
     time.sleep(0)
 
@@ -69,7 +79,7 @@ stop_time = 0
 STOP_WAIT_TIME = 10   
 
 #go straight / follow defines
-MAX_MOTOR_SPEED = 100
+MAX_MOTOR_SPEED = 255
 MAX_LINE_OFFSET_POS   = 320
 ONE_LINE_LOCATION_SETPOINT = 160 #if only one line is visible try to keep it at 160 1/4 of image
 SEARCH_IN_DIRECTION_TIME = 0.25 #if no lines move in one direction for 5 seconds to try and find line
@@ -98,7 +108,7 @@ def changeStateActions(signDetected):
   if getVariableState("control_state") == STATE_FOLLOW_PATH:
     logToAll("changeStateActions ; STATE_FOLLOW_PATH ; ",4)
     
-    if signDetected == 100: #1
+    if signDetected == 1:
       setVariableState("control_state", STATE_STOP)
       
       global stop_time
@@ -126,8 +136,8 @@ def changeStateActions(signDetected):
    
 def stop():
   logToAll("stop ; STATE_STOP ; ",4)
-  #setVariableState("leftMotorSpeed", 0)
-  #setVariableState("rightMotorSpeed", 0)
+  setVariableState("leftMotorSpeed", 0)
+  setVariableState("rightMotorSpeed", 0)
    
 def followPath(pathData):
   logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
@@ -239,8 +249,6 @@ def followPath(pathData):
       #if odd go the other direction
       setVariableState("rightMotorSpeed", SEARCH_SPEED_SLOW)
       setVariableState("leftMotorSpeed", SEARCH_SPEED_FAST)
-    
-  
    
 def calculateMotorSpeeds():
   global pathData

@@ -77,30 +77,30 @@ def findSigns():
   logToAll("findSigns ; Find Signs ; ",2)
   
   if INJECT==1:
-    rnd = random.randint(0,8)
+    rnd = random.randint(0,10000)
     if rnd == 0:
       logToAll("findSigns ; stop ; ",3)
-      time.sleep(0.1)
+      time.sleep(0.01)
       return 1
     elif rnd == 1:
       logToAll("findSigns ; left ; ",3)
-      time.sleep(0.15)
+      time.sleep(0.01)
       return 2
     elif rnd == 2:
       logToAll("findSigns ; right ; ",3)
-      time.sleep(0.1)
+      time.sleep(0.01)
       return 3
     elif rnd == 3:
       logToAll("findSigns ; straight ; ",3)
-      time.sleep(0.1)
+      time.sleep(0.01)
       return 4
     elif rnd == 4:
       logToAll("findSigns ; uturn ; ",3)
-      time.sleep(0.1)
+      time.sleep(0.01)
       return 5
     else:
       logToAll("findSigns ; none ; ",3)
-      time.sleep(0.1)
+      time.sleep(0.01)
       return 0
   
   elif USE_PI_CAMERA:

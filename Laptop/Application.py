@@ -33,10 +33,10 @@ def LaptopApplication():
     else:
     
       while 1:        
-        cmd = PopCmd()
+        #cmd = PopCmd()
         
 
-        #time.sleep(0.5)
+        time.sleep(0.5)
     
     
 #calls
