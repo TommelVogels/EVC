@@ -6,13 +6,33 @@
 
 extern uint mode;
 
+struct SystemState {
+    uint operatingMode;
+    int mototSpeedLeft;
+    int motorSpeedRight;
+    int turretHorizontal;
+    int turretVertical;
+    bool laser;
+};
+
+extern SystemState sysState;
+
+enum EjsonErrors{
+    JSON_PARSEERROR,
+    JSON_PARAMERROR,
+    JSON_INVALIDREQUEST,
+    JSON_METHODNOTFOUND,
+    JSON_INTERNALERROR,
+    JSON_SERVERERROR,
+};
+
 enum EjsonFuncList{
     JSONRPC_VERSION         = 530966439LL,
     JSONRPC_GETMETHODS      = 2319619661LL,
 
     SYSTEM_SETMODE          = 3915231334LL,
     SYSTEM_GETMODE          = 1855121754LL,
-    SYSTEM_SETVERBOSE       = 0LL,
+    SYSTEM_SETVERBOSE       = 3649038303LL,
     SYSTEM_SENDUART         = 961744437LL,
 
     MOTOR_SETMOTOR          = 711497420LL,
@@ -47,8 +67,12 @@ enum EcommunicationCommands{
     UART_RIGHTMOTORSPEED    = 0x12,
     UART_BOTHMOTORSPEED     = 0x13,
 
+    UART_BATTERYCURRENT     = 0x21,
+    UART_SYSTEMCURRENT      = 0x22,
+
     UART_TURRETHORIZONTAL   = 0x31,
     UART_TURRETVERTICAL     = 0x32,
+    UART_TURRETBOTHDIRS     = 0x39,
     UART_FIREMISSILET1      = 0x33,
     UART_FIREMISSILET2      = 0x34,
     UART_FIREALLT1          = 0x35,
@@ -64,6 +88,7 @@ enum EVerbose{
     V_TURRETANGLE           = 0b00001000,
     V_TURRETMISSILE         = 0b00010000,
     V_TURRETLASER           = 0b00100000,
+    V_SYSTEMCURRENT         = 0b01000000,
 };
 
 enum EMode{

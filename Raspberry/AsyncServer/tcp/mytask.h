@@ -12,13 +12,13 @@ class MyTask : public QObject, public QRunnable
     Q_OBJECT
 
 public:
-    MyTask(QString received, uint mode);
+    MyTask(QString received, SystemState sysState);
 
 signals:
     void Result(QByteArray rData);
     void UARTsend(QByteArray data, uint function = 0);
     void Verbose(uint level);
-    void Mode(uint mode);
+    void ChangeMode(uint mode);
 
 protected:
     void run();
@@ -26,13 +26,15 @@ protected:
 private:
     QVariantMap JSONcall;
     bool answer;
-    uint mode;
+    SystemState system;
+
+    void getError(uint error, QVariantMap &result);
 
     void processCall(QVariantMap json, QVariantMap &result);
     void getMethods(QVariantMap &result);
     void setMode(QVariantMap &params, QVariantMap &result);
     void busWrite(QVariantMap &params, QVariantMap &result);
-    void setVerbose(QVariantMap &params, QVariantMap &result);
+    void setVerbose(QVariantList &params, QVariantMap &result);
     void getCurrent(QVariantMap &result);
     void getMode(QVariantMap &result);
     void setMotor(QVariantMap &params, QVariantMap &result);
