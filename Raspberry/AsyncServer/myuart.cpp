@@ -156,7 +156,6 @@ void MyUART::writeData()
 
     //We are going to send a new command, hence we get a command from the fifo,
     //send it, and wait for the ack
-    qDebug() << "fts";
     waitingForAck = true;
     QByteArray head = queue.dequeue();
     lastCommand = head;
@@ -208,6 +207,10 @@ void MyUART::writeData()
         json["method"] = "rightMotorSpeed";
         verbosity = V_MOTORSPEED;
         break;
+    case UART_BOTHMOTORSPEED:
+        json["method"] = "bothMotorSpeed";
+        verbosity = V_MOTORSPEED;
+        break;
     case UART_TESTSEQUENCE:
         json["method"] = "testSequence";
         break;
@@ -219,9 +222,14 @@ void MyUART::writeData()
         json["method"] = "turretVertical";
         verbosity = V_TURRETANGLE;
         break;
+    case UART_TURRETBOTHDIRS:
+        json["method"] = "turretBothAngles";
+        verbosity = V_TURRETANGLE;
+        break;
 
     default:
         json["method"] = "unknown";
+        verbosity = V_REMAINING;
         break;
     }
 
