@@ -1,12 +1,12 @@
 
 difference()
 {
-translate([-16.25,-3,3])
+translate([-16.25,-3,-9])
 {
-    cube([14,2,32]);
+    cube([14,2,42]);
 }
 
-translate([-10.25,-3,5])
+translate([-10.25,-3,-5])
 {
     cube([2,2,15]);
 }
@@ -30,7 +30,7 @@ translate([-10,43,15])
 
 difference()
 {
-translate([-16.25,-3,25])
+translate([-16.25,-3,15])
 {
     cube([14,50,2.5]);
 }
