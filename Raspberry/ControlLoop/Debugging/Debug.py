@@ -2,7 +2,7 @@
 # Used to log to console and file for debugging purposes
 
 #defines
-DEBUG_LEVEL = 1
+DEBUG_LEVEL = 3
 
 #include dependencies
 from datetime import datetime

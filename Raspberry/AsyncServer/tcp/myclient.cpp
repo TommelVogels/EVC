@@ -6,7 +6,7 @@ MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
     QThreadPool::globalInstance()->setMaxThreadCount(15);
-    setVerbose(5);
+    setVerbose(0xFFFFFFFF);
 }
 
 void MyClient::SetSocket(int Descriptor)
@@ -36,9 +36,10 @@ void MyClient::readyRead()
         qDebug() << "TCP: \tReceived: " << received;
 
         //Initialize a task
-        MyTask *mytask = new MyTask(received, mode);
+        MyTask *mytask = new MyTask(received, sysState);
         mytask->setAutoDelete(true);
         connect(mytask,SIGNAL(Result(QByteArray)),SLOT(sendData(QByteArray)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(ChangeMode(uint)),SLOT(setMode(uint)),Qt::QueuedConnection);
 
         //Connect to the other interfaces
         InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
@@ -57,10 +58,10 @@ void MyClient::sendData(QByteArray rData)
 
 void MyClient::setVerbose(uint level)
 {
-    verbositylevel = 0xFFFFFFFF;
+    verbositylevel = level;
 }
 
 void MyClient::setMode(uint level)
 {
-
+    sysState.operatingMode = level;
 }

@@ -7,11 +7,18 @@
 #include "globaldefines.h"
 
 uint mode = MODE_MANUAL;
+SystemState sysState;
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    sysState.laser = false;
+    sysState.mototSpeedLeft = 0;
+    sysState.motorSpeedRight = 0;
+    sysState.turretHorizontal = 0;
+    sysState.turretVertical = 0;
+    sysState.operatingMode = MODE_MANUAL;
 
+    QCoreApplication a(argc, argv);
     QStringList arguments = QCoreApplication::arguments();
     InterfaceCollection ic(arguments);
     ic.startInterfaces();

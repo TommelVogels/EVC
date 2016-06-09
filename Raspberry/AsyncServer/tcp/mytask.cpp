@@ -2,10 +2,40 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-MyTask::MyTask(QString received, uint mode)
+void MyTask::getError(uint error, QVariantMap &result)
+{
+    QVariantMap _result;
+    answer = true;
+
+    switch(error)
+    {
+    case JSON_INVALIDREQUEST:
+        _result["code"] = -32600;
+        _result["message"] = "Invalid request";
+        result["error"] = _result;
+        break;
+    case JSON_PARAMERROR:
+        _result["code"] = -32602;
+        _result["message"] = "Parse error";
+        result["error"] = _result;
+        break;
+    case JSON_PARSEERROR:
+        _result["code"] = -32602;
+        _result["message"] = "Parse error";
+        result["error"] = _result;
+        break;
+    case JSON_METHODNOTFOUND:
+        _result["code"] = -32601;
+        _result["message"] = "Method does not exist";
+        result["error"] = _result;
+        break;
+    }
+}
+
+MyTask::MyTask(QString received, SystemState sysState)
 {
     JSONcall.insert("UnParsed",received);
-    this->mode = mode;
+    this->system = sysState;
 }
 
 void MyTask::run()
@@ -22,12 +52,8 @@ void MyTask::run()
     {
         qDebug() << "TCP: \tInvalid JSON string";
         answer = true;
-        QVariantMap robjJSON;
         QVariantMap result;
-        robjJSON["code"] = -32700;
-        robjJSON["message"] = "Parse error";
-        robjJSON["id"] = "null";
-        result["error"] = robjJSON;
+        getError(JSON_PARSEERROR, result);
         emit Result(QtJson::serialize(result));
         return;
     }
@@ -66,7 +92,9 @@ void MyTask::processCall(QVariantMap json, QVariantMap &result)
         result["id"] = id;
 
     // Save the parameters
-    QVariantMap paramsJSON = json["params"].toMap();
+    QVariant paramsJSON = json["params"];
+    QVariantMap paramsMap;
+    QVariantList paramsList;
 
     // Check what kind of function came in
     int method;
@@ -83,13 +111,16 @@ void MyTask::processCall(QVariantMap json, QVariantMap &result)
 
     // System control
     case SYSTEM_SETMODE:
-        setMode(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        setMode(paramsMap, result);
         break;
-    //case SETVERBOSE:
-    //    setVerbose()paramsJSON;
-    //    break;
+    case SYSTEM_SETVERBOSE:
+        paramsList = paramsJSON.toList();
+        setVerbose(paramsList, result);
+        break;
     case SYSTEM_SENDUART:
-        busWrite(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        busWrite(paramsMap, result);
         break;
     //case GETCURRENT:
     //    getCurrent(paramsJSON);
@@ -100,36 +131,30 @@ void MyTask::processCall(QVariantMap json, QVariantMap &result)
 
     // Motor Control
     case MOTOR_SETMOTOR:
-        if(mode == MODE_MANUAL)
-            setMotor(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        if(system.operatingMode == MODE_MANUAL)
+            setMotor(paramsMap, result);
         else
-        {
-            QVariantMap _result;
-            _result["code"] = -32600;
-            _result["message"] = "Invalid request (wrong mode)";
-            result["error"] = _result;
-            answer = true;
-        }
+            getError(JSON_INVALIDREQUEST, result);
         break;
 
     // Turret Control
     case TURRET_SETANGLE:
-        setTurretAngle(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        setTurretAngle(paramsMap, result);
         break;
     case TURRET_FIREMISSILE:
-        fireMissile(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        fireMissile(paramsMap, result);
         break;
     case TURRET_SETLASER:
-        setLaser(paramsJSON, result);
+        paramsMap = paramsJSON.toMap();
+        setLaser(paramsMap, result);
         break;
 
     // If none of the above is true, an unknown method is received
     default:
-        QVariantMap _result;
-        _result["code"] = -32601;
-        _result["message"] = "Method does not exist";
-        result["error"] = _result;
-        answer = true;
+        getError(JSON_METHODNOTFOUND,result);
         break;
     }
 }
@@ -163,19 +188,42 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
     qDebug() << "TCP: \tGoing to set the mode";
 
     QString mode = params["mode"].toString();
+
+    if(mode.isEmpty() || mode.isNull())
+    {
+        getError(JSON_INVALIDREQUEST, result);
+        return;
+    }
+
     if(mode.toLower() == "autonomous")
+    {
         result["result"] = "OK";
-
-
-    //TODO: set the actual mode
+        emit ChangeMode(MODE_AUTONOMOUS);
+    }
+    else if(mode.toLower() == "manual")
+    {
+        result["result"] = "OK";
+        emit ChangeMode(MODE_MANUAL);
+    }
+    else
+    {
+        getError(JSON_PARAMERROR, result);
+    }
 }
 
-void MyTask::setVerbose(QVariantMap &params, QVariantMap &result)
+void MyTask::setVerbose(QVariantList &params, QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to change the verbosity level of client ";
-    QString mode = params["mode"].toString();
+    uint vlevel = 0;
 
-    //TODO: set the actual mode
+    if(params.contains("mode"))          vlevel |= V_SYSTEMMODE;
+    if(params.contains("motorSpeed"))    vlevel |= V_MOTORSPEED;
+    if(params.contains("turretAngle"))   vlevel |= V_TURRETANGLE;
+    if(params.contains("turretMissile")) vlevel |= V_TURRETMISSILE;
+    if(params.contains("laser"))         vlevel |= V_TURRETLASER;
+
+    result["result"] = "OK";
+    emit Verbose(vlevel);
 }
 
 void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
@@ -194,26 +242,18 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
         QString stringData = params["data"].toString();
         QRegularExpression hexMatcher("^[\\dABCDEF]+$");
         QRegularExpressionMatch match = hexMatcher.match(stringData);
-        if(match.hasMatch())
+        if(!match.hasMatch())
+            getError(JSON_PARAMERROR,result);
+        else
         {
             QByteArray data = QByteArray::fromHex(stringData.toLatin1());
             result["result"] = "OK";
             emit UARTsend(data);
         }
-        else
-        {
-            _result["code"] = -32602;
-            _result["message"] = "Parse error";
-            result["error"] = _result;
-        }
     }
     else
     {
-        qDebug() << "TCP: \tInvalid parameter";
-        answer = true;
-        _result["code"] = -32700;
-        _result["message"] = "Parse error";
-        result["error"] = _result;
+        getError(JSON_PARSEERROR,result);
     }
 }
 
@@ -227,13 +267,14 @@ void MyTask::getCurrent(QVariantMap &result)
 void MyTask::getMode(QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to send the Mode";
-    switch(mode)
+    switch(system.operatingMode)
     {
     case MODE_MANUAL:
         result["result"] = "manual";
         break;
     case MODE_AUTONOMOUS:
         result["result"] = "autonomous";
+        break;
     }
 }
 
@@ -262,12 +303,7 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 
     if(paramError)
     {
-        QVariantMap _result;
-        qDebug() << "TCP: \tInvalid parameter";
-        answer = true;
-        _result["code"] = -32602;
-        _result["message"] = "Parse error";
-        result["error"] = _result;
+        getError(JSON_PARAMERROR, result);
         return;
     }
 
@@ -300,13 +336,63 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to set the turret angle";
-    //emit(Result("{\"status\": \"notImplemented\"}"));
+
+    bool paramError = false;
+    bool hori_ok = false, vert_ok = false;
+    int hori, vert;
+    unsigned char c;
+    QByteArray commandData;
+    QString checkstr;
+
+    checkstr = params["horizontal"].toString();
+    if(!checkstr.isEmpty() && !checkstr.isNull())
+    {
+        hori = checkstr.toShort(&hori_ok,10);
+        if(!hori_ok) paramError = true;
+    }
+
+    checkstr = params["vertical"].toString();
+    if(!checkstr.isEmpty() && !checkstr.isNull())
+    {
+        vert = checkstr.toShort(&vert_ok,10);
+        if(!vert_ok) paramError = true;
+    }
+
+    if(paramError)
+    {
+        getError(JSON_PARAMERROR, result);
+        return;
+    }
+
+    if(hori_ok)
+    {
+        if(hori>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 hori8 = (quint8)abs(hori);
+        commandData.append(hori8);
+    }
+    if(vert_ok)
+    {
+        if(vert>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 vert8 = (quint8)abs(vert);
+        commandData.append(vert8);
+    }
+
+    if(hori_ok && vert_ok) emit UARTsend(commandData,UART_TURRETBOTHDIRS);
+    else if(hori_ok) emit UARTsend(commandData,UART_TURRETHORIZONTAL);
+    else if(vert_ok) emit UARTsend(commandData,UART_TURRETVERTICAL);
+
+    result["result"] = "OK";
 }
 
 void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to fire a missile";
-    //emit(Result("{\"status\": \"notImplemented\"}"));
+
+
+    result["result"] = "OK";
 }
 
 void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
@@ -328,6 +414,10 @@ void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
         c = 0x00;
         ba.append(c);
         send = true;
+    }
+    else
+    {
+        getError(JSON_PARAMERROR, result);
     }
 
     if(send) emit UARTsend(ba,UART_FLIPLASER);

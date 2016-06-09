@@ -281,5 +281,5 @@ def calculateMotorSpeeds():
   return motorSpeeds
     
 #calls
-main()
+#main()
     
