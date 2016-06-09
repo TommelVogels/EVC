@@ -23,29 +23,23 @@ MyDbus::MyDbus(QObject *parent) :
     }
 }
 
-int MyDbus::test(QString str)
-{
-    return str.isEmpty() ? 1 : 0;
-}
-
-QString Dbus_ext::push(const QByteArray &arg, char commandID)
+QByteArray Dbus_ext::push(const QByteArray &arg, const QByteArray &commandID)
 {
     qDebug() << "D-Bus: \tReceived: " << arg;
 
     //QString stringData = arg;
     QByteArray data = arg;
-    emit busWrite(data);
+    char cid = (uint)commandID[0];
+    emit busWrite(data, cid);
 
-    return QString("push(\"\") got called");
+    QByteArray push;
+    push.append("A501A5A");
+    return push;
 }
 
-void MyDbus::push(QByteArray &data)
+QByteArray Dbus_ext::pop(void)
 {
-
-}
-
-QString Dbus_ext::pop(const QString &arg)
-{
-    qDebug() << "D-Bus: \tReceived: " << arg;
-    return QString("vlees(\"%1\") got called").arg(arg);
+    QByteArray pop;
+    pop.append("A501A5A");
+    return pop;
 }

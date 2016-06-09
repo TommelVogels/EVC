@@ -16,6 +16,7 @@ MyUART::MyUART(QObject *parent) :
     {
         if(serialPortInfo.systemLocation() == "/dev/ttyAMA0")
         {
+            qDebug() << "found";
             serialPort = new QSerialPort(serialPortInfo);
             portInfo = const_cast<QSerialPortInfo*>(&serialPortInfo);
             break;
