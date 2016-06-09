@@ -44,3 +44,5 @@ Temporary Items
 Docs/~$*.docx
 Docs/*.~vsdx
 *.tmp
+*.txt
+*.pyc
