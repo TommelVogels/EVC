@@ -3,7 +3,7 @@
 
 #defines
 INJECT = 0
-USE_PI_CAMERA = 0
+USE_PI_CAMERA = 1
 
 
 #include dependencies
@@ -70,7 +70,7 @@ time.sleep(0.1)
 def findSigns():
   logToAll("findSigns ; Find Signs ; ",2)
   
-  if INJECT:
+  if INJECT==1:
     rnd = random.randint(0,4)
     if rnd == 0:
       print("stop")
@@ -88,7 +88,8 @@ def findSigns():
       print("uturn")
       time.sleep(0.5)
   
-  elif USE_PI_CAMERA:
+  elif USE_PI_CAMERA==1:
+    print('derp')
   
     for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
       stri = colordetection2(frame.array)

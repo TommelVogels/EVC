@@ -8,7 +8,7 @@ DEBUG_LEVEL = 3
 from datetime import datetime
 
 #variables
-fileName =  __file__.replace("Debug.py","")+"LOGS/"
+fileName =  __file__.replace("Debug.pyc","").replace("Debug.py","")+"LOGS/"
 fileName += datetime.now().strftime('%Y%m%d%H%M%S')+".txt"
 
 def logToConsole(msg, level):

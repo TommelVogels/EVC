@@ -35,6 +35,9 @@ def main():
       
     cmd = PopCmd()
     
+    if cmd["cmdID"] == CommandType.BOTH_MOTOR_SPEED:
+      print("response for left motor")
+    
     pathData = findPath()
     signData = findSigns()
     
@@ -281,5 +284,5 @@ def calculateMotorSpeeds():
   return motorSpeeds
     
 #calls
-#main()
+main()
     

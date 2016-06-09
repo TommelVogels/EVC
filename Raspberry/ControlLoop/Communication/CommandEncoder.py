@@ -2,10 +2,12 @@
 # Manages the encoding and decoding of commands
 
 #defines
-START_BYTE = bytes([0xA5])
-END_BYTE = bytes([0x5A])
+START_BYTE = bytearray([0xA5])
+END_BYTE = bytearray([0x5A])
 
 #include dependencies
+import binascii
+
 from Debugging.Debug  import logToAll
 from Communication.Commands.Commands  import CommandType
 from Communication.Commands.Commands  import CommandTypeToInt
@@ -15,7 +17,7 @@ from Communication.Commands.Commands  import IntToCommandType
 
 #functions
 def DecodeCmd(inData):
-  logToAll("DecodeCmd ; inData ; "+str(inData), 3)
+  logToAll("DecodeCmd ; inData ; "+binascii.hexlify(inData), 3)
   
   length = inData[0];
   
@@ -28,10 +30,10 @@ def DecodeCmd(inData):
   cmdID = inData[1]
   checksum = checksum ^ cmdID
   
-  found = 0
-  for value in list(CommandType):
-    if (CommandTypeToInt(value) == int(cmdID)):
-      found = 1
+  found = 1
+  #for value in list(CommandType):
+  #  if (CommandTypeToInt(value) == int(cmdID)):
+  #    found = 1
   
   if found == 0:
     logToAll("DecodeCmd ; Command unknown ; "+ str(int(cmdID)), 2)
@@ -50,7 +52,7 @@ def DecodeCmd(inData):
   return {'cmdID':IntToCommandType(cmdID),'data':data}
 
 def EncodeCmd(inCmd,inData):
-  logToAll("EncodeCmd ; inData ;" + str(inCmd) +  " " + str(inData), 3)
+  logToAll("EncodeCmd ; inData ;" + str(inCmd) +  " " + binascii.hexlify(inData), 3)
 
   checksum = 0
   length = (len(inData)+1)

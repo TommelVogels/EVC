@@ -31,15 +31,24 @@ class CommandType(Enum):
   COMMAND_INVALID   = 0xFF
 
 #include dependencies
+import sys
+is_py2 = sys.version[0] == '2'
 
 #variables
 
 #functions
 def CommandTypeToInt(inCmd):
-  return int(inCmd.value)
+  if is_py2:
+    return inCmd
+  else:
+    return int(inCmd.value)
   
 def IntToCommandType(inInt):
-  return (CommandType(inInt))
+  if is_py2:
+    return inInt
+  else:
+    return CommandType(inInt)
+  
     
 #calls
     

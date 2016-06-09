@@ -2,8 +2,8 @@
 # Description
 
 #defines
-INJECT = 1
-USE_PI_CAMERA = 0
+INJECT = 0
+USE_PI_CAMERA = 1
 
 
 #include dependencies
@@ -35,6 +35,8 @@ if USE_PI_CAMERA==1:
   #camera.iso = 200
   camera.awb_mode = 'off'
   camera.exposure_mode = 'auto'
+  camera.hflip = True
+  camera.vflip = True
   
   #video_capture = cv2.VideoCapture(0)
   
@@ -42,7 +44,7 @@ if USE_PI_CAMERA==1:
       # Capture frame-by-frame
   #   ret, frame = video_capture.read()
   
-  rg, bg = (1.9, 1.2)
+  rg, bg = (1.5, 1.6)
   camera.awb_gains = (rg, bg)
   
   camera.framerate = 32
@@ -77,7 +79,7 @@ def findSigns():
   logToAll("findSigns ; Find Signs ; ",2)
   
   if INJECT==1:
-    rnd = random.randint(0,10000)
+    rnd = random.randint(0,10)
     if rnd == 0:
       logToAll("findSigns ; stop ; ",3)
       time.sleep(0.01)
@@ -103,12 +105,17 @@ def findSigns():
       time.sleep(0.01)
       return 0
   
-  elif USE_PI_CAMERA:
+  elif USE_PI_CAMERA==1:
   
     for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
       stri = colordetection2(frame.array)
       rawCapture.truncate(0)
       print(str(stri))
+      if (stri)=="stop":
+        return 1
+      else:
+        return 0
+      
       
   else:
     videos = ['/left.mp4', '/right.mp4', '/straight.mp4', '/stop.mp4', '/uturn.mp4']
@@ -139,6 +146,8 @@ def colordetection2(frame):
 
   #hsv = imutils.resize(hsv, width=600)
   hsv = cv2.GaussianBlur(hsv, (11, 11), 0)
+  
+
  
   # construct a mask for the color "green", then perform
   # a series of dilations and erosions to remove any small
@@ -152,6 +161,12 @@ def colordetection2(frame):
   #mask = cv2.erode(mask, None, iterations=2)
   mask = cv2.dilate(mask, None, iterations=15)
   mask = cv2.erode(mask, None, iterations=15)
+  
+  cv2.imshow("derp2", mask)
+  key = cv2.waitKey(1000) & 0xFF
+  
+  cv2.imshow("derp3", hsv)
+  key = cv2.waitKey(1000) & 0xFF
   
   # find contours in the mask and initialize the current
   # (x, y) center of the ball

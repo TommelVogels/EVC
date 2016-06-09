@@ -8,8 +8,10 @@ from Communication.CommunicationBuffer import USE_UART
 from Communication.CommandEncoder import START_BYTE
 from Communication.CommandEncoder import END_BYTE
 
+import binascii
+
 #defines
-PORT = 'COM5' # 'COM7' # 'COM3'
+PORT = '/dev/ttyAMA0' # 'COM7' # 'COM3'
 BAUDRATE = 115200
 PARITY = serial.PARITY_NONE
 STOPBITS = serial.STOPBITS_ONE
@@ -30,7 +32,7 @@ if USE_UART:
 
 #functions
 def SendUART(inData):
-  logToAll("SendUART ; inData ; "+str(inData), 2)
+  logToAll("SendUART ; inData ; "+binascii.hexlify(inData), 2)
   
   if UART_opened==1:
     serialPort.write(inData)

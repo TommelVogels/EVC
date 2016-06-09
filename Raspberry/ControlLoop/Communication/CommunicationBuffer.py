@@ -10,7 +10,14 @@ USE_TCP  = 1
 
 #include dependencies
 import serial #https://pypi.python.org/pypi/pyserial
-import queue
+import sys
+is_py2 = sys.version[0] == '2'
+if is_py2:
+    import Queue as queue
+else:
+    import queue as queue
+    
+import binascii
 
 from Debugging.Debug  import logToAll
 from Communication.CommChannels.UART.UART  import ReceiveUART
@@ -30,7 +37,7 @@ sendQueue = queue.Queue(maxsize=16)
 def SendCmds():
   try:
     command = sendQueue.get(False)
-    logToAll("SendCmds ; command ; " + str(command), 1)
+    logToAll("SendCmds ; command ; " + binascii.hexlify(command), 1)
         
     #send via channels
     if USE_UART==1:
@@ -46,11 +53,11 @@ def ReceiveCmds():
     dataIn = ReceiveUART()
     if dataIn['cmdAvailable']==1:
       decoded = DecodeCmd(dataIn['data'])
-      logToAll("ReceiveCmds ; dataIn ; cmdAvailable",1)
+      logToAll("ReceiveCmds ; dataIn ; cmdAvailable "+binascii.hexlify(dataIn['data']),1)
       receiveQueue.put(decoded)
 
 def PushCmd(inID,inData):
-  logToAll("PushCmd ; inData ; " + str(inID) + " " + str(inData),1)
+  logToAll("PushCmd ; inData ; " + str(inID) + " " + binascii.hexlify(inData),1)
   encoded = EncodeCmd(inID,inData)
   try:
     sendQueue.put(encoded, False)
