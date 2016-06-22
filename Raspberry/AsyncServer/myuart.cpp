@@ -163,7 +163,7 @@ void MyUART::setMotor(bool left, bool right, int l, int r)
 
     if(right && r > -256 && r < 256)
     {
-        if(right>=0) c = 0x01;
+        if(r>=0) c = 0x01;
         else c= 0x00;
         commandData.append(c);
         quint8 right8 = (quint8)abs(r);
@@ -178,27 +178,14 @@ void MyUART::setMotor(bool left, bool right, int l, int r)
 
 void MyUART::setTurretAngle(bool horizontal, bool vertical, int h, int v)
 {
-    unsigned char c;
     QByteArray commandData;
 
     if(horizontal && h > -1 && h < 181)
-    {
-        if(h>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 hori8 = (quint8)abs(h);
-        commandData.append(hori8);
-    }
+        commandData.append((quint8)abs(h));
     else horizontal = false;
 
     if(vertical && v > -1 && v < 91)
-    {
-        if(v>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 vert8 = (quint8)abs(v);
-        commandData.append(vert8);
-    }
+        commandData.append((quint8)abs(v));
     else vertical = false;
 
     if(horizontal && vertical) queueData(commandData,UART_TURRETBOTHDIRS);
