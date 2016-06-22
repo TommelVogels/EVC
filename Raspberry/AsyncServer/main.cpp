@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     sysState.motorSpeedRight = 0;
     sysState.turretHorizontal = 0;
     sysState.turretVertical = 0;
-    sysState.operatingMode = MODE_MANUAL;
+    sysState.operatingMode = MODE_AUTONOMOUS;
 
     QCoreApplication a(argc, argv);
     QStringList arguments = QCoreApplication::arguments();

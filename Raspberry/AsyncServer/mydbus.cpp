@@ -41,3 +41,23 @@ QByteArray Dbus_ext::pop(void)
     pop.append("A501A5A");
     return pop;
 }
+
+void Dbus_ext::SetMotor(const bool &left, const bool &right, const int &l, const int &r)
+{
+    emit MotorSignal(left,right,l,r);
+}
+
+void Dbus_ext::setTurretAngle(const bool &horizontal, const bool &vertical, const int &h, const int &v)
+{
+    emit TurretAngleSignal(horizontal,vertical,h,v);
+}
+
+void Dbus_ext::fireMissile(const bool &t1, const bool &t2, const bool &all)
+{
+    emit MissileSignal(t1,t2,all);
+}
+
+void Dbus_ext::setLaser(const bool &on)
+{
+    emit LaserSignal(on);
+}
