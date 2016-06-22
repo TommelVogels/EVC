@@ -33,3 +33,14 @@ void MyServer::sendNotifications(QByteArray data, uint verbosity)
         if(verbosity & client->verbositylevel)
             client->sendData(data);
 }
+
+void MyServer::clientDisconnected()
+{
+    MyClient *client = qobject_cast<MyClient *>(sender()->parent());
+
+    if(!client)
+        return;
+
+    clientList.removeAll(client);
+    client->deleteLater();
+}

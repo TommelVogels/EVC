@@ -13,7 +13,8 @@ void MyClient::SetSocket(int Descriptor)
 {
     socket = new QTcpSocket(this);
 
-    connect(socket,SIGNAL(disconnected()),this,SLOT(disconnected()));
+    InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
+    connect(socket,SIGNAL(disconnected()),ic->Server,SLOT(clientDisconnected()));
     connect(socket,SIGNAL(readyRead()),this,SLOT(readyRead()));
 
     socket->setSocketDescriptor(Descriptor);
