@@ -1,5 +1,6 @@
 #include "mydbus.h"
 #include "interfacecollection.h"
+#include "globaldefines.h"
 
 MyDbus::MyDbus(QObject *parent) :
     QObject(parent)
@@ -23,18 +24,15 @@ MyDbus::MyDbus(QObject *parent) :
     }
 }
 
-QByteArray Dbus_ext::push(const QByteArray &arg, const QByteArray &commandID)
+void Dbus_ext::push(const QByteArray &arg, const quint8 &commandID)
 {
     qDebug() << "D-Bus: \tReceived: " << arg;
+    if(sysState.operatingMode == MODE_MANUAL)
+        return;
 
-    //QString stringData = arg;
     QByteArray data = arg;
-    char cid = (uint)commandID[0];
+    char cid = commandID; //(uint)commandID[0];
     emit busWrite(data, cid);
-
-    QByteArray push;
-    push.append("A501A5A");
-    return push;
 }
 
 QByteArray Dbus_ext::pop(void)

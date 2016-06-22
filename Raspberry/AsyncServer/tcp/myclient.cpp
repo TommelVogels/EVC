@@ -39,12 +39,12 @@ void MyClient::readyRead()
         MyTask *mytask = new MyTask(received, sysState);
         mytask->setAutoDelete(true);
         connect(mytask,SIGNAL(Result(QByteArray)),SLOT(sendData(QByteArray)), Qt::QueuedConnection);
-        connect(mytask,SIGNAL(ChangeMode(uint)),SLOT(setMode(uint)),Qt::QueuedConnection);
 
         //Connect to the other interfaces
         InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
+        connect(mytask,SIGNAL(ChangeMode(uint)),SLOT(setMode(uint)),Qt::QueuedConnection);
+        connect(mytask,SIGNAL(Verbose(uint)),SLOT(setVerbose(uint)), Qt::QueuedConnection);
         connect(mytask,SIGNAL(UARTsend(QByteArray,uint)),ic->Uart,SLOT(queueData(QByteArray,uint)), Qt::QueuedConnection);
-        connect(mytask,SIGNAL(Verbose(uint)),this,SLOT(setVerbose(uint)), Qt::QueuedConnection);
         connect(mytask,SIGNAL(MotorSignal(bool,bool,int,int)),ic->Uart,SLOT(setMotor(bool,bool,int,int)), Qt::QueuedConnection);
         connect(mytask,SIGNAL(TurretAngleSignal(bool,bool,int,int)),ic->Uart,SLOT(setTurretAngle(bool,bool,int,int)), Qt::QueuedConnection);
         connect(mytask,SIGNAL(MissileSignal(bool,bool,bool)),ic->Uart,SLOT(fireMissile(bool,bool,bool)), Qt::QueuedConnection);

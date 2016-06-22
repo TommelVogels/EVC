@@ -12,7 +12,7 @@ signals:
     void busWrite(QByteArray data, uint function = 0);
     void busRead(QByteArray data);
 public slots:
-    Q_SCRIPTABLE QByteArray push(const QByteArray &arg, const QByteArray &commandID);
+    Q_SCRIPTABLE void push(const QByteArray &arg, const quint8 &commandID);
     Q_SCRIPTABLE QByteArray pop(void);
 };
 
