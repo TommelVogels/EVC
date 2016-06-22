@@ -20,6 +20,11 @@ signals:
     void Verbose(uint level);
     void ChangeMode(uint mode);
 
+    void MotorSignal(bool left, bool right, int l = 0, int r = 0);
+    void TurretAngleSignal(bool horizontal, bool vertical, int h = 0, int v = 0);
+    void MissileSignal(bool t1, bool t2, bool all = false);
+    void LaserSignal(bool on);
+
 protected:
     void run();
 

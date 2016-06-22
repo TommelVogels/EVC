@@ -21,7 +21,10 @@ public slots:
     void serialReceived();
     void timeOut();
     void queueData(QByteArray data, uint function = 0);
-
+    void setMotor(bool left, bool right, int l = 0, int r = 0);
+    void setTurretAngle(bool horizontal, bool vertical, int h = 0, int v = 0);
+    void fireMissile(bool t1, bool t2, bool all);
+    void setLaser(bool on);
 
 private:
     void writeData();
