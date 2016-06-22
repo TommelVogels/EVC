@@ -69,7 +69,7 @@ void MyUART::serialReceived()
     //The received messages start with 0x5A, followed by the lenght of the message
     //If we have found a start byte, the length of the data and enough bytes to read
     //   the message, we'll try to decode
-    int idx = receivedData.indexOf(0x5A);
+    int idx = receivedData.indexOf(UART_STARTBYTE);
     int len = receivedData[idx + UART_LENGTH_POS];
     if(idx > -1 && len > -1 && receivedData.length() >= idx + len)
     {
