@@ -6,14 +6,15 @@ MyClient::MyClient(QObject *parent) :
     QObject(parent)
 {
     QThreadPool::globalInstance()->setMaxThreadCount(15);
-    setVerbose(0xFFFFFFFF);
+    setVerbose(0x0);
 }
 
 void MyClient::SetSocket(int Descriptor)
 {
     socket = new QTcpSocket(this);
 
-    connect(socket,SIGNAL(disconnected()),this,SLOT(disconnected()));
+    InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
+    connect(socket,SIGNAL(disconnected()),ic->Server,SLOT(clientDisconnected()));
     connect(socket,SIGNAL(readyRead()),this,SLOT(readyRead()));
 
     socket->setSocketDescriptor(Descriptor);
@@ -39,11 +40,16 @@ void MyClient::readyRead()
         MyTask *mytask = new MyTask(received, sysState);
         mytask->setAutoDelete(true);
         connect(mytask,SIGNAL(Result(QByteArray)),SLOT(sendData(QByteArray)), Qt::QueuedConnection);
-        connect(mytask,SIGNAL(ChangeMode(uint)),SLOT(setMode(uint)),Qt::QueuedConnection);
 
         //Connect to the other interfaces
         InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent());
-        connect(mytask,SIGNAL(UARTsend(QByteArray,uint)),ic->Uart,SLOT(queueData(QByteArray,uint)));
+        connect(mytask,SIGNAL(ChangeMode(uint)),SLOT(setMode(uint)),Qt::QueuedConnection);
+        connect(mytask,SIGNAL(Verbose(uint)),SLOT(setVerbose(uint)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(UARTsend(QByteArray,uint)),ic->Uart,SLOT(queueData(QByteArray,uint)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(MotorSignal(bool,bool,int,int)),ic->Uart,SLOT(setMotor(bool,bool,int,int)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(TurretAngleSignal(bool,bool,int,int)),ic->Uart,SLOT(setTurretAngle(bool,bool,int,int)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(MissileSignal(bool,bool,bool)),ic->Uart,SLOT(fireMissile(bool,bool,bool)), Qt::QueuedConnection);
+        connect(mytask,SIGNAL(LaserSignal(bool)),ic->Uart,SLOT(setLaser(bool)), Qt::QueuedConnection);
 
         //Start the task
         QThreadPool::globalInstance()->start(mytask);

@@ -22,8 +22,7 @@ signals:
 
 public slots:
     void sendNotifications(QByteArray data, uint verbosity);
-
-
+    void clientDisconnected();
 };
 
 #endif // MYSERVER_H

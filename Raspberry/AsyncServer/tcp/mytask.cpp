@@ -228,8 +228,6 @@ void MyTask::setVerbose(QVariantList &params, QVariantMap &result)
 
 void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
 {
-    QVariantMap _result;
-
     QString dataType = params["dataType"].toString();
     if(dataType == "string")
     {
@@ -283,8 +281,6 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
     bool paramError = false;
     bool left_ok = false, right_ok = false;
     int left, right;
-    unsigned char c;
-    QByteArray commandData;
     QString checkstr;
 
     checkstr = params["left"].toString();
@@ -307,29 +303,7 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
         return;
     }
 
-    if(left_ok)
-    {
-        if(left>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 left8 = (quint8)abs(left);
-        commandData.append(left8);
-
-
-    }
-    if(right_ok)
-    {
-        if(right>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 right8 = (quint8)abs(right);
-        commandData.append(right8);
-    }
-
-    if(left_ok && right_ok) emit UARTsend(commandData,UART_BOTHMOTORSPEED);
-    else if(left_ok) emit UARTsend(commandData,UART_LEFTMOTORSPEED);
-    else if(right_ok) emit UARTsend(commandData,UART_RIGHTMOTORSPEED);
-
+    emit MotorSignal(left_ok,right_ok,left,right);
     result["result"] = "OK";
 }
 
@@ -340,8 +314,6 @@ void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
     bool paramError = false;
     bool hori_ok = false, vert_ok = false;
     int hori, vert;
-    unsigned char c;
-    QByteArray commandData;
     QString checkstr;
 
     checkstr = params["horizontal"].toString();
@@ -364,33 +336,26 @@ void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
         return;
     }
 
-    if(hori_ok)
-    {
-        if(hori>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 hori8 = (quint8)abs(hori);
-        commandData.append(hori8);
-    }
-    if(vert_ok)
-    {
-        if(vert>=0) c = 0x01;
-        else c= 0x00;
-        commandData.append(c);
-        quint8 vert8 = (quint8)abs(vert);
-        commandData.append(vert8);
-    }
-
-    if(hori_ok && vert_ok) emit UARTsend(commandData,UART_TURRETBOTHDIRS);
-    else if(hori_ok) emit UARTsend(commandData,UART_TURRETHORIZONTAL);
-    else if(vert_ok) emit UARTsend(commandData,UART_TURRETVERTICAL);
-
+    emit TurretAngleSignal(hori_ok,vert_ok,hori,vert);
     result["result"] = "OK";
 }
 
 void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
 {
+    int turret = params["turret"].toInt();
+    QString amount = params["amount"].toString();
 
+    if(amount != "one" && amount != "all")
+    {
+        getError(JSON_PARAMERROR, result);
+        return;
+    }
+
+    bool all = (amount == "all");
+    bool t1 = ((turret == 1) | (turret == 12));
+    bool t2 = ((turret == 2) | (turret == 12));
+
+    emit MissileSignal(t1,t2,all);
 
     result["result"] = "OK";
 }
@@ -399,27 +364,14 @@ void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
 {
     qDebug() << "TCP: \tGoing to set the laser";
     QString checkstr = params["on"].toString();
-    bool send = false;
-    unsigned char c;
 
-    QByteArray ba;
-    if(checkstr == "true")
-    {
-        c = 0x01;
-        ba.append(c);
-        send = true;
-    }
-    else if(checkstr == "false")
-    {
-        c = 0x00;
-        ba.append(c);
-        send = true;
-    }
-    else
+    if(checkstr != "true" && checkstr != "false")
     {
         getError(JSON_PARAMERROR, result);
+        return;
     }
 
-    if(send) emit UARTsend(ba,UART_FLIPLASER);
+    emit LaserSignal((checkstr == "true"));
+    result["result"] = "OK";
 }
 

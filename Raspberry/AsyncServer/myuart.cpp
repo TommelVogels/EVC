@@ -69,7 +69,7 @@ void MyUART::serialReceived()
     //The received messages start with 0x5A, followed by the lenght of the message
     //If we have found a start byte, the length of the data and enough bytes to read
     //   the message, we'll try to decode
-    int idx = receivedData.indexOf(0x5A);
+    int idx = receivedData.indexOf(UART_STARTBYTE);
     int len = receivedData[idx + UART_LENGTH_POS];
     if(idx > -1 && len > -1 && receivedData.length() >= idx + len)
     {
@@ -116,7 +116,7 @@ void MyUART::queueData(QByteArray data, uint function)
 {
     //If there is no function argument we need at least a data length equal to
     //the position of the command 'overhead', otherwise it cannot be valid
-    if(data.isNull() || (function == 0 && data.length() < UART_OVERHEAD))
+    if(function == 0 && data.length() < UART_OVERHEAD)
         return;
 
     //If function is defined we format the command.
@@ -144,6 +144,77 @@ void MyUART::queueData(QByteArray data, uint function)
     //It depends on writeData if this happens immediately.
     queue.enqueue(data);
     writeData();
+}
+
+void MyUART::setMotor(bool left, bool right, int l, int r)
+{
+    unsigned char c;
+    QByteArray commandData;
+
+    if(left && l > -256 && l < 256)
+    {
+        if(l>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 left8 = (quint8)abs(l);
+        commandData.append(left8);
+    }
+    else left = false;
+
+    if(right && r > -256 && r < 256)
+    {
+        if(r>=0) c = 0x01;
+        else c= 0x00;
+        commandData.append(c);
+        quint8 right8 = (quint8)abs(r);
+        commandData.append(right8);
+    }
+    else right = false;
+
+    if(left && right) queueData(commandData,UART_BOTHMOTORSPEED);
+    else if(left)     queueData(commandData,UART_LEFTMOTORSPEED);
+    else if(right)    queueData(commandData,UART_RIGHTMOTORSPEED);
+}
+
+void MyUART::setTurretAngle(bool horizontal, bool vertical, int h, int v)
+{
+    QByteArray commandData;
+
+    if(horizontal && h > -1 && h < 181)
+        commandData.append((quint8)abs(h));
+    else horizontal = false;
+
+    if(vertical && v > -1 && v < 91)
+        commandData.append((quint8)abs(v));
+    else vertical = false;
+
+    if(horizontal && vertical) queueData(commandData,UART_TURRETBOTHDIRS);
+    else if(horizontal)        queueData(commandData,UART_TURRETHORIZONTAL);
+    else if(vertical)          queueData(commandData,UART_TURRETVERTICAL);
+}
+
+void MyUART::fireMissile(bool t1, bool t2, bool all)
+{
+    QByteArray dummy;
+
+    if(t1 && t2)    queueData(dummy,UART_FIREALLT12);
+    else if(t1)
+        if(all)     queueData(dummy,UART_FIREALLT1);
+        else        queueData(dummy,UART_FIREMISSILET1);
+    else if(t2)
+        if(all)     queueData(dummy,UART_FIREALLT2);
+        else        queueData(dummy,UART_FIREMISSILET2);
+}
+
+void MyUART::setLaser(bool on)
+{
+    unsigned char c;
+    QByteArray commandData;
+
+    c = on? 0x01 : 0x00;
+    commandData.append(c);
+
+    queueData(commandData,UART_FLIPLASER);
 }
 
 /** This function handles the actual sending of the data over uart
