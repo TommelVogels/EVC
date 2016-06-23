@@ -37,7 +37,7 @@ if USE_PI_CAMERA:
       # Capture frame-by-frame
   #   ret, frame = video_capture.read()
   
-  rg, bg = (1.9, 1.2)
+  rg, bg = (1.6, 1.5)
   camera.awb_gains = (rg, bg)
   
   camera.framerate = 32

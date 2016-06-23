@@ -41,8 +41,8 @@ def main():
     pathData = findPath()
     signData = findSigns()
     
-    setVariableState("leftDis", pathData["leftDis"])
-    setVariableState("rightDis", pathData["rightDis"])
+
+    print(str(pathData))
     
     setVariableState("sign", signData)
     
@@ -82,12 +82,12 @@ stop_time = 0
 STOP_WAIT_TIME = 10   
 
 #go straight / follow defines
-MAX_MOTOR_SPEED = 255
+MAX_MOTOR_SPEED = 100
 MAX_LINE_OFFSET_POS   = 320
-ONE_LINE_LOCATION_SETPOINT = 160 #if only one line is visible try to keep it at 160 1/4 of image
-SEARCH_IN_DIRECTION_TIME = 0.25 #if no lines move in one direction for 5 seconds to try and find line
-SEARCH_SPEED_FAST = 20
-SEARCH_SPEED_SLOW = 10
+ONE_LINE_LOCATION_SETPOINT = 300 #if only one line is visible try to keep it at 160 1/4 of image
+SEARCH_IN_DIRECTION_TIME = 2 #if no lines move in one direction for 5 seconds to try and find line
+SEARCH_SPEED_FAST = 10
+SEARCH_SPEED_SLOW = 0
 lost_search_time = 0
 lost_search_attempt = 0
     
@@ -145,131 +145,32 @@ def stop():
 def followPath(pathData):
   logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
   
-  global lost_search_attempt
-  global lost_search_time
+  #motorSpeeds=calculateMotorSpeeds(pathData)
   
-  #if both lines are visible move to keep the offset of left and right the same
-  if pathData["leftDis"]>=0 and pathData["rightDis"]>=0:
+  distance = {"rightDis": pathData["RightLine"][4],"rightAngle": pathData["RightLine"][5],"leftDis":-1}
   
-    lost_search_attempt = 0
-    lost_search_time = 0
-    
-    difference = abs(pathData["leftDis"]-pathData["rightDis"])/2
-    
-    if pathData["leftDis"]>pathData["rightDis"]:
-      #should correct to left
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("rightMotorSpeed", 0)
-      else:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    elif pathData["rightDis"]>pathData["leftDis"]:
-      #should correct to right
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("leftMotorSpeed", 0)
-      else:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    else:
-      #no correction needed
-      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2)
-      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2)
+  followPathDistance(distance)
   
-  #if only one line is visible try to keep line at an offset (quarter of image to right or left)
-  elif pathData["leftDis"]>=0 and pathData["rightDis"]<0:
-    #only left line visible
-    
-    lost_search_attempt = 0
-    lost_search_time = 0
-    
-    difference = abs(pathData["leftDis"]-ONE_LINE_LOCATION_SETPOINT)/2
-    
-    if pathData["leftDis"]<ONE_LINE_LOCATION_SETPOINT:
-      #should correct to right
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("rightMotorSpeed", 0)
-      else:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    elif pathData["leftDis"]>ONE_LINE_LOCATION_SETPOINT:
-      #should correct to left
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("leftMotorSpeed", 0)
-      else:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    else:
-      #no correction needed
-      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2)
-      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2)
-      
-  elif pathData["rightDis"]>=0 and pathData["leftDis"]<0:
-    #only right line visible
-    
-    lost_search_attempt = 0
-    lost_search_time = 0
-    
-    difference = abs(pathData["rightDis"]-ONE_LINE_LOCATION_SETPOINT)/2
-    
-    if pathData["rightDis"]>ONE_LINE_LOCATION_SETPOINT:
-      #should correct to right
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("rightMotorSpeed", 0)
-      else:
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    elif pathData["rightDis"]<ONE_LINE_LOCATION_SETPOINT:
-      #should correct to left
-      if difference>MAX_MOTOR_SPEED/2:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-        setVariableState("leftMotorSpeed", 0)
-      else:
-        setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2+difference)
-        setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2-difference)
-    else:
-      #no correction needed
-      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED/2)
-      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED/2)
-  
-  #oh crap no lines are visible move left/right slowly until line is detected
-  elif pathData["leftDis"]<0 and pathData["rightDis"]<0:
-  
-    #slowly increase the search duration 
-    if (lost_search_time + SEARCH_IN_DIRECTION_TIME*lost_search_attempt) < time.time():
-      lost_search_attempt = lost_search_attempt + 1
-      lost_search_time = time.time()
+  #setVariableState("leftMotorSpeed", motorSpeeds["left"])
+  #setVariableState("rightMotorSpeed", motorSpeeds["right"])
 
-    if (lost_search_attempt%2==0):
-      #if even go in one direction
-      setVariableState("rightMotorSpeed", SEARCH_SPEED_FAST)
-      setVariableState("leftMotorSpeed", SEARCH_SPEED_SLOW)
-    else:
-      #if odd go the other direction
-      setVariableState("rightMotorSpeed", SEARCH_SPEED_SLOW)
-      setVariableState("leftMotorSpeed", SEARCH_SPEED_FAST)
    
-def calculateMotorSpeeds():
-  global pathData
+def calculateMotorSpeeds(pathData):
   
   turnLeft = 0
   motorSpeeds = {"left":0,"right":0}
   
-  angle = pathData["angle"]
+  angle = pathData[0][4]
   
   # if angle is negative turn left else turn right
-  if(angle<0):
+  if(angle<45):
     turnLeft = 1
     #turn to positive number
     angle = angle*-1
   else:
     turnLeft = 0
     
-  angle = angle/2 + 45
+  angle = angle/2
   
   speed1 = int(math.cos(math.radians(angle))*desiredMotorSpeed)
   speed2 = int(math.sin(math.radians(angle))*desiredMotorSpeed)
@@ -282,7 +183,31 @@ def calculateMotorSpeeds():
     motorSpeeds["right"] = speed1
   
   return motorSpeeds
-    
+
+def followPathDistance(pathData):
+  logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
+  
+  #if pathData["rightAngle"]<20 or pathData["rightAngle"]>160:
+  #  return;
+  if pathData["rightDis"]>600:
+    setVariableState("leftMotorSpeed", 1)
+    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+    return;
+  
+  if pathData["rightDis"]>300 and pathData["rightDis"]>=0:
+    #should correct to right
+    setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+    setVariableState("rightMotorSpeed", 1)
+  elif pathData["rightDis"]<200 and pathData["rightDis"]>=0:
+    #should correct to right
+    setVariableState("leftMotorSpeed", 1)
+    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+  else:
+    #should correct to right
+    setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+       
+  
 #calls
 main()
     
