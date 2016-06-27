@@ -17,6 +17,7 @@ public:
     uint verbositylevel;
 
 signals:
+    void sendNotification(QByteArray data, uint verbosity);
 
 public slots:
     void disconnected();

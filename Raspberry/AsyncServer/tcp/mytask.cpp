@@ -40,8 +40,6 @@ MyTask::MyTask(QString received, SystemState sysState)
 
 void MyTask::run()
 {
-    qDebug() << "TCP: \tTask Start";
-
     bool batch  = JSONcall["UnParsed"].toString().startsWith('[');
     bool jsonOk;
     QVariant parsedJSON = QtJson::parse(
@@ -76,7 +74,7 @@ void MyTask::run()
         if(answer) emit Result(QtJson::serialize(result));
     }
 
-    qDebug() << "TCP: \tTask Done";
+    //qDebug() << "TCP: \tTask Done";
 }
 
 void MyTask::processCall(QVariantMap json, QVariantMap &result)
@@ -185,8 +183,6 @@ void MyTask::getMethods(QVariantMap &result)
 
 void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to set the mode";
-
     QString mode = params["mode"].toString();
 
     if(mode.isEmpty() || mode.isNull())
@@ -198,11 +194,13 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
     if(mode.toLower() == "autonomous")
     {
         result["result"] = "OK";
+        qDebug() << "TCP: \tGoing to set the mode";
         emit ChangeMode(MODE_AUTONOMOUS);
     }
     else if(mode.toLower() == "manual")
     {
         result["result"] = "OK";
+        qDebug() << "TCP: \tGoing to set the mode";
         emit ChangeMode(MODE_MANUAL);
     }
     else
@@ -213,7 +211,6 @@ void MyTask::setMode(QVariantMap &params, QVariantMap &result)
 
 void MyTask::setVerbose(QVariantList &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to change the verbosity level of client ";
     uint vlevel = 0;
 
     if(params.contains("mode"))          vlevel |= V_SYSTEMMODE;
@@ -223,6 +220,7 @@ void MyTask::setVerbose(QVariantList &params, QVariantMap &result)
     if(params.contains("laser"))         vlevel |= V_TURRETLASER;
 
     result["result"] = "OK";
+    qDebug() << "TCP: \tGoing to change the verbosity level of client ";
     emit Verbose(vlevel);
 }
 
@@ -246,6 +244,7 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
         {
             QByteArray data = QByteArray::fromHex(stringData.toLatin1());
             result["result"] = "OK";
+            qDebug() << "TCP: \tGoing to write to the bus";
             emit UARTsend(data);
         }
     }
@@ -264,7 +263,6 @@ void MyTask::getCurrent(QVariantMap &result)
 
 void MyTask::getMode(QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to send the Mode";
     switch(system.operatingMode)
     {
     case MODE_MANUAL:
@@ -273,7 +271,10 @@ void MyTask::getMode(QVariantMap &result)
     case MODE_AUTONOMOUS:
         result["result"] = "autonomous";
         break;
+    default:
+        return;
     }
+    qDebug() << "TCP: \tGoing to send the Mode";
 }
 
 void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
@@ -303,14 +304,13 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
         return;
     }
 
+    qDebug() << "TCP: \tGoing to set the motor";
     emit MotorSignal(left_ok,right_ok,left,right);
     result["result"] = "OK";
 }
 
 void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to set the turret angle";
-
     bool paramError = false;
     bool hori_ok = false, vert_ok = false;
     int hori, vert;
@@ -336,6 +336,7 @@ void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
         return;
     }
 
+    qDebug() << "TCP: \tGoing to set the turret angle";
     emit TurretAngleSignal(hori_ok,vert_ok,hori,vert);
     result["result"] = "OK";
 }
@@ -355,14 +356,13 @@ void MyTask::fireMissile(QVariantMap &params, QVariantMap &result)
     bool t1 = ((turret == 1) | (turret == 12));
     bool t2 = ((turret == 2) | (turret == 12));
 
+    qDebug() << "TCP: \tGoing to fire";
     emit MissileSignal(t1,t2,all);
-
     result["result"] = "OK";
 }
 
 void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
 {
-    qDebug() << "TCP: \tGoing to set the laser";
     QString checkstr = params["on"].toString();
 
     if(checkstr != "true" && checkstr != "false")
@@ -371,6 +371,7 @@ void MyTask::setLaser(QVariantMap &params, QVariantMap &result)
         return;
     }
 
+    qDebug() << "TCP: \tGoing to set the laser";
     emit LaserSignal((checkstr == "true"));
     result["result"] = "OK";
 }

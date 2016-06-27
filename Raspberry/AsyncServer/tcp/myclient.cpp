@@ -1,6 +1,7 @@
 #include "myclient.h"
 #include "myserver.h"
 #include "interfacecollection.h"
+#include "json.h"
 
 MyClient::MyClient(QObject *parent) :
     QObject(parent)
@@ -34,7 +35,7 @@ void MyClient::readyRead()
 
     if(received != "")
     {
-        qDebug() << "TCP: \tReceived: " << received;
+        //qDebug() << "TCP: \tReceived: " << received;
 
         //Initialize a task
         MyTask *mytask = new MyTask(received, sysState);
@@ -70,4 +71,22 @@ void MyClient::setVerbose(uint level)
 void MyClient::setMode(uint level)
 {
     sysState.operatingMode = level;
+    QVariantMap notification;
+    notification["jsonrpc"] = "2.0";
+    notification["subject"] = "System.Mode";
+
+    switch(level)
+    {
+    case MODE_AUTONOMOUS:
+        notification["mode"] = "autonomous";
+        break;
+    case MODE_MANUAL:
+        notification["mode"] = "manual";
+        break;
+    default:
+        notification["mode"] = "unknown";
+        break;
+    }
+
+    emit sendNotification(QtJson::serialize(notification),V_SYSTEMMODE);
 }

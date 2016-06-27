@@ -20,6 +20,7 @@ void MyServer::StartServer(int port)
 void MyServer::incomingConnection(int handle)
 {
     MyClient *client = new MyClient(this->parent());
+    connect(client,SIGNAL(sendNotification(QByteArray,uint)),this,SLOT(sendNotifications(QByteArray,uint)));
     clientList.append(client);
     client->SetSocket(handle);
 }

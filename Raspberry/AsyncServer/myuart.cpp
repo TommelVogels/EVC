@@ -16,7 +16,6 @@ MyUART::MyUART(QObject *parent) :
     {
         if(serialPortInfo.systemLocation() == "/dev/ttyAMA0")
         {
-            qDebug() << "found";
             serialPort = new QSerialPort(serialPortInfo);
             portInfo = const_cast<QSerialPortInfo*>(&serialPortInfo);
             break;
@@ -64,7 +63,10 @@ void MyUART::serialReceived()
     //If the data is to short we cannot do anything with it. It is kept
     //in memory so that combined with future data it hopfully will form a command
     if(receivedData.length() < UART_LENGTH_POS + 1)
+    {
+        timer->start();
         return;
+    }
 
     //The received messages start with 0x5A, followed by the lenght of the message
     //If we have found a start byte, the length of the data and enough bytes to read
@@ -87,9 +89,8 @@ void MyUART::serialReceived()
     // future data will complement it to a fully readable command.
     else
     {
+        qDebug() << "UART: \tDid not find a command";
         timer->start();
-        waitingForAck = false;
-        writeData();
     }
 }
 
@@ -223,7 +224,7 @@ void MyUART::setLaser(bool on)
 void MyUART::writeData()
 {
     //If we are still awaiting the ack of a previous message we won't do anything now
-    if(/*waitingForAck ||*/ queue.isEmpty() )
+    if(waitingForAck || queue.isEmpty() )
         return;
 
     //We are going to send a new command, hence we get a command from the fifo,
@@ -233,6 +234,7 @@ void MyUART::writeData()
     lastCommand = head;
     qDebug() << "UART: \tGoing to write" << QString(head.toHex()) << "to the bus";
     serialPort->write(head, head.length());
+    timer->start();
 
     //Based on the type of message we will send a notification
     QVariantMap json;
