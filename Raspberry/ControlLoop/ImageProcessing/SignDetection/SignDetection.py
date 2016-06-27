@@ -4,14 +4,10 @@
 #defines
 INJECT = 0
 USE_PI_CAMERA = 1
-
+SHOW_VIDEO = 0
 
 #include dependencies
 from Debugging.Debug  import logToAll
-
-if USE_PI_CAMERA==1:
-  from picamera.array import PiRGBArray
-  from picamera import PiCamera
   
 import time
 
@@ -28,29 +24,7 @@ import time
 #variables
 
 #functions
-# initialize the camera and grab a reference to the raw camera capture
-
-if USE_PI_CAMERA==1: 
-  camera = PiCamera()
-  camera.resolution = (640, 480)
-  #camera.iso = 200
-  camera.awb_mode = 'off'
-  camera.exposure_mode = 'auto'
-  camera.hflip = True
-  camera.vflip = True
-  
-  #video_capture = cv2.VideoCapture(0)
-  
-  #while True:
-      # Capture frame-by-frame
-  #   ret, frame = video_capture.read()
-  
-  rg, bg = (1.9, 1.2)
-  camera.awb_gains = (rg, bg)
-  
-  camera.framerate = 32
-  rawCapture = PiRGBArray(camera, size=(640, 480))
-  
+# initialize the camera and grab a reference to the raw camera capture  
 
 BlueLower = (100, 86, 6)
 BlueUpper = (125, 255, 255)
@@ -74,7 +48,7 @@ if INJECT==0:
 # allow the camera to warmup
 time.sleep(0.1)
 
-def findSigns():
+def findSigns(frame):
   logToAll("findSigns ; Find Signs ; ",2)
   
   t1 = time.time()
@@ -108,19 +82,16 @@ def findSigns():
   
   elif USE_PI_CAMERA==1:
   
-    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-      stri = colordetection2(frame.array)
-      rawCapture.truncate(0)
+    stri = colordetection2(frame) 
+    t2 = time.time()
+    logToAll("findSigns ; Find Signs time ;  "+ str(float(t2-t1)) + " seconds",0)
       
-      t2 = time.time()
-      logToAll("findSigns ; Find Signs time ;  "+ str(float(t2-t1)) + " seconds",2)
+    logToAll("findSigns ; Find Signs time ;  "+ str(stri) + " found",0)
       
-      logToAll("findSigns ; Find Signs time ;  "+ str(stri) + " found",2)
-      
-      if (stri)=="stop":
-        return 1
-      else:
-        return 0
+    if (stri)=="stop":
+      return 1
+    else:
+      return 0
       
       
   else:
@@ -151,11 +122,11 @@ def colordetection2(frame):
 
   str = "none"
   image = frame
-  image = image[120:360,0:640]
-  hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
+  #image = image[120:360,0:640]
+  #hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
 
   #hsv = imutils.resize(hsv, width=600)
-  hsv = cv2.GaussianBlur(hsv, (11, 11), 0)
+  hsv = cv2.GaussianBlur(image, (11, 11), 0)
   
 
  
@@ -173,7 +144,8 @@ def colordetection2(frame):
   mask = cv2.erode(mask, None, iterations=3)
 
 
-  cv2.imshow("asdf1", mask)
+  if SHOW_VIDEO:
+     cv2.imshow("asdf1", mask)
   key = cv2.waitKey(1) & 0xFF    
   
     # find contours in the mask and initialize the current
@@ -323,6 +295,6 @@ def colordetection2(frame):
       
         cv2.putText(image, str+repr(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
         
-        #print (str)
+        print (str)
       
   return str  

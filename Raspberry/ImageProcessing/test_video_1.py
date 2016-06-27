@@ -841,7 +841,7 @@ camera.exposure_mode = 'auto'
 camera.rotation = 180
 
 
-rg, bg = (1.9, 1.2)
+rg, bg = (1.2, 2.0)
 camera.awb_gains = (rg, bg)
       
 camera.framerate = 32

@@ -550,7 +550,7 @@ camera.awb_mode = 'off'
 camera.exposure_mode = 'auto'
 
 
-rg, bg = (1.9, 1.2)
+rg, bg = (1.3, 1.8)
 camera.awb_gains = (rg, bg)
       
 camera.framerate = 32
@@ -574,7 +574,7 @@ straight_and = cv2.imread("straight_and.png",0)
  
 # allow the camera to warmup
 time.sleep(0.1)
-#setup_trackbars("HSV")
+setup_trackbars("HSV")
 
 #colordetection_video()
  
@@ -589,7 +589,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     avg1 = np.float32(tstimage) 
     x = 1
   
-  image = hough(avg1)
+#  image = hough(avg1)
 #  image = contours()
 #  image = circles()
 #  image = robotcircles()
@@ -597,7 +597,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 #  image = colordetection()
 #  image = surf()
 #  image = colordetection2()
-#  image = thresholds()
+  image = thresholds()
   
   # grab the raw NumPy array representing the image, then initialize the timestamp    
 #  lines = cv2.HoughLinesP(edges, 1, np.pi / 4, 2, None, 10, 1)
