@@ -23,6 +23,10 @@ from Communication.Commands.Commands  import CommandType
 
 from ImageProcessing.PathRecognition.PathRecognition  import findPath
 from ImageProcessing.SignDetection.SignDetection  import findSigns
+from ImageProcessing.FrameFetch  import getFrame
+from ImageProcessing.FrameFetch  import camera
+from ImageProcessing.FrameFetch  import rawCapture
+import cv2
 
 #variables
 desiredMotorSpeed = 255
@@ -31,15 +35,29 @@ desiredMotorSpeed = 255
 def main():
   logToAll("main ; Main application started ; ",1)
 
-  while 1:
+  #while 1:
+  
+  for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    t1 = time.time()
+    image = (frame.array)
+    image = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
+    top = image[120:360,0:640]
+    bottom = image[250:480,0:640]
+    rawCapture.truncate(0)
+    t2 = time.time()
+    logToAll("getFrame ; Get Frame ;  "+ str(float(t2-t1)) + " seconds",0)
+    frameCut =  [top,bottom]
       
     cmd = PopCmd()
     
-    if cmd["cmdID"] == CommandType.BOTH_MOTOR_SPEED:
-      print("response for left motor")
+    #time.sleep(1)
     
-    pathData = findPath()
-    signData = findSigns()
+    #if cmd["cmdID"] == CommandType.BOTH_MOTOR_SPEED:
+    #  print("response for left motor")
+    #frame = getFrame();
+    
+    pathData = findPath(frameCut[1])
+    signData = findSigns(frameCut[0])
     
 
     print(str(pathData))
@@ -82,7 +100,8 @@ stop_time = 0
 STOP_WAIT_TIME = 10   
 
 #go straight / follow defines
-MAX_MOTOR_SPEED = 100
+MIN_MOTOR_SPEED = 0
+MAX_MOTOR_SPEED = 50
 MAX_LINE_OFFSET_POS   = 320
 ONE_LINE_LOCATION_SETPOINT = 300 #if only one line is visible try to keep it at 160 1/4 of image
 SEARCH_IN_DIRECTION_TIME = 2 #if no lines move in one direction for 5 seconds to try and find line
@@ -90,6 +109,26 @@ SEARCH_SPEED_FAST = 10
 SEARCH_SPEED_SLOW = 0
 lost_search_time = 0
 lost_search_attempt = 0
+
+def relativeSpeeds(direction, speed):
+  motorFast="leftMotorSpeed"
+  motorSlow="rightMotorSpeed"
+  if direction=="left":
+    motorFast = "rightMotorSpeed"
+    motorSlow = "leftMotorSpeed"
+  
+  if speed==1:
+    setVariableState(motorFast, 50)
+    setVariableState(motorSlow, 0)
+  elif speed==2:
+    setVariableState(motorFast, 20)
+    setVariableState(motorSlow, 0)  
+  elif speed==3:
+    setVariableState(motorFast, 50)
+    setVariableState(motorSlow, 5) 
+  elif speed==4:
+    setVariableState(motorFast, 20)
+    setVariableState(motorSlow, 5) 
     
 def runStateActions(signDetected, pathData):
   if getVariableState("control_state") == STATE_FOLLOW_PATH:
@@ -147,7 +186,7 @@ def followPath(pathData):
   
   #motorSpeeds=calculateMotorSpeeds(pathData)
   
-  distance = {"rightDis": pathData["RightLine"][4],"rightAngle": pathData["RightLine"][5],"leftDis":-1}
+  distance = {"rightDis": pathData["RightLine"][4],"rightAngle": pathData["RightLine"][5],"leftDis":pathData["LeftLine"][4],"horDis":pathData["horizontalLine"][4]}
   
   followPathDistance(distance)
   
@@ -155,58 +194,134 @@ def followPath(pathData):
   #setVariableState("rightMotorSpeed", motorSpeeds["right"])
 
    
-def calculateMotorSpeeds(pathData):
+# def calculateMotorSpeeds(pathData):
   
-  turnLeft = 0
-  motorSpeeds = {"left":0,"right":0}
+  # turnLeft = 0
+  # motorSpeeds = {"left":0,"right":0}
   
-  angle = pathData[0][4]
+  # angle = pathData[0][4]
   
-  # if angle is negative turn left else turn right
-  if(angle<45):
-    turnLeft = 1
+  #if angle is negative turn left else turn right
+  # if(angle<45):
+    # turnLeft = 1
     #turn to positive number
-    angle = angle*-1
-  else:
-    turnLeft = 0
+    # angle = angle*-1
+  # else:
+    # turnLeft = 0
     
-  angle = angle/2
+  # angle = angle/2
   
-  speed1 = int(math.cos(math.radians(angle))*desiredMotorSpeed)
-  speed2 = int(math.sin(math.radians(angle))*desiredMotorSpeed)
+  # speed1 = int(math.cos(math.radians(angle))*desiredMotorSpeed)
+  # speed2 = int(math.sin(math.radians(angle))*desiredMotorSpeed)
   
-  if (turnLeft==1):
-    motorSpeeds["left"] = speed1
-    motorSpeeds["right"] = speed2
+  # if (turnLeft==1):
+    # motorSpeeds["left"] = speed1
+    # motorSpeeds["right"] = speed2
+  # else:
+    # motorSpeeds["left"] = speed2
+    # motorSpeeds["right"] = speed1
+  
+  # return motorSpeeds
+  
+def pxToSpeedBoth(pixels):
+  if pixels>180:
+   return 4
+  if pixels>160:
+   return 3
+  if pixels>140:
+   return 2
   else:
-    motorSpeeds["left"] = speed2
-    motorSpeeds["right"] = speed1
-  
-  return motorSpeeds
+   return 1
+
+def pxToSpeed1(pixels):
+  if pixels<320:
+   return 4
+  if pixels<340:
+   return 3
+  if pixels<360:
+   return 2
+  else:
+   return 1
 
 def followPathDistance(pathData):
   logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
   
-  #if pathData["rightAngle"]<20 or pathData["rightAngle"]>160:
-  #  return;
-  if pathData["rightDis"]>600:
-    setVariableState("leftMotorSpeed", 1)
-    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+  if pathData["horDis"]!=1000000 and pathData["horDis"]<160:
+    print("horizontal line straight ahead!")
+    setVariableState("leftMotorSpeed", 50)
+    setVariableState("rightMotorSpeed", -50)
     return;
   
-  if pathData["rightDis"]>300 and pathData["rightDis"]>=0:
-    #should correct to right
+  if pathData["rightDis"]!=1000000 and pathData["leftDis"]!=1000000:
+    print("both lines")
+    if pathData["leftDis"]<200:
+      print("going right")
+      #should correct to right
+      relativeSpeeds("right", pxToSpeedBoth(pathData["leftDis"]))
+    elif pathData["rightDis"]<200:
+      #should correct to left
+      print("moving to left")
+      relativeSpeeds("left", pxToSpeedBoth(pathData["rightDis"]))
+    else:
+      #should move straight
+      print("moving straight")
+      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+    return;  
+  
+  if pathData["rightDis"]!=1000000 and pathData["leftDis"]==1000000:
+    print("right line")
+  
+    if pathData["rightDis"]>400:
+      print("large distance - Move left")
+      setVariableState("leftMotorSpeed", MIN_MOTOR_SPEED)
+      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+      return;
+    
+    if pathData["rightDis"]>300:
+      print("moving to right")
+      #should correct to right
+      relativeSpeeds("right", pxToSpeed1(pathData["rightDis"]))
+    elif pathData["rightDis"]<200 and pathData["rightDis"]>=-320:
+      #should correct to left
+      print("moving to left")
+      relativeSpeeds("left", pxToSpeedBoth(pathData["rightDis"]))
+    else:
+      #should move straight
+      print("moving straight")
+      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+    return;
+      
+  if pathData["leftDis"]!=1000000 and pathData["rightDis"]==1000000:
+    print("left line")
+    
+    if pathData["leftDis"]>400:
+      print("large distance - Move right")
+      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+      setVariableState("rightMotorSpeed", MIN_MOTOR_SPEED)
+      return;
+    
+    if pathData["leftDis"]>300:
+      print("moving to left")
+      #should correct to left
+      relativeSpeeds("left", pxToSpeed1(pathData["leftDis"]))
+    elif pathData["leftDis"]<200 and pathData["leftDis"]>=-320:
+      #should correct to right
+      print("moving to right")
+      relativeSpeeds("right", pxToSpeedBoth(pathData["leftDis"]))
+    else:
+      #should move straight
+      print("moving straight")
+      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
+      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
+    return;
+  
+  if pathData["leftDis"]==1000000 and pathData["rightDis"]==1000000:
+    print("no lines") 
+    print("moving straight") 
     setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-    setVariableState("rightMotorSpeed", 1)
-  elif pathData["rightDis"]<200 and pathData["rightDis"]>=0:
-    #should correct to right
-    setVariableState("leftMotorSpeed", 1)
-    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-  else:
-    #should correct to right
-    setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-       
+    setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)    
   
 #calls
 main()

@@ -28,7 +28,7 @@ if USE_UART:
     serialPort = serial.Serial(port=PORT, baudrate=BAUDRATE, parity=PARITY, stopbits=STOPBITS,bytesize=BYTESIZE,timeout=0)
     UART_opened = 1
   except serial.SerialException:
-    logToAll("Init ; COM port could not be opened, no UART communication available! ; ", 1)
+    logToAll("Init ; COM port could not be opened, no UART communication available! ; ", -1)
 
 #functions
 def SendUART(inData):
