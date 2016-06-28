@@ -1,4 +1,5 @@
 #include "myserver.h"
+#include "json.h"
 
 MyServer::MyServer(QObject *parent) :
     QTcpServer(parent)
@@ -20,15 +21,18 @@ void MyServer::StartServer(int port)
 void MyServer::incomingConnection(int handle)
 {
     MyClient *client = new MyClient(this->parent());
-    connect(client,SIGNAL(sendNotification(QByteArray,uint)),this,SLOT(sendNotifications(QByteArray,uint)));
+    connect(client,SIGNAL(sendNotification(QVariantMap,uint)),this,SLOT(sendNotifications(QVariantMap,uint)));
     clientList.append(client);
     client->SetSocket(handle);
 }
 
-void MyServer::sendNotifications(QByteArray data, uint verbosity)
+void MyServer::sendNotifications(QVariantMap notification, uint verbosity)
 {
     if(verbosity == 0)
         return;
+
+    notification["jsonrpc"] = "2.0";
+    QByteArray data = QtJson::serialize(notification);
 
     foreach(MyClient *client, clientList)
         if(verbosity & client->verbositylevel)

@@ -120,9 +120,6 @@ void MyTask::processCall(QVariantMap json, QVariantMap &result)
         paramsMap = paramsJSON.toMap();
         busWrite(paramsMap, result);
         break;
-    //case GETCURRENT:
-    //    getCurrent(paramsJSON);
-    //    break;
     case SYSTEM_GETMODE:
         getMode(result);
         break;
@@ -252,13 +249,6 @@ void MyTask::busWrite(QVariantMap &params, QVariantMap &result)
     {
         getError(JSON_PARSEERROR,result);
     }
-}
-
-void MyTask::getCurrent(QVariantMap &result)
-{
-    qDebug() << "TCP: \tGoing to send the current";
-
-    //TODO: implement
 }
 
 void MyTask::getMode(QVariantMap &result)

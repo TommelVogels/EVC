@@ -73,7 +73,7 @@ void MyClient::setMode(uint level)
     sysState.operatingMode = level;
     QVariantMap notification;
     notification["jsonrpc"] = "2.0";
-    notification["subject"] = "System.Mode";
+    notification["method"] = "System.SetMode";
 
     switch(level)
     {
@@ -88,5 +88,5 @@ void MyClient::setMode(uint level)
         break;
     }
 
-    emit sendNotification(QtJson::serialize(notification),V_SYSTEMMODE);
+    emit sendNotification(notification,V_SYSTEMMODE);
 }

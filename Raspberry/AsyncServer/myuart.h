@@ -15,7 +15,7 @@ public:
     explicit MyUART(QObject *parent = 0);
 
 signals:
-    void notification(QByteArray data, uint verbosity = 1);
+    void notification(QVariantMap noti, uint verbosity = 1);
 
 public slots:
     void serialReceived();
