@@ -46,9 +46,8 @@ void Dbus_ext::push(const QByteArray &arg, const quint8 &commandID)
 
 QByteArray Dbus_ext::pop(void)
 {
-    QByteArray pop;
-    pop.append("A501A5A");
-    return pop;
+    InterfaceCollection *ic = qobject_cast<InterfaceCollection *>(this->parent()->parent());
+    return ic->Uart->pop();
 }
 
 void Dbus_ext::SetMotor(const bool &left, const bool &right, const int &l, const int &r)

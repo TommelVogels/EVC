@@ -46,6 +46,14 @@ MyUART::MyUART(QObject *parent) :
     waitingForAck = false;
 }
 
+/** This function should be used to read incomming messages that are queued
+ **/
+QByteArray MyUART::pop()
+{
+    QByteArray dummy;
+    return receivedQueue.size() > 0 ? receivedQueue.dequeue() : dummy;
+}
+
 /** This function is automatically invoked when data is
  ** sent to the raspberry over uart
  **/
@@ -82,6 +90,12 @@ void MyUART::serialReceived()
         //Cut the used part of the received data
         //We need to keep the rest as it might be part of a new message
         receivedData = receivedData.right(receivedData.length() - (idx + len));
+
+        //Add the command to the received queue and dequeue if the size becomes to big
+        receivedQueue.enqueue(com);
+        if(receivedQueue.size() > 255) receivedQueue.dequeue();
+
+        //Allow new command to be sent over UART
         waitingForAck = false;
         writeData();
     } 

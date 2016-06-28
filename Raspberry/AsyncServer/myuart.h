@@ -13,6 +13,7 @@ class MyUART : public QObject
     Q_OBJECT
 public:
     explicit MyUART(QObject *parent = 0);
+    QByteArray pop(void);
 
 signals:
     void notification(QVariantMap noti, uint verbosity = 1);
@@ -32,6 +33,7 @@ private:
     QSerialPort *serialPort;
     QSerialPortInfo *portInfo;
     QQueue<QByteArray> queue;
+    QQueue<QByteArray> receivedQueue;
     QByteArray receivedData;
     QByteArray lastCommand;
     bool waitingForAck;
