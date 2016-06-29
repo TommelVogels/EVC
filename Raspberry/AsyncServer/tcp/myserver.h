@@ -21,7 +21,7 @@ protected:
 signals:
 
 public slots:
-    void sendNotifications(QByteArray data, uint verbosity);
+    void sendNotifications(QVariantMap data, uint verbosity);
     void clientDisconnected();
 };
 

@@ -16,7 +16,6 @@ MyUART::MyUART(QObject *parent) :
     {
         if(serialPortInfo.systemLocation() == "/dev/ttyAMA0")
         {
-            qDebug() << "found";
             serialPort = new QSerialPort(serialPortInfo);
             portInfo = const_cast<QSerialPortInfo*>(&serialPortInfo);
             break;
@@ -47,6 +46,14 @@ MyUART::MyUART(QObject *parent) :
     waitingForAck = false;
 }
 
+/** This function should be used to read incomming messages that are queued
+ **/
+QByteArray MyUART::pop()
+{
+    QByteArray dummy;
+    return receivedQueue.size() > 0 ? receivedQueue.dequeue() : dummy;
+}
+
 /** This function is automatically invoked when data is
  ** sent to the raspberry over uart
  **/
@@ -64,7 +71,10 @@ void MyUART::serialReceived()
     //If the data is to short we cannot do anything with it. It is kept
     //in memory so that combined with future data it hopfully will form a command
     if(receivedData.length() < UART_LENGTH_POS + 1)
+    {
+        timer->start();
         return;
+    }
 
     //The received messages start with 0x5A, followed by the lenght of the message
     //If we have found a start byte, the length of the data and enough bytes to read
@@ -74,12 +84,18 @@ void MyUART::serialReceived()
     if(idx > -1 && len > -1 && receivedData.length() >= idx + len)
     {
         //We found something that looks like a command
-        QByteArray com = receivedData.mid(idx, len);
+        QByteArray com = receivedData.mid(idx, len + UART_OVERHEAD);
         qDebug() << "UART: \tFound command:" << QString(com.toHex());
 
         //Cut the used part of the received data
         //We need to keep the rest as it might be part of a new message
         receivedData = receivedData.right(receivedData.length() - (idx + len));
+
+        //Add the command to the received queue and dequeue if the size becomes to big
+        receivedQueue.enqueue(com);
+        if(receivedQueue.size() > 255) receivedQueue.dequeue();
+
+        //Allow new command to be sent over UART
         waitingForAck = false;
         writeData();
     } 
@@ -87,9 +103,8 @@ void MyUART::serialReceived()
     // future data will complement it to a fully readable command.
     else
     {
+        qDebug() << "UART: \tDid not find a command";
         timer->start();
-        waitingForAck = false;
-        writeData();
     }
 }
 
@@ -116,7 +131,7 @@ void MyUART::queueData(QByteArray data, uint function)
 {
     //If there is no function argument we need at least a data length equal to
     //the position of the command 'overhead', otherwise it cannot be valid
-    if(function == 0 && data.length() < UART_OVERHEAD)
+    if(function == 0 && data.length() < UART_MINLENGTH)
         return;
 
     //If function is defined we format the command.
@@ -198,12 +213,12 @@ void MyUART::fireMissile(bool t1, bool t2, bool all)
     QByteArray dummy;
 
     if(t1 && t2)    queueData(dummy,UART_FIREALLT12);
-    else if(t1)
+    else if(t1) {
         if(all)     queueData(dummy,UART_FIREALLT1);
-        else        queueData(dummy,UART_FIREMISSILET1);
-    else if(t2)
+        else        queueData(dummy,UART_FIREMISSILET1); }
+    else if(t2) {
         if(all)     queueData(dummy,UART_FIREALLT2);
-        else        queueData(dummy,UART_FIREMISSILET2);
+        else        queueData(dummy,UART_FIREMISSILET2); }
 }
 
 void MyUART::setLaser(bool on)
@@ -223,7 +238,7 @@ void MyUART::setLaser(bool on)
 void MyUART::writeData()
 {
     //If we are still awaiting the ack of a previous message we won't do anything now
-    if(/*waitingForAck ||*/ queue.isEmpty() )
+    if(waitingForAck || queue.isEmpty() )
         return;
 
     //We are going to send a new command, hence we get a command from the fifo,
@@ -233,78 +248,103 @@ void MyUART::writeData()
     lastCommand = head;
     qDebug() << "UART: \tGoing to write" << QString(head.toHex()) << "to the bus";
     serialPort->write(head, head.length());
+    timer->start();
 
     //Based on the type of message we will send a notification
-    QVariantMap json;
-    json["jsonrpc"] = "2.0";
-    json["direction"] = "RA";
-    json["source"] = "UART";
+    QVariantMap noti;
+    noti["direction"] = "RA";
+    noti["source"] = "UART";
     uint verbosity = 0;
 
     quint8 function = head[UART_COMMANDID_POS];
     switch(function)
     {
     case UART_FIREALLT1:
-        json["method"] = "fireAllT1";
+        noti["method"] = "Turret.FireMissile";
+        noti["turret"] = 1;
+        noti["amount"] = "all";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT2:
-        json["method"] = "fireAllT2";
+        noti["method"] = "Turret.FireMissile";
+        noti["turret"] = 2;
+        noti["amount"] = "all";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREALLT12:
-        json["method"] = "fireAllT12";
+        noti["method"] = "Turret.FireMissile";
+        noti["turret"] = 12;
+        noti["amount"] = "all";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET1:
-        json["method"] = "fireMissileT1";
+        noti["method"] = "Turret.FireMissile";
+        noti["turret"] = 1;
+        noti["amount"] = "one";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FIREMISSILET2:
-        json["method"] = "fireMissileT2";
+        noti["method"] = "Turret.FireMissile";
+        noti["turret"] = 2;
+        noti["amount"] = "one";
         verbosity = V_TURRETMISSILE;
         break;
     case UART_FLIPLASER:
-        json["method"] = "flipLaser";
+        noti["method"] = "Turret.SetLaser";
+        noti["on"] = head[UART_DATA_POS] ? true : false;
         verbosity = V_TURRETLASER;
         break;
     case UART_LEFTMOTORSPEED:
-        json["method"] = "leftMotorSpeed";
+        noti["method"] = "Motor.SetMotor";
+        if(head[UART_DATA_POS])
+        noti["left"] = head[UART_DATA_POS] ?
+                       head[UART_DATA_POS + 1] :
+                     - head[UART_DATA_POS + 1] ;
         verbosity = V_MOTORSPEED;
         break;
     case UART_RESETPERIPHERALS:
-        json["method"] = "resetPeripherals";
+        noti["method"] = "resetPeripherals";
         break;
     case UART_RIGHTMOTORSPEED:
-        json["method"] = "rightMotorSpeed";
+        noti["method"] = "Motor.SetMotor";
+        noti["right"] = head[UART_DATA_POS] ?
+                        head[UART_DATA_POS + 1] :
+                      - head[UART_DATA_POS + 1] ;
         verbosity = V_MOTORSPEED;
         break;
     case UART_BOTHMOTORSPEED:
-        json["method"] = "bothMotorSpeed";
+        noti["method"] = "Motor.SetMotor";
+        noti["left"]  = head[UART_DATA_POS]     ?
+                        head[UART_DATA_POS + 1] :
+                      - head[UART_DATA_POS + 1] ;
+        noti["right"] = head[UART_DATA_POS + 2] ?
+                        head[UART_DATA_POS + 3] :
+                      - head[UART_DATA_POS + 3] ;
         verbosity = V_MOTORSPEED;
         break;
-    case UART_TESTSEQUENCE:
-        json["method"] = "testSequence";
-        break;
     case UART_TURRETHORIZONTAL:
-        json["method"] = "turretHorizontal";
+        noti["method"] = "Turret.SetAngle";
+        noti["horizontal"] = (int)head[UART_DATA_POS];
         verbosity = V_TURRETANGLE;
         break;
     case UART_TURRETVERTICAL:
-        json["method"] = "turretVertical";
+        noti["method"] = "Turret.SetAngle";
+        noti["vertical"] = (int)head[UART_DATA_POS];
         verbosity = V_TURRETANGLE;
         break;
     case UART_TURRETBOTHDIRS:
-        json["method"] = "turretBothAngles";
+        noti["method"] = "Turret.SetAngle";
+        noti["horizontal"] = (int)head[UART_DATA_POS];
+        noti["vertical"]   = (int)head[UART_DATA_POS + 1];
         verbosity = V_TURRETANGLE;
         break;
 
     default:
-        json["method"] = "unknown";
+        noti["method"] = "unknown";
         verbosity = V_REMAINING;
         break;
     }
 
-    json["data"] = QString(head.mid(UART_DATA_POS,head.length()-UART_OVERHEAD).toHex());
-    emit notification(QtJson::serialize(json), verbosity);
+    noti["data"] = QString(head.mid(UART_DATA_POS,head.length()-UART_MINLENGTH).toHex());
+    emit notification(noti, verbosity);
 }

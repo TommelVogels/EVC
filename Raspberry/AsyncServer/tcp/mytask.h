@@ -40,7 +40,6 @@ private:
     void setMode(QVariantMap &params, QVariantMap &result);
     void busWrite(QVariantMap &params, QVariantMap &result);
     void setVerbose(QVariantList &params, QVariantMap &result);
-    void getCurrent(QVariantMap &result);
     void getMode(QVariantMap &result);
     void setMotor(QVariantMap &params, QVariantMap &result);
     void setTurretAngle(QVariantMap &params, QVariantMap &result);

@@ -51,7 +51,8 @@ enum EuartInfo{
     UART_LENGTH_POS         = 1,
     UART_COMMANDID_POS      = 2,
     UART_DATA_POS           = 3,
-    UART_OVERHEAD           = 5,
+    UART_OVERHEAD           = 4,
+    UART_MINLENGTH          = 5,
 
     UART_STARTBYTE          = 0xA5,
     UART_STOPBYTE           = 0x5A,
