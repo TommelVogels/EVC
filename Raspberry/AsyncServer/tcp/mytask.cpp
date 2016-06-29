@@ -271,7 +271,7 @@ void MyTask::setMotor(QVariantMap &params, QVariantMap &result)
 {
     bool paramError = false;
     bool left_ok = false, right_ok = false;
-    int left, right;
+    int left = 0, right = 0;
     QString checkstr;
 
     checkstr = params["left"].toString();
@@ -303,7 +303,7 @@ void MyTask::setTurretAngle(QVariantMap &params, QVariantMap &result)
 {
     bool paramError = false;
     bool hori_ok = false, vert_ok = false;
-    int hori, vert;
+    int hori = 0, vert = 0;
     QString checkstr;
 
     checkstr = params["horizontal"].toString();
