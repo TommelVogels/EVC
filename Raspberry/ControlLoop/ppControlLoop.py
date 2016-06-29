@@ -7,6 +7,7 @@
 #include dependencies
 import math
 import time
+import pp
 
 from Debugging.Debug  import logToAll
 from Parameters.Parameters import setVariableState
@@ -28,8 +29,24 @@ from ImageProcessing.FrameFetch  import camera
 from ImageProcessing.FrameFetch  import rawCapture
 import cv2
 
+## PP ##
+from ImageProcessing.PathRecognition.PathRecognition  import hough
+from ImageProcessing.PathRecognition.PathRecognition  import sortBy
+from ImageProcessing.PathRecognition.PathRecognition import findClosestRightLineDistance
+from ImageProcessing.PathRecognition.PathRecognition import findClosestLeftLineAngle
+from ImageProcessing.PathRecognition.PathRecognition import findClosestRightLineAngle
+from ImageProcessing.PathRecognition.PathRecognition import findClosestLeftLineDistance
+from ImageProcessing.PathRecognition.PathRecognition import perp
+from ImageProcessing.PathRecognition.PathRecognition import seg_intersect
+from ImageProcessing.PathRecognition.PathRecognition import findHorizontalLine
+
+
+
 #variables
 desiredMotorSpeed = 255
+
+ppservers = ()
+job_server = pp.Server(2, ppservers=ppservers)
 
 #functions
 def main():
@@ -41,7 +58,7 @@ def main():
     t1 = time.time()
     image = (frame.array)
     image = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
-    top = image[0:240,0:640]
+    top = image[120:360,0:640]
     bottom = image[250:480,0:640]
     rawCapture.truncate(0)
     t2 = time.time()
@@ -56,12 +73,16 @@ def main():
     #  print("response for left motor")
     #frame = getFrame();
     
+    ##PP here
+    
+    #job1 = job_server.submit(findPath, (frameCut[1],), (hough,sortBy,findClosestRightLineDistance,findClosestLeftLineAngle,findClosestRightLineAngle,findClosestLeftLineDistance,perp,seg_intersect,findHorizontalLine,), ("cv2","time","numpy", "math",)) 
+    #pathData = job1()
+    
     pathData = findPath(frameCut[1])
-    signData,coords = findSigns(frameCut[0])
+    signData = findSigns(frameCut[0])
     
 
     print(str(pathData))
-    print("coords:", coords)
     
     setVariableState("sign", signData)
     
@@ -100,10 +121,6 @@ STATE_UTURN         = 5 #define 5: uturn
 stop_time = 0
 STOP_WAIT_TIME = 10   
 
-#uturn defines
-uturn_time = 0
-UTURN_WAIT_TIME = 6
-
 #go straight / follow defines
 MIN_MOTOR_SPEED = 0
 MAX_MOTOR_SPEED = 50
@@ -122,49 +139,36 @@ def relativeSpeeds(direction, speed):
     motorFast = "rightMotorSpeed"
     motorSlow = "leftMotorSpeed"
   
-  # if speed==1:
-    # setVariableState(motorFast, 100)
-    # setVariableState(motorSlow, 5)
-  # elif speed==2:
-    # setVariableState(motorFast, 70)
-    # setVariableState(motorSlow, 5)  
-  # elif speed==3:
-    # setVariableState(motorFast, 50)
-    # setVariableState(motorSlow, 5) 
-  # elif speed==4:
-    # setVariableState(motorFast, 20)
-    # setVariableState(motorSlow, 5) 
-  
   if speed==1:
-    setVariableState(motorFast, 5)
+    setVariableState(motorFast, 50)
     setVariableState(motorSlow, 0)
   elif speed==2:
-    setVariableState(motorFast, 5)
+    setVariableState(motorFast, 20)
     setVariableState(motorSlow, 0)  
   elif speed==3:
-    setVariableState(motorFast, 5)
-    setVariableState(motorSlow, 0) 
+    setVariableState(motorFast, 50)
+    setVariableState(motorSlow, 5) 
   elif speed==4:
-    setVariableState(motorFast, 5)
-    setVariableState(motorSlow, 0) 
+    setVariableState(motorFast, 20)
+    setVariableState(motorSlow, 5) 
 
 signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
 
 SIGN_DETECTED_INCREMENT = 1
-SIGN_NOT_DETECTED_DECREMENT = 0.1
-SIGN_DETECTED_CONFIDENCE = 2
+SIGN_NOT_DETECTED_DECREMENT = 0.25
+SIGN_DETECTED_CONFIDENCE = 3
 
 def IncrementSignConfidence(signDetected):
   if signCounts["Stop"]>0:
-    signCounts["Stop"] = signCounts["Stop"] - SIGN_NOT_DETECTED_DECREMENT
+    signCounts["Stop"] = signCounts["Stop"] + SIGN_NOT_DETECTED_DECREMENT
   if signCounts["Left"]>0:
-    signCounts["Left"] = signCounts["Left"] - SIGN_NOT_DETECTED_DECREMENT
+    signCounts["Left"] = signCounts["Left"] + SIGN_NOT_DETECTED_DECREMENT
   if signCounts["Right"]>0:
-    signCounts["Right"] = signCounts["Right"] - SIGN_NOT_DETECTED_DECREMENT
+    signCounts["Right"] = signCounts["Right"] + SIGN_NOT_DETECTED_DECREMENT
   if signCounts["Straight"]>0:
-    signCounts["Straight"] = signCounts["Straight"] - SIGN_NOT_DETECTED_DECREMENT
+    signCounts["Straight"] = signCounts["Straight"] + SIGN_NOT_DETECTED_DECREMENT
   if signCounts["Uturn"]>0:
-    signCounts["Uturn"] = signCounts["Uturn"] - SIGN_NOT_DETECTED_DECREMENT
+    signCounts["Uturn"] = signCounts["Uturn"] + SIGN_DETECTED_INCREMENT
     
   if signDetected==1:
    signCounts["Stop"] = signCounts["Stop"] + SIGN_DETECTED_INCREMENT
@@ -178,131 +182,61 @@ def IncrementSignConfidence(signDetected):
    signCounts["Uturn"] = signCounts["Uturn"] + SIGN_DETECTED_INCREMENT
 
 def validSign(sign):
-  global signCounts
   if signCounts[sign]>SIGN_DETECTED_CONFIDENCE:
-    signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
     return True
   else:
     return False
-
-NUMBER_OF_MISSED_SIGNS = 5
-NUMBER_OF_MISSED_SIGNS_UTURN = 2
-numSigns = NUMBER_OF_MISSED_SIGNS
-
+   
 def runStateActions(signDetected, pathData):
-  global numSigns
-  global uturn_time
-  global stop_time
-    
   if getVariableState("control_state") == STATE_FOLLOW_PATH:
     followPath(pathData)
   elif getVariableState("control_state") == STATE_TURNING_LEFT:
     logToAll("runStateActions ; STATE_TURNING_LEFT ; ",4)
   elif getVariableState("control_state") == STATE_TURNING_RIGHT:
-    logToAll("runStateActions ; STATE_TURNING_RIGHT ; ",0)
-    
-    if signDetected!=1 and numSigns!=0:
-     numSigns=numSigns-1
-     
-     if numSigns==0:
-      stop_time = time.time()
-     
-    elif numSigns!=0 and numSigns<NUMBER_OF_MISSED_SIGNS:
-      numSigns=numSigns+1
-     
-    if numSigns!=0:
-      followPath(pathData)  
-    else:
-      if turnRightDistance(pathData):
-        setVariableState("control_state", STATE_FOLLOW_PATH)
-    
-  elif getVariableState("control_state") == STATE_STOP:
-  
-    if signDetected!=1 and numSigns!=0:
-     numSigns=numSigns-1
-     
-     if numSigns==0:
-      global stop_time
-      stop_time = time.time()
-     
-    elif numSigns!=0 and numSigns<NUMBER_OF_MISSED_SIGNS:
-      numSigns=numSigns+1
-     
-    if numSigns!=0:
-      followPath(pathData)  
-    else:
-      stop()
-    
+    logToAll("runStateActions ; STATE_TURNING_RIGHT ; ",4)
+  elif getVariableState("control_state") == STATE_STOP:   
+    stop()
   elif getVariableState("control_state") == STATE_GO_STRAIGHT:
     followPath(pathData)
   elif getVariableState("control_state") == STATE_UTURN:
-    
-    if signDetected!=5 and numSigns!=0:
-     numSigns=numSigns-1
-     
-     if numSigns==0:
-      uturn_time = time.time()
-     
-    elif numSigns!=0 and numSigns<NUMBER_OF_MISSED_SIGNS_UTURN:
-      numSigns=numSigns+1
-     
-    if numSigns!=0:
-      followPath(pathData)  
-    else:
-      uturn()
+    logToAll("runStateActions ; STATE_UTURN ; ",4)
   
   changeStateActions(signDetected)
 
 def changeStateActions(signDetected): 
-  global signCounts
-  global numSigns
-  global stop_time
-  global uturn_time
-    
-  IncrementSignConfidence(signDetected)
-  print(signCounts)
-  
-
   if getVariableState("control_state") == STATE_FOLLOW_PATH:
-    logToAll("changeStateActions ; STATE_FOLLOW_PATH ; "+str(signDetected),0)
+    logToAll("changeStateActions ; STATE_FOLLOW_PATH ; ",4)
+    
+    IncrementSignConfidence(signDetected)
     
     if validSign("Stop"):
-      numSigns = NUMBER_OF_MISSED_SIGNS
-      setVariableState("control_state", STATE_STOP)    
-    elif validSign("Left"):
-      setVariableState("control_state", STATE_TURNING_LEFT)
-    elif validSign("Right"):
-      numSigns = NUMBER_OF_MISSED_SIGNS
-      setVariableState("control_state", STATE_TURNING_RIGHT)
+      setVariableState("control_state", STATE_STOP)
+      
+      global stop_time
+      stop_time = time.time()
+    
+    #elif validSign("Left"):
+      #setVariableState("control_state", STATE_TURNING_LEFT)
+    #elif validSign("Right"):
+      #setVariableState("control_state", STATE_TURNING_RIGHT)
     elif validSign("Straight"):
       setVariableState("control_state", STATE_GO_STRAIGHT)
-    elif validSign("Uturn"):
-      numSigns = NUMBER_OF_MISSED_SIGNS_UTURN
-      setVariableState("control_state", STATE_UTURN)
+    #elif validSign("Uturn"):
+      #setVariableState("control_state", STATE_UTURN)
       
   elif getVariableState("control_state") == STATE_GO_STRAIGHT:
-    logToAll("changeStateActions ; STATE_GO_STRAIGHT ; ",0)
+    logToAll("changeStateActions ; STATE_GO_STRAIGHT ; ",4)
     
     setVariableState("control_state", STATE_FOLLOW_PATH)
-  
-  elif getVariableState("control_state") == STATE_UTURN:
-    logToAll("changeStateActions ; STATE_UTURN ; ",0)
-    
-    if numSigns==0:
-      if (uturn_time + UTURN_WAIT_TIME) < time.time():
-        signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
-        setVariableState("control_state", STATE_FOLLOW_PATH)
     
   elif getVariableState("control_state") == STATE_STOP:
-    logToAll("changeStateActions ; STATE_STOP ; ",0)
-    if numSigns==0:
-      global stop_time
-      if (stop_time + STOP_WAIT_TIME) < time.time():
-        signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
-        setVariableState("control_state", STATE_FOLLOW_PATH)
+    logToAll("changeStateActions ; STATE_STOP ; ",4)
+    
+    if (stop_time + STOP_WAIT_TIME) < time.time():
+      setVariableState("control_state", STATE_FOLLOW_PATH)
    
 def stop():
-  logToAll("stop ; STATE_STOP ; ",0)
+  logToAll("stop ; STATE_STOP ; ",4)
   setVariableState("leftMotorSpeed", 0)
   setVariableState("rightMotorSpeed", 0)
    
@@ -312,11 +246,6 @@ def followPath(pathData):
   distance = {"rightDis": pathData["RightLine"][4],"rightAngle": pathData["RightLine"][5],"leftDis":pathData["LeftLine"][4],"horDis":pathData["horizontalLine"][4]}
   
   followPathDistance(distance)
-
-def uturn():
-  logToAll("stop ; STATE_UTURN ; ",0)
-  setVariableState("leftMotorSpeed", 5)
-  setVariableState("rightMotorSpeed", -5)
   
 def pxToSpeedBoth(pixels):
   if pixels>180:
@@ -338,42 +267,10 @@ def pxToSpeed1(pixels):
   else:
    return 1
 
-def turnRightDistance(pathData2):
-  pathData={"rightDis":pathData2["RightLine"][4]};
-
-  if pathData["rightDis"]!=1000000:
-    print("right line")
-    
-    if pathData["rightDis"]>400:
-      print("large distance - Move right")
-      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-      setVariableState("rightMotorSpeed", MIN_MOTOR_SPEED)
-      return;
-    
-    if pathData["rightDis"]>300:
-      print("moving to right")
-      #should correct to right
-      relativeSpeeds("right", pxToSpeed1(pathData["rightDis"]))
-    elif pathData["rightDis"]<200 and pathData["rightDis"]>=-320:
-      #should correct to left
-      print("moving to left")
-      relativeSpeeds("left", pxToSpeedBoth(pathData["rightDis"]))
-    else:
-      #should move straight
-      print("moving straight")
-      setVariableState("leftMotorSpeed", MAX_MOTOR_SPEED)
-      setVariableState("rightMotorSpeed", MAX_MOTOR_SPEED)
-    return False;
-  else:
-    print("no left going right")
-    relativeSpeeds("right", pxToSpeed1(380))
-    return True
-        
-
 def followPathDistance(pathData):
   logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
   
-  if 0==1 and pathData["horDis"]!=1000000 and pathData["horDis"]<160:
+  if pathData["horDis"]!=1000000 and pathData["horDis"]<160:
     print("horizontal line straight ahead!")
     setVariableState("leftMotorSpeed", 0)
     setVariableState("rightMotorSpeed", 0)
