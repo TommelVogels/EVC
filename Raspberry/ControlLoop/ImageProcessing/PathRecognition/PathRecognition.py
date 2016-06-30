@@ -18,7 +18,7 @@ from Debugging.Debug  import logToAll
 
 ## PP ##
 TilesLower = (0,0,20)
-TilesUpper = (255,255,80)
+TilesUpper = (255,255,100)
 
 #functions
 
@@ -60,7 +60,7 @@ def findClosestRightLineAngle(lines, middle):
   return [0,0,0,0,1000]
   
 def findHorizontalLine(lines):
-  lineData = [0,0,0,0,1000]
+  lineData = [0,0,0,0,1000000]
   maxY=0
   for x in range(0, len(lines)):
     x1=lines[x][0]

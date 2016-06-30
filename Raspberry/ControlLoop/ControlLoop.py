@@ -1,3 +1,4 @@
+#!/home/pi/.virtualenvs/cv/bin/python
 # ControlLoop.py
 # Main application and entry point
 
@@ -16,8 +17,8 @@ from Communication.CommandEncoder  import DecodeCmd
 from Communication.CommandEncoder  import EncodeCmd
 from Communication.CommunicationBuffer  import PopCmd
 from Communication.CommunicationBuffer  import PushCmd
-from Communication.CommunicationBuffer  import SendCmds
-from Communication.CommunicationBuffer  import ReceiveCmds
+#from Communication.CommunicationBuffer  import SendCmds
+#from Communication.CommunicationBuffer  import ReceiveCmds
 
 from Communication.Commands.Commands  import CommandType
 
@@ -30,6 +31,9 @@ import cv2
 
 #variables
 desiredMotorSpeed = 255
+
+current_time = 0
+SENSOR_TIME = 1
 
 #functions
 def main():
@@ -50,22 +54,27 @@ def main():
       
     cmd = PopCmd()
     
+    if (current_time + SENSOR_TIME) < time.time():
+      PushCmd(CommandType.BATTERY_CURRENT,bytearray(0))
+      PushCmd(CommandType.SYSTEM_CURRENT,bytearray(0))
+      
+    
     #time.sleep(1)
     
-    #if cmd["cmdID"] == CommandType.BOTH_MOTOR_SPEED:
-    #  print("response for left motor")
+    if cmd["cmdID"] == CommandType.BATTERY_CURRENT:
+      print("response for left motor")
     #frame = getFrame();
     
     pathData = findPath(frameCut[1])
     signData,coords = findSigns(frameCut[0])
     
-
-    print(str(pathData))
-    print("coords:", coords)
+    aim(signData,coords)
     
     setVariableState("sign", signData)
     
-    runStateActions(signData,pathData)    
+    print(pathData)
+    
+    runStateActions(signData,coords,pathData)    
 	
     # send motor speeds
 	
@@ -115,6 +124,37 @@ SEARCH_SPEED_SLOW = 0
 lost_search_time = 0
 lost_search_attempt = 0
 
+def aim(signData,coords):
+  if signData!=0:
+    x = int(91-(91-46)/640.0*coords[0])
+    y = int(95-(95-30)/240.0*coords[1])
+    speedData = bytearray([x,y])
+    PushCmd(CommandType.TURRET_BOTH_ANGLE,speedData)
+    PushCmd(CommandType.TURRET_LASER_SET,bytearray([1]))
+  else:
+    PushCmd(CommandType.TURRET_LASER_SET,bytearray([0]))
+
+firedMissiles = 0    
+def fire(signData,coords):
+  global firedMissiles
+  print(coords[2])
+  if signData!=0 and coords[2]>80:
+    x = int(91-(91-46)/640.0*coords[0])
+    y = int(100-(80-30)/240.0*coords[1])
+    speedData = bytearray([x,y])
+    PushCmd(CommandType.TURRET_BOTH_ANGLE,speedData)
+    PushCmd(CommandType.TURRET_LASER_SET,bytearray([1]))
+    print("firing turret")
+    if firedMissiles%2==0:
+     PushCmd(CommandType.TURRET_FIRE_1,bytearray(0))
+    else:
+      PushCmd(CommandType.TURRET_FIRE_2,bytearray(0))
+    firedMissiles = firedMissiles+1
+  else:
+    PushCmd(CommandType.TURRET_LASER_SET,bytearray([0]))
+    print("not firing turret")
+ 
+
 def relativeSpeeds(direction, speed):
   motorFast="leftMotorSpeed"
   motorSlow="rightMotorSpeed"
@@ -139,14 +179,14 @@ def relativeSpeeds(direction, speed):
     setVariableState(motorFast, 5)
     setVariableState(motorSlow, 0)
   elif speed==2:
-    setVariableState(motorFast, 5)
-    setVariableState(motorSlow, 0)  
+    setVariableState(motorFast, 100)
+    setVariableState(motorSlow, 5)  
   elif speed==3:
-    setVariableState(motorFast, 5)
-    setVariableState(motorSlow, 0) 
+    setVariableState(motorFast, 50)
+    setVariableState(motorSlow, 5) 
   elif speed==4:
-    setVariableState(motorFast, 5)
-    setVariableState(motorSlow, 0) 
+    setVariableState(motorFast, 50)
+    setVariableState(motorSlow, 10) 
 
 signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
 
@@ -185,40 +225,36 @@ def validSign(sign):
   else:
     return False
 
+SIGN_DISCARD_SIZE = 110
 NUMBER_OF_MISSED_SIGNS = 5
 NUMBER_OF_MISSED_SIGNS_UTURN = 2
 numSigns = NUMBER_OF_MISSED_SIGNS
 
-def runStateActions(signDetected, pathData):
+def runStateActions(signDetected, coords, pathData):
   global numSigns
   global uturn_time
   global stop_time
+  global turn_time
     
   if getVariableState("control_state") == STATE_FOLLOW_PATH:
     followPath(pathData)
   elif getVariableState("control_state") == STATE_TURNING_LEFT:
-    logToAll("runStateActions ; STATE_TURNING_LEFT ; ",4)
-  elif getVariableState("control_state") == STATE_TURNING_RIGHT:
-    logToAll("runStateActions ; STATE_TURNING_RIGHT ; ",0)
-    
-    if signDetected!=1 and numSigns!=0:
-     numSigns=numSigns-1
-     
-     if numSigns==0:
-      stop_time = time.time()
-     
-    elif numSigns!=0 and numSigns<NUMBER_OF_MISSED_SIGNS:
-      numSigns=numSigns+1
-     
-    if numSigns!=0:
-      followPath(pathData)  
+  
+    if pathData["horizontalLine"][4]==1000000 or pathData["horizontalLine"][4]>100:
+      followPath(pathData)
     else:
-      if turnRightDistance(pathData):
-        setVariableState("control_state", STATE_FOLLOW_PATH)
+      turnLeft()    
+      
+  elif getVariableState("control_state") == STATE_TURNING_RIGHT:
     
+    if pathData["horizontalLine"][4]==1000000 or pathData["horizontalLine"][4]>100:
+      followPath(pathData)
+    else:
+      turnRight()    
+      
   elif getVariableState("control_state") == STATE_STOP:
   
-    if signDetected!=1 and numSigns!=0:
+    if (signDetected!=1 and numSigns!=0)  or (signDetected==1 and coords[2]>SIGN_DISCARD_SIZE and numSigns!=0):
      numSigns=numSigns-1
      
      if numSigns==0:
@@ -237,7 +273,7 @@ def runStateActions(signDetected, pathData):
     followPath(pathData)
   elif getVariableState("control_state") == STATE_UTURN:
     
-    if signDetected!=5 and numSigns!=0:
+    if (signDetected!=5 and numSigns!=0) or (signDetected==5 and coords[2]>SIGN_DISCARD_SIZE and numSigns!=0):
      numSigns=numSigns-1
      
      if numSigns==0:
@@ -251,13 +287,14 @@ def runStateActions(signDetected, pathData):
     else:
       uturn()
   
-  changeStateActions(signDetected)
+  changeStateActions(signDetected,coords)
 
-def changeStateActions(signDetected): 
+def changeStateActions(signDetected,coords): 
   global signCounts
   global numSigns
   global stop_time
   global uturn_time
+  global turn_time
     
   IncrementSignConfidence(signDetected)
   print(signCounts)
@@ -268,23 +305,69 @@ def changeStateActions(signDetected):
     
     if validSign("Stop"):
       numSigns = NUMBER_OF_MISSED_SIGNS
+      fire(signDetected,coords)
       setVariableState("control_state", STATE_STOP)    
     elif validSign("Left"):
+      fire(signDetected,coords)
       setVariableState("control_state", STATE_TURNING_LEFT)
     elif validSign("Right"):
-      numSigns = NUMBER_OF_MISSED_SIGNS
+      fire(signDetected,coords)
       setVariableState("control_state", STATE_TURNING_RIGHT)
     elif validSign("Straight"):
+      fire(signDetected,coords)
       setVariableState("control_state", STATE_GO_STRAIGHT)
     elif validSign("Uturn"):
       numSigns = NUMBER_OF_MISSED_SIGNS_UTURN
+      fire(signDetected,coords)
       setVariableState("control_state", STATE_UTURN)
       
   elif getVariableState("control_state") == STATE_GO_STRAIGHT:
     logToAll("changeStateActions ; STATE_GO_STRAIGHT ; ",0)
     
     setVariableState("control_state", STATE_FOLLOW_PATH)
-  
+    
+  elif getVariableState("control_state") == STATE_TURNING_RIGHT:
+    logToAll("turnRight ; STATE_TURN_RIGHT ; ",0)
+    
+    if validSign("Stop"):
+      numSigns = NUMBER_OF_MISSED_SIGNS
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_STOP)    
+    elif validSign("Left"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_TURNING_LEFT)
+    elif validSign("Right"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_TURNING_RIGHT)
+    elif validSign("Straight"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_GO_STRAIGHT)
+    elif validSign("Uturn"):
+      numSigns = NUMBER_OF_MISSED_SIGNS_UTURN
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_UTURN)
+
+  elif getVariableState("control_state") == STATE_TURNING_LEFT:
+    logToAll("turnLeft ; STATE_TURNING_LEFT ; ",0)
+    
+    if validSign("Stop"):
+      numSigns = NUMBER_OF_MISSED_SIGNS
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_STOP)    
+    elif validSign("Left"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_TURNING_LEFT)
+    elif validSign("Right"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_TURNING_RIGHT)
+    elif validSign("Straight"):
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_GO_STRAIGHT)
+    elif validSign("Uturn"):
+      numSigns = NUMBER_OF_MISSED_SIGNS_UTURN
+      fire(signDetected,coords)
+      setVariableState("control_state", STATE_UTURN)
+      
   elif getVariableState("control_state") == STATE_UTURN:
     logToAll("changeStateActions ; STATE_UTURN ; ",0)
     
@@ -300,12 +383,20 @@ def changeStateActions(signDetected):
       if (stop_time + STOP_WAIT_TIME) < time.time():
         signCounts = {"Stop":0,"Left":0,"Right":0,"Straight":0,"Uturn":0}
         setVariableState("control_state", STATE_FOLLOW_PATH)
-   
+
 def stop():
   logToAll("stop ; STATE_STOP ; ",0)
   setVariableState("leftMotorSpeed", 0)
   setVariableState("rightMotorSpeed", 0)
-   
+  
+def turnRight():
+  setVariableState("leftMotorSpeed", 5)
+  setVariableState("rightMotorSpeed", -5)
+
+def turnLeft():
+  setVariableState("leftMotorSpeed", -5)
+  setVariableState("rightMotorSpeed", 5)
+  
 def followPath(pathData):
   logToAll("followPath ; STATE_FOLLOW_PATH | STATE_GO_STRAIGHT ; ",4)
   

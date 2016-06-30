@@ -26,17 +26,21 @@ import time
 #functions
 # initialize the camera and grab a reference to the raw camera capture  
 
-BlueLower = (95, 75, 4)     
-BlueUpper = (130, 255, 255)
+BlueLower = (100,86,85) ##BlueLower = (100, 86, 6)
+BlueUpper = (125,164,255)##BlueUpper = (125, 255, 255)
+##
+RedLower = (158,100,67)
+RedUpper = (191,255,255)
+##RedLower = (170, 136, 130)
+##RedUpper = (190, 255, 255)
+##
+YellowLower = (10,88,95)
+YellowUpper= (20,255,255)
+##YellowLower = (10, 130, 130)
+##YellowUpper = (15, 255, 255)
 
-#BlueLower = (100, 86, 6)
-#BlueUpper = (125, 255, 255)
 
-RedLower = (170, 136, 130)
-RedUpper = (190, 255, 255)
 
-YellowLower = (10, 80, 100)
-YellowUpper = (40, 255, 255)
 
 fileName =  __file__.replace("SignDetection.pyc","").replace("SignDetection.py","")
 
@@ -114,7 +118,7 @@ def findSigns(frame):
         if key == ord("q"):
           break
         stri = colordetection2(image)
-        print(str(stri))
+        #print(str(stri))
     vid.release()
     cv2.destroyAllWindows()
     
@@ -143,12 +147,14 @@ def colordetection2(frame):
   # a series of dilations and erosions to remove any small
   # blobs left in the mask
   mask1 = cv2.inRange(hsv, RedLower, RedUpper)
-  mask_red = cv2.dilate(mask1, None, iterations=10)   #multiple dilations/erosions due to STOP-word implying 2 blobs
-  mask_red = cv2.erode(mask_red, None, iterations=10)
   mask2 = cv2.inRange(hsv, BlueLower, BlueUpper)
+  mask12 = mask1 | mask2
+  mask12 = cv2.dilate(mask12, None, iterations=10)   #multiple dilations/erosions due to STOP-word implying 2 blobs #same for blue
+  mask12 = cv2.erode(mask12, None, iterations=10)
+  #mask2 = cv2.inRange(hsv, BlueLower, BlueUpper)
   mask3 = cv2.inRange(hsv, YellowLower, YellowUpper)
   
-  mask = mask_red | mask2 | mask3
+  mask = mask12 | mask3
   mask = cv2.dilate(mask, None, iterations=3)
   mask = cv2.erode(mask, None, iterations=3)
 
@@ -165,6 +171,7 @@ def colordetection2(frame):
 
   # only proceed if at least one contour was found
   prval = False
+  white2 = -1
   if len(cnts) > 0:
     # find the largest contour in the mask, then use
     # it to compute the minimum enclosing circle and
@@ -212,20 +219,18 @@ def colordetection2(frame):
         if xr2 > 640:
           xr2 = 640
           
-        print ("height: ", h)
-          
-#          print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2)
+#          print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2) 
           
 #          roi = image[yr:yr2,xr:xr2]
-        roi = mask2[yr:yr2,xr:xr2]
+        roi = mask1[yr:yr2,xr:xr2]
         
        # print cv2.countNonZero(roi)
         if cv2.countNonZero(roi) > 1000:
-          color = "blue"
+          color = "red"
         else:
-          roi = mask1[yr:yr2,xr:xr2]
+          roi = mask2[yr:yr2,xr:xr2]
           if cv2.countNonZero(roi) > 1000:
-            color = "red"
+            color = "blue"
           else:
             roi = mask3[yr:yr2,xr:xr2] 
             if cv2.countNonZero(roi) > 1000:
@@ -277,39 +282,59 @@ def colordetection2(frame):
           #check if approx circle:
           check = cv2.bitwise_and(roi,circle_and_100)
           white_check = cv2.countNonZero(check)
-          print "white:" , white_check
           if white_check < (0.3*2272):        #threshold for circle check
-            
-            result = cv2.bitwise_xor(roi,right_xor)                        
-            white2 = cv2.countNonZero(result)
-            if white2 < 1500:            #threshold for arrowcheck
-              prval = True
+            if h >= 100:
+              result = cv2.bitwise_xor(roi,right_xor)                        
+              white2 = cv2.countNonZero(result)
+              if white2 < 1500:            #threshold for arrowcheck
+                prval = True
+                white = white2
+                i = 3
+                sign="right"
+                break
+                
+              if sign == "":
+                result = cv2.bitwise_xor(roi,left_xor)
+                white2 = cv2.countNonZero(result)
+                if white2 < 1500:
+                  prval = True
+                  white = white2
+                  i = 2
+                  sign="left"
+                  break
+                  
+              if sign == "":
+                result = cv2.bitwise_xor(roi,straight_xor)
+                white2 = cv2.countNonZero(result)
+                if white2 < 1500:
+                  prval = True
+                  white = white2
+                  i = 4
+                  sign="straight"
+                  break
+            else:
+              result = cv2.bitwise_xor(roi,right_xor)                        
+              white2 = cv2.countNonZero(result)
               white = white2
+              sign = "right"
               i = 3
-              sign="right"
-              break
               
-            if sign == "":
               result = cv2.bitwise_xor(roi,left_xor)
               white2 = cv2.countNonZero(result)
-              if white2 < 1500:
-                prval = True
+              if white2 < white:
                 white = white2
+                sign = "left"
                 i = 2
-                sign="left"
-                break
                 
-            if sign == "":
               result = cv2.bitwise_xor(roi,straight_xor)
-              white2 = cv2.countNonZero(result)
-              if white2 < 1500:
-                prval = True
+              white3 = cv2.countNonZero(result)
+              if white2 < white:
                 white = white2
-                i = 4
                 sign="straight"
-                break
-                
-              print "white:", white, "i:", i
+                i = 4
+              
+              prval = True
+              break
           
         elif color == "yellow":  
           result = cv2.bitwise_xor(roi,uturn_xor)
@@ -322,14 +347,12 @@ def colordetection2(frame):
             break
         
     if prval:
-      cv2.putText(image, color+":"+sign+":"+str(h)+":"+str(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
+      cv2.putText(image, color+":"+sign+":"+str(h)+":"+str(white2), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
     
     if SHOW_VIDEO:
       cv2.imshow("kak", image)
     
-    print (sign)
-
   if prval:
-    return [i, sign, [xr2-xr, yr2-yr]]
+    return [i, sign, [x+(0.5*w), y+(0.5*h),h]]
   else:
-    return [0, "", [0,0]]
+    return [0, "", [0,0,0]]

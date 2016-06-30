@@ -44,14 +44,18 @@ if USE_PI_CAMERA:
   rawCapture = PiRGBArray(camera, size=(640, 480))
   
 
-BlueLower = (100, 86, 6)
-BlueUpper = (125, 255, 255)
-
-RedLower = (170, 136, 130)
-RedUpper = (190, 255, 255)
-
-YellowLower = (10, 130, 130)
-YellowUpper = (15, 255, 255)
+BlueLower = (100,86,55) ##BlueLower = (100, 86, 6)
+BlueUpper = (125,164,255##BlueUpper = (125, 255, 255)
+##
+RedLower = (158,100,67)
+RedUpper = (191,255,255)
+##RedLower = (170, 136, 130)
+##RedUpper = (190, 255, 255)
+##
+YellowLower = (10,88,95)
+YellowUpper= (20,255,255)
+##YellowLower = (10, 130, 130)
+##YellowUpper = (15, 255, 255)
 
 
 fileName =  __file__.replace("SignDetection.pyc","").replace("SignDetection.py","")

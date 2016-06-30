@@ -24,7 +24,7 @@ if USE_PI_CAMERA==1:
   camera.vflip = True
   
   
-  rg, bg = (1.3, 1.8)
+  rg, bg = (1.5, 1.5)
   camera.awb_gains = (rg, bg)
   
   camera.framerate = 8
