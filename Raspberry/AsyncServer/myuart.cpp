@@ -8,7 +8,7 @@ MyUART::MyUART(QObject *parent) :
     // Set the timer
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    timer->setInterval(500);
+    timer->setInterval(100000);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
 
     //Iterate over the available serial ports and pick the one that is needed.
@@ -121,7 +121,8 @@ void MyUART::timeOut()
 }
 
 /** When some other program (via IPC or RPC) wants to send data over UART, it is
- ** queued in a fifo. A new message can only be sent if the previous is acknowledged.
+ ** put in the queue. If there is already a command with the same function it gets
+ ** replaced. A new message can only be sent if the previous is acknowledged.
  **
  ** the 'uint function' variable might be 0 (and is so by default). This means that
  ** it is assumed that the data does not need formatting. This is for examplethe case
@@ -153,11 +154,26 @@ void MyUART::queueData(QByteArray data, uint function)
         data = uartComm;
     }
 
-    qDebug() << "UART: \tEnqueued:" << QString(data.toHex());
 
+
+    //Replace command if there is a command with the same function
+    for(int i = 0; i<queue.size(); i++)
+    {
+        QPair<QByteArray, uint> p = queue.at(i);
+        if(p.second == function)
+        {
+            queue.replace(i,qMakePair(data, function));
+            qDebug() << "UART: \tReplaced:" << QString(data.toHex());
+            writeData();
+            return;
+        }
+    }
+
+    //There was no command with the same function;
     //Put the data in the queue and try to write it on the bus.
     //It depends on writeData if this happens immediately.
-    queue.enqueue(data);
+    queue.enqueue(qMakePair(data, function));
+    qDebug() << "UART: \tEnqueued:" << QString(data.toHex());
     writeData();
 }
 
@@ -244,7 +260,8 @@ void MyUART::writeData()
     //We are going to send a new command, hence we get a command from the fifo,
     //send it, and wait for the ack
     waitingForAck = true;
-    QByteArray head = queue.dequeue();
+    QPair<QByteArray, uint> headpair = queue.dequeue();
+    QByteArray head = headpair.first;
     lastCommand = head;
     qDebug() << "UART: \tGoing to write" << QString(head.toHex()) << "to the bus";
     serialPort->write(head, head.length());
