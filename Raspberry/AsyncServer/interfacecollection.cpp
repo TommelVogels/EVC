@@ -13,11 +13,11 @@ void InterfaceCollection::startInterfaces()
     Server = new MyServer(this);
     Dbus = new MyDbus(this);
 
-    connect(Dbus,SIGNAL(busWrite(QByteArray,uint)),Uart,SLOT(queueData(QByteArray,uint)));
-    connect(Dbus,SIGNAL(MotorSignal(bool,bool,int,int)),Uart,SLOT(setMotor(bool,bool,int,int)));
-    connect(Dbus,SIGNAL(TurretAngleSignal(bool,bool,int,int)),Uart,SLOT(setTurretAngle(bool,bool,int,int)));
-    connect(Dbus,SIGNAL(LaserSignal(bool)),Uart,SLOT(setLaser(bool)));
-    connect(Uart,SIGNAL(notification(QVariantMap,uint)),Server,SLOT(sendNotifications(QVariantMap,uint)));
+    connect(Dbus,SIGNAL(busWrite(QByteArray,uint)),Uart,SLOT(queueData(QByteArray,uint)),Qt::QueuedConnection);
+    connect(Dbus,SIGNAL(MotorSignal(bool,bool,int,int)),Uart,SLOT(setMotor(bool,bool,int,int)),Qt::QueuedConnection);
+    connect(Dbus,SIGNAL(TurretAngleSignal(bool,bool,int,int)),Uart,SLOT(setTurretAngle(bool,bool,int,int)),Qt::QueuedConnection);
+    connect(Dbus,SIGNAL(LaserSignal(bool)),Uart,SLOT(setLaser(bool)),Qt::QueuedConnection);
+    connect(Uart,SIGNAL(notification(QVariantMap,uint)),Server,SLOT(sendNotifications(QVariantMap,uint)),Qt::QueuedConnection);
 
     int port = 0;
     if(args.length() > 1)
