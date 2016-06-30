@@ -4,7 +4,7 @@
 #defines
 INJECT = 0
 USE_PI_CAMERA = 1
-SHOW_VIDEO = 0
+SHOW_VIDEO = 1
 
 #include dependencies
 from Debugging.Debug  import logToAll
@@ -26,14 +26,21 @@ import time
 #functions
 # initialize the camera and grab a reference to the raw camera capture  
 
-BlueLower = (100, 86, 6)
-BlueUpper = (125, 255, 255)
+BlueLower = (100,86,85) ##BlueLower = (100, 86, 6)
+BlueUpper = (125,164,255)##BlueUpper = (125, 255, 255)
+##
+RedLower = (158,100,67)
+RedUpper = (191,255,255)
+##RedLower = (170, 136, 130)
+##RedUpper = (190, 255, 255)
+##
+YellowLower = (10,88,95)
+YellowUpper= (20,255,255)
+##YellowLower = (10, 130, 130)
+##YellowUpper = (15, 255, 255)
 
-RedLower = (170, 136, 130)
-RedUpper = (190, 255, 255)
 
-YellowLower = (10, 130, 130)
-YellowUpper = (15, 255, 255)
+
 
 fileName =  __file__.replace("SignDetection.pyc","").replace("SignDetection.py","")
 
@@ -44,6 +51,12 @@ if INJECT==0:
   right_nor = cv2.imread(fileName+"/right_nor.png",0)
   straight_nor = cv2.imread(fileName+"/straight_nor.png",0)
   circle_and = cv2.imread(fileName+"/circle_and.png",0)
+  left_xor = cv2.imread(fileName+"/left_xor.png",0)
+  stop_xor = cv2.imread(fileName+"/stop_xor.png",0)
+  uturn_xor = cv2.imread(fileName+"/uturn_xor.png",0)
+  right_xor = cv2.imread(fileName+"/right_xor.png",0)
+  straight_xor = cv2.imread(fileName+"/straight_xor.png",0)
+  circle_and_100 = cv2.imread(fileName+"/circle_and_100.png",0)
 
 # allow the camera to warmup
 time.sleep(0.1)
@@ -82,17 +95,17 @@ def findSigns(frame):
   
   elif USE_PI_CAMERA==1:
   
-    stri = colordetection2(frame) 
+    result = colordetection2(frame) 
+    i = result[0]
+    stri = result[1]
+    coord = result[2]
+    
     t2 = time.time()
     logToAll("findSigns ; Find Signs time ;  "+ str(float(t2-t1)) + " seconds",0)
       
     logToAll("findSigns ; Find Signs time ;  "+ str(stri) + " found",0)
       
-    if (stri)=="stop":
-      return 1
-    else:
-      return 0
-      
+    return[i, coord]
       
   else:
     videos = ['/left.mp4', '/right.mp4', '/straight.mp4', '/stop.mp4', '/uturn.mp4']
@@ -105,7 +118,7 @@ def findSigns(frame):
         if key == ord("q"):
           break
         stri = colordetection2(image)
-        print(str(stri))
+        #print(str(stri))
     vid.release()
     cv2.destroyAllWindows()
     
@@ -120,7 +133,7 @@ def findSigns(frame):
 
 def colordetection2(frame):
 
-  str = "none"
+  sign = "none"
   image = frame
   #image = image[120:360,0:640]
   #hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
@@ -134,12 +147,14 @@ def colordetection2(frame):
   # a series of dilations and erosions to remove any small
   # blobs left in the mask
   mask1 = cv2.inRange(hsv, RedLower, RedUpper)
-  mask_red = cv2.dilate(mask1, None, iterations=10)   #multiple dilations/erosions due to STOP-word implying 2 blobs
-  mask_red = cv2.erode(mask_red, None, iterations=10)
   mask2 = cv2.inRange(hsv, BlueLower, BlueUpper)
+  mask12 = mask1 | mask2
+  mask12 = cv2.dilate(mask12, None, iterations=10)   #multiple dilations/erosions due to STOP-word implying 2 blobs #same for blue
+  mask12 = cv2.erode(mask12, None, iterations=10)
+  #mask2 = cv2.inRange(hsv, BlueLower, BlueUpper)
   mask3 = cv2.inRange(hsv, YellowLower, YellowUpper)
   
-  mask = mask_red | mask2 | mask3
+  mask = mask12 | mask3
   mask = cv2.dilate(mask, None, iterations=3)
   mask = cv2.erode(mask, None, iterations=3)
 
@@ -155,6 +170,8 @@ def colordetection2(frame):
   center = None
 
   # only proceed if at least one contour was found
+  prval = False
+  white2 = -1
   if len(cnts) > 0:
     # find the largest contour in the mask, then use
     # it to compute the minimum enclosing circle and
@@ -162,6 +179,9 @@ def colordetection2(frame):
 #    c = max(cnts, key=cv2.contourArea)
     #find largests contours
     cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:3]
+    color = ""
+    h = -1
+    i = 0
     for c in cnts:
     
       area = cv2.contourArea(c)
@@ -199,29 +219,25 @@ def colordetection2(frame):
         if xr2 > 640:
           xr2 = 640
           
-#          print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2)
+#          print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2) 
           
 #          roi = image[yr:yr2,xr:xr2]
-        color = ""
-        roi = mask2[yr:yr2,xr:xr2]
+        roi = mask1[yr:yr2,xr:xr2]
+        
        # print cv2.countNonZero(roi)
-        if cv2.countNonZero(roi) > 250:
-          color = "blue"
+        if cv2.countNonZero(roi) > 1000:
+          color = "red"
         else:
-          roi = mask1[yr:yr2,xr:xr2]
-          
-        if color == "":
-          if cv2.countNonZero(roi) > 200:
-            color = "red"
+          roi = mask2[yr:yr2,xr:xr2]
+          if cv2.countNonZero(roi) > 1000:
+            color = "blue"
           else:
-            roi = mask3[yr:yr2,xr:xr2]
-          
-        if color == "":
-          if cv2.countNonZero(roi) > 200:
-            color = "yellow"
-          else:
-            color = "nothing"
-            continue
+            roi = mask3[yr:yr2,xr:xr2] 
+            if cv2.countNonZero(roi) > 1000:
+              color = "yellow"
+            else:
+              color = "nothing"
+              continue
           
         
  #       roi3 = mask3[yr:yr2,xr:xr2]
@@ -240,61 +256,103 @@ def colordetection2(frame):
         #roi = cv2.cvtColor(roi,cv2.COLOR_BGR2GRAY)
        # _, roi = cv2.threshold(roi,127,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
   #      roi = cv2.Canny(roi,80,150,apertureSize = 3) 
-        roi= cv2.resize(roi,(int(250),int(250)))
+        roi= cv2.resize(roi,(int(100),int(100)))
         
+        if SHOW_VIDEO:
+          cv2.imshow("roi", roi)
+          
+        prval = False
         white = -1
-        i = -1
-        str = ""
-        result = stop_nor
+        sign = ""
+        result = stop_xor
         if color == "red":
-          result = cv2.bitwise_xor(roi,stop_nor)
+          result = cv2.bitwise_xor(roi,stop_xor)
           white2 = cv2.countNonZero(result)
           #print white2
       
-          if  white2 < 22000:
+          if  white2 < (0.7*5041):
+            prval = True
             white = white2
-            i = 0
-            str="stop"
+            i = 1
+            sign="stop"
+            break
         
         elif color == "blue":
           #print radius
           #check if approx circle:
-          check = cv2.bitwise_and(roi,circle_and)
+          check = cv2.bitwise_and(roi,circle_and_100)
           white_check = cv2.countNonZero(check)
-          print white_check
-          if white_check < 4000:        #threshold for circle check
-            result = cv2.bitwise_xor(roi,right_nor)
-            white2 = cv2.countNonZero(result)
-            if white2 < 24000:            #threshold for arrowcheck
+          if white_check < (0.3*2272):        #threshold for circle check
+            if h >= 100:
+              result = cv2.bitwise_xor(roi,right_xor)                        
+              white2 = cv2.countNonZero(result)
+              if white2 < 1500:            #threshold for arrowcheck
+                prval = True
+                white = white2
+                i = 3
+                sign="right"
+                break
+                
+              if sign == "":
+                result = cv2.bitwise_xor(roi,left_xor)
+                white2 = cv2.countNonZero(result)
+                if white2 < 1500:
+                  prval = True
+                  white = white2
+                  i = 2
+                  sign="left"
+                  break
+                  
+              if sign == "":
+                result = cv2.bitwise_xor(roi,straight_xor)
+                white2 = cv2.countNonZero(result)
+                if white2 < 1500:
+                  prval = True
+                  white = white2
+                  i = 4
+                  sign="straight"
+                  break
+            else:
+              result = cv2.bitwise_xor(roi,right_xor)                        
+              white2 = cv2.countNonZero(result)
               white = white2
-              i = 1
-              str="right"
-            
-              result = cv2.bitwise_xor(roi,straight_nor)
+              sign = "right"
+              i = 3
+              
+              result = cv2.bitwise_xor(roi,left_xor)
               white2 = cv2.countNonZero(result)
               if white2 < white:
                 white = white2
+                sign = "left"
                 i = 2
-                str="straight"
-                #print white2
                 
-              result = cv2.bitwise_xor(roi,left_nor)
-              white2 = cv2.countNonZero(result)
+              result = cv2.bitwise_xor(roi,straight_xor)
+              white3 = cv2.countNonZero(result)
               if white2 < white:
-                i = 3
-                str="left"
-                #print white2
+                white = white2
+                sign="straight"
+                i = 4
+              
+              prval = True
+              break
           
         elif color == "yellow":  
-          result = cv2.bitwise_xor(roi,uturn_nor)
+          result = cv2.bitwise_xor(roi,uturn_xor)
           white2 = cv2.countNonZero(result)
-          if white2 > 4000 and white2 < 41000: #TODO: DEFINE THRESHOLD FOR YELLOW
+          if white2 < (0.7*6772): #TODO: DEFINE THRESHOLD FOR YELLOW
+            prval = True
             white = white2
-            i = 4
-            str="uturn"
-      
-        cv2.putText(image, str+repr(white), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
+            i = 5
+            sign="uturn"
+            break
         
-        print (str)
-      
-  return str  
+    if prval:
+      cv2.putText(image, color+":"+sign+":"+str(h)+":"+str(white2), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
+    
+    if SHOW_VIDEO:
+      cv2.imshow("kak", image)
+    
+  if prval:
+    return [i, sign, [x+(0.5*w), y+(0.5*h),h]]
+  else:
+    return [0, "", [0,0,0]]

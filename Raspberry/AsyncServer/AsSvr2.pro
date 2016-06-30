@@ -14,6 +14,7 @@ TARGET = AsSvr2
 CONFIG   += console
 CONFIG   += c++11
 CONFIG   -= app_bundle
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
 TEMPLATE = app
 

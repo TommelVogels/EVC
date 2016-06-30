@@ -550,7 +550,7 @@ camera.awb_mode = 'off'
 camera.exposure_mode = 'auto'
 
 
-rg, bg = (1.3, 1.8)
+rg, bg = (1.5, 1.5)
 camera.awb_gains = (rg, bg)
       
 camera.framerate = 32
