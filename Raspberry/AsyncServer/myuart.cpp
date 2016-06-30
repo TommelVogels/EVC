@@ -8,7 +8,7 @@ MyUART::MyUART(QObject *parent) :
     // Set the timer
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    timer->setInterval(100000);
+    timer->setInterval(500);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
 
     //Iterate over the available serial ports and pick the one that is needed.
