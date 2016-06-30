@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QQueue>
 #include <QTimer>
+#include <QPair>
 
 class MyUART : public QObject
 {
@@ -32,7 +33,7 @@ private:
     QTimer *timer;
     QSerialPort *serialPort;
     QSerialPortInfo *portInfo;
-    QQueue<QByteArray> queue;
+    QQueue<QPair<QByteArray, uint>> queue;
     QQueue<QByteArray> receivedQueue;
     QByteArray receivedData;
     QByteArray lastCommand;
