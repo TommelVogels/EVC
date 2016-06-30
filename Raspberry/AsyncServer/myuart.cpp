@@ -154,7 +154,7 @@ void MyUART::queueData(QByteArray data, uint function)
         data = uartComm;
     }
 
-    qDebug() << "UART: \tEnqueued:" << QString(data.toHex());
+
 
     //Replace command if there is a command with the same function
     for(int i = 0; i<queue.size(); i++)
@@ -163,6 +163,7 @@ void MyUART::queueData(QByteArray data, uint function)
         if(p.second == function)
         {
             queue.replace(i,qMakePair(data, function));
+            qDebug() << "UART: \tReplaced:" << QString(data.toHex());
             writeData();
             return;
         }
@@ -172,6 +173,7 @@ void MyUART::queueData(QByteArray data, uint function)
     //Put the data in the queue and try to write it on the bus.
     //It depends on writeData if this happens immediately.
     queue.enqueue(qMakePair(data, function));
+    qDebug() << "UART: \tEnqueued:" << QString(data.toHex());
     writeData();
 }
 
