@@ -3,9 +3,8 @@
 # Sends the commands queued by the Raspberry to the defined communication channels
 # Receives commands and queus them from the defined communication channels
 
-#defines
+#defines (only use 1 communication channel)
 USE_UART = 0
-USE_TCP  = 1
 USE_DBUS = 1
 
 from Communication.Commands.Commands  import CommandType
@@ -55,9 +54,9 @@ else:
 
   #variables
 
-  # Queue to contain commands received over UART/TCP
+  # Queue to contain commands received over UART
   receiveQueue = queue.Queue(maxsize=16)
-  #Queue to contain commands to send over UART/TCP
+  #Queue to contain commands to send over UART
   sendQueue = queue.Queue(maxsize=16)
   
   def SendCmds():

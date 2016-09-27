@@ -1,5 +1,6 @@
-# Name
-# Description
+# Commands.py
+# This file contains all commands that are send over UART
+#   and contains functions to convert commands to ints and vice versa
 
 #defines
 from enum import Enum
