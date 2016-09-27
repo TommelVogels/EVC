@@ -3,7 +3,7 @@
 
 #defines
 USE_PI_CAMERA = 1
-SHOW_VIDEO = 1
+SHOW_VIDEO = 0
 
 #include dependencies
 import cv2
@@ -67,7 +67,7 @@ def findHorizontalLine(lines):
     y1=lines[x][1]
     x2=lines[x][2]
     y2=lines[x][3]
-    if x1!=x2  and abs(y2-y1)<10:
+    if x1!=x2  and abs(y2-y1)<20:
       if y1>0 or y2>0:
         if ((x2-x1)**2+(y2-y1)**2)**0.5>0:
           if maxY<y2:

@@ -4,7 +4,7 @@
 #defines
 INJECT = 0
 USE_PI_CAMERA = 1
-SHOW_VIDEO = 1
+SHOW_VIDEO = 0
 
 #include dependencies
 from Debugging.Debug  import logToAll
@@ -101,7 +101,7 @@ def findSigns(frame):
     coord = result[2]
     
     t2 = time.time()
-    logToAll("findSigns ; Find Signs time ;  "+ str(float(t2-t1)) + " seconds",0)
+    logToAll("findSigns ; Find Signs time ;  "+ str(float(t2-t1)) + " seconds",2)
       
     logToAll("findSigns ; Find Signs time ;  "+ str(stri) + " found",0)
       

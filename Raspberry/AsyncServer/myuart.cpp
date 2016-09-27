@@ -8,7 +8,7 @@ MyUART::MyUART(QObject *parent) :
     // Set the timer
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    timer->setInterval(500);
+    timer->setInterval(50);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
 
     //Iterate over the available serial ports and pick the one that is needed.
@@ -25,7 +25,7 @@ MyUART::MyUART(QObject *parent) :
     //Try to open the device and try to set all the correct settings
     if(!serialPort->open(QIODevice::ReadWrite))
     {
-        qDebug() << "UART: \tError: Unable to open port, error code" << serialPort->error();
+        qWarning() << "UART: \tError: Unable to open port, error code" << serialPort->error();
         return;
     }
     if(!serialPort->setBaudRate(QSerialPort::Baud115200))
@@ -39,8 +39,7 @@ MyUART::MyUART(QObject *parent) :
     if(!serialPort->setFlowControl(QSerialPort::NoFlowControl))
         qDebug() << "UART: \tError: Flow control:" << serialPort->flowControl();
 
-    qDebug() << "UART: \tStarted without errors";
-
+    qWarning() << "UART: \tStarted without errors";
 
     connect(serialPort,SIGNAL(readyRead()),this,SLOT(serialReceived()));
     waitingForAck = false;

@@ -10,11 +10,11 @@ void MyServer::StartServer(int port)
 {
     if(listen(QHostAddress::Any,port))
     {
-        qDebug() << "TCP: \tStarted without errors (on port " << QString::number(port) << ")";
+        qWarning() << "TCP: \tStarted without errors (on port " << QString::number(port) << ")";
     }
     else
     {
-        qDebug() << "TCP: \tDid not start";
+        qWarning() << "TCP: \tDid not start";
     }
 }
 

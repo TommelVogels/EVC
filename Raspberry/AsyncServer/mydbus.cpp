@@ -9,10 +9,10 @@ MyDbus::MyDbus(QObject *parent) :
 
     bool success = QDBusConnection::sessionBus().isConnected();
     if (!success)
-        qDebug() << "D-Bus: \tCannot connect to the D-Bus session bus.";
+        qWarning() << "D-Bus: \tCannot connect to the D-Bus session bus.";
 
     if (success && !QDBusConnection::sessionBus().registerService(SERVICE_NAME1)) {
-        qDebug() << "D-Bus: \tCould not register service";
+        qWarning() << "D-Bus: \tCould not register service";
         success = false;
     }
 
@@ -20,9 +20,9 @@ MyDbus::MyDbus(QObject *parent) :
     {
         success = QDBusConnection::sessionBus().registerObject(ECHO_OBJECT_PATH1, ext, QDBusConnection::ExportAllContents);
         if(success)
-            qDebug() << "D-Bus: \tStarted without errors";
+            qWarning() << "D-Bus: \tStarted without errors";
         else
-            qDebug() << "D-Bus: \tDid not start correctly";
+            qWarning() << "D-Bus: \tDid not start correctly";
     }
 }
 

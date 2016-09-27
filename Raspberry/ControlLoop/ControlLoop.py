@@ -27,6 +27,9 @@ from ImageProcessing.SignDetection.SignDetection  import findSigns
 from ImageProcessing.FrameFetch  import getFrame
 from ImageProcessing.FrameFetch  import camera
 from ImageProcessing.FrameFetch  import rawCapture
+
+import binascii
+
 import cv2
 
 #variables
@@ -38,6 +41,7 @@ SENSOR_TIME = 1
 #functions
 def main():
   logToAll("main ; Main application started ; ",1)
+  global current_time
 
   #while 1:
   
@@ -49,22 +53,29 @@ def main():
     bottom = image[250:480,0:640]
     rawCapture.truncate(0)
     t2 = time.time()
-    logToAll("getFrame ; Get Frame ;  "+ str(float(t2-t1)) + " seconds",0)
+    logToAll("getFrame ; Get Frame ;  "+ str(float(t2-t1)) + " seconds",2)
     frameCut =  [top,bottom]
-      
-    cmd = PopCmd()
     
     if (current_time + SENSOR_TIME) < time.time():
       PushCmd(CommandType.BATTERY_CURRENT,bytearray(0))
       PushCmd(CommandType.SYSTEM_CURRENT,bytearray(0))
+      current_time = time.time()
       
     
     #time.sleep(1)
+    while 1:
+      cmd = PopCmd()
     
-    if cmd["cmdID"] == CommandType.BATTERY_CURRENT:
-      print("response for left motor")
-    #frame = getFrame();
-    
+      if cmd["cmdID"] == CommandType.BATTERY_CURRENT:
+        logToAll("BATTERY_CURRENT ; BATTERY_CURRENT ;  "+ binascii.hexlify(cmd["data"]) + " mA",0)
+      elif cmd["cmdID"] == CommandType.SYSTEM_CURRENT:
+        logToAll("SYSTEM_CURRENT ; SYSTEM_CURRENT ;  "+ binascii.hexlify(cmd["data"]) + " mA",0)
+      elif cmd["cmdID"] == CommandType.NO_COMMAND:
+        #logToAll("Other command: "+str(cmd["cmdID"]),0)
+        break; 
+      #else:
+        #logToAll("Other command: "+str(cmd["cmdID"]),0)
+        
     pathData = findPath(frameCut[1])
     signData,coords = findSigns(frameCut[0])
     

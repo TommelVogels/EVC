@@ -25,6 +25,7 @@ if USE_DBUS==1:
     cmd = iface.pop()
     cmd_ba = bytearray(cmd)
     if len(cmd_ba) != 0:
+      cmd_ba = cmd_ba[1:-1]
       return DecodeCmd(cmd_ba)
     else: 
       return {'cmdID':CommandType.NO_COMMAND,'data':bytearray([])}
