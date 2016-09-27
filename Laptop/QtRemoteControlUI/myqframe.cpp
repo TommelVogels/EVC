@@ -2,7 +2,7 @@
 
 MyQFrame::MyQFrame(QWidget *parent) : QFrame(parent)
 {
-    qDebug() << "hello there";
+    // set the range in degrees
     vrange = {0, 90};
     hrange = {0, 180};
 }
