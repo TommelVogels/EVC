@@ -1,26 +1,17 @@
-# Name
-# Description
+# PathRecognition.py
+# This file is used to convert a video frame to information about the path
 
 #defines
-USE_PI_CAMERA = 1
-SHOW_VIDEO = 0
+USE_PI_CAMERA = 1           #set this to 1 to use the camera, else some stream or file can be used as input
+SHOW_VIDEO = 0              #define if the program shows the user a frame with information about the path recognition
+TilesLower = (0,0,20)       #lower threshold (hue, saturation, value) used for filtering useful data from the frame
+TilesUpper = (255,255,100)  #upper threshold (hue, saturation, value) used for filtering useful data from the frame
 
 #include dependencies
 import cv2
 import numpy 
 import math
-
 from Debugging.Debug  import logToAll
-
-#variables
-#TilesLower = (0,0,0)
-#TilesUpper = (255,255,100)
-
-## PP ##
-TilesLower = (0,0,20)
-TilesUpper = (255,255,100)
-
-#functions
 
 #include dependencies
 from Debugging.Debug  import logToAll
@@ -31,17 +22,17 @@ import time
 destination = 0
 current = 0
 
-def findPath(frame):
+#functions
+
+def findPath(frame): # Is this even used?
   t1 = time.time()
-  #thresholds()
   stri = hough(frame)
   t2 = time.time()
-  ## PP ## logToAll("findPath ; Find Path time ;  "+ str(float(t2-t1)) + " seconds",0)
   return stri
 
-
-#calls
-
+#From all the lines that are found by the houghline function we would like to 
+#substract the most interesting one at the right (if present)
+#Please see the documentation 
 def findClosestRightLineAngle(lines, middle):
   for x in range(0, len(lines)):
     x1=lines[x][0]
@@ -58,7 +49,10 @@ def findClosestRightLineAngle(lines, middle):
             angle=180+angle
           return [x1,y1,x2,y2,angle]
   return [0,0,0,0,1000]
-  
+
+#From all the lines that are found by the houghline function we would like to 
+#substract the most interesting horizontal one (if present)
+#Please see the documentation 
 def findHorizontalLine(lines):
   lineData = [0,0,0,0,1000000]
   maxY=0
@@ -78,6 +72,7 @@ def findHorizontalLine(lines):
            lineData = [x1,y1,x2,y2,240-y1]
   return lineData
 
+# Get the distance to the right line
 def findClosestRightLineDistance(lines, middle):
   for x in range(0, len(lines)):
     x1=lines[x][0]
@@ -97,6 +92,7 @@ def findClosestRightLineDistance(lines, middle):
           return [x1,y1,x2,y2,x]
   return [0,0,0,0,1000000]
 
+# Get the angle of the left line
 def findClosestLeftLineAngle(lines, middle):
   for x in range(len(lines)-1, 0, -1):
     x1=lines[x][0]
@@ -114,6 +110,7 @@ def findClosestLeftLineAngle(lines, middle):
           return [x1,y1,x2,y2,angle]
   return [0,0,0,0,1000]
 
+# Get the distance to the left line
 def findClosestLeftLineDistance(lines, middle):
   for x in range(len(lines)-1, 0, -1):
     x1=lines[x][0]
@@ -159,28 +156,18 @@ def hough(frame):
       image = frame.copy()
     else: 
       image = frame
-    #image = image[250:480,0:640]
-    #hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
-    #hsv = cv2.GaussianBlur( hsv, (5, 5), 0 )
-    
-    ## PP ##
+
     mask_tiles = cv2.inRange(image, TilesLower, TilesUpper)
-    ##mask_tiles = cv2.inRange(image, (0,0,20), (255,255,80))
-    
-    
+
     mask = cv2.erode(mask_tiles, None, iterations=2)
     mask = cv2.medianBlur(mask,9)
     mask = cv2.dilate(mask, None, iterations=2)
     edges = cv2.Canny(mask,50,150,apertureSize = 3)
     
-    ## PP ##
     if SHOW_VIDEO:
         cv2.imshow("Frame", mask_tiles)
     key = cv2.waitKey(1) & 0xFF
     
-    #lines = cv2.HoughLines(edges,2,numpy.pi/180,90)
-    #lines = cv2.HoughLinesP(edges,2,5*numpy.pi/180,50,1,20,5) #(edges,1,2*numpy.pi/180,120,90,1)
-    #lines = cv2.HoughLinesP(edges,1,numpy.pi/180,30,1,30,5) #(edges,1,2*numpy.pi/180,120,90,1)
     lines = cv2.HoughLinesP(edges,4,numpy.pi/180,50,1,75,30) #(edges,1,2*numpy.pi/180,120,90,1)
     
     RightDistance=[0,0,0,0,1000000]
@@ -232,8 +219,7 @@ def hough(frame):
           y2=lines2[x][3]
 
           cv2.line(image,(x1,y1),(x2,y2),(0,0,255),2)
-    
-    ## PP ##
+
     if SHOW_VIDEO:
       cv2.imshow('frame',image)
     cv2.waitKey(1)
@@ -273,13 +259,8 @@ def thresholds():
     hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
     v1_min, v2_min, v3_min, v1_max, v2_max, v3_max = get_trackbar_values("HSV")
     thresh = cv2.inRange(hsv, (v1_min, v2_min, v3_min), (v1_max, v2_max, v3_max))
-    #cv2.imshow("Original", image)
-    #cv2.imshow("Thresh", thresh)
     
     rawCapture.truncate(0)
-  #if cv2.waitKey(1) & 0xFF == ord('q'):
-    #break
-  
-  #camera.release()
+
   cv2.destroyAllWindows()
   return 

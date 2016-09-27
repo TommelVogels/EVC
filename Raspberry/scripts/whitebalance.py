@@ -1,3 +1,15 @@
+########################################################################################
+# USE THIS SCRIPT TO CALIBRATE THE WHITEBALANCE OF THE RPI CAMERA                      #
+# How to use this script:                                                              #
+#   1) Place the car in the environment where is will drive                            #
+#   2) Hold something white in front of the camera that covers its entire view         #
+#   3) Run the scipt and wait until it is done                                         #
+#   4) The script will output values for Red and Blue and will try to convert to       #
+#         optimal values. In the last few result pick one that has the best wb         #
+#         and put these values in /Raspberry/ControlLoop/ImageProcessing/FrameFetch.py #
+#   5) If the lightning has changed to much over time, repeat/recalibrate              #
+########################################################################################
+
 import picamera
 import picamera.array
 import numpy as np

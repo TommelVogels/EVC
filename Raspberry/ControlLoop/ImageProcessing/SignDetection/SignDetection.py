@@ -1,5 +1,5 @@
-# Name
-# Description
+# SignDetection.py
+# This file is used to convert a frame to information about the signs
 
 #defines
 INJECT = 0
@@ -45,12 +45,6 @@ YellowUpper= (20,255,255)
 fileName =  __file__.replace("SignDetection.pyc","").replace("SignDetection.py","")
 
 if INJECT==0:
-  left_nor = cv2.imread(fileName+"/left_nor.png",0)
-  stop_nor = cv2.imread(fileName+"/stop_nor.png",0)
-  uturn_nor = cv2.imread(fileName+"/uturn_nor.png",0)
-  right_nor = cv2.imread(fileName+"/right_nor.png",0)
-  straight_nor = cv2.imread(fileName+"/straight_nor.png",0)
-  circle_and = cv2.imread(fileName+"/circle_and.png",0)
   left_xor = cv2.imread(fileName+"/left_xor.png",0)
   stop_xor = cv2.imread(fileName+"/stop_xor.png",0)
   uturn_xor = cv2.imread(fileName+"/uturn_xor.png",0)
@@ -135,14 +129,8 @@ def colordetection2(frame):
 
   sign = "none"
   image = frame
-  #image = image[120:360,0:640]
-  #hsv = cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
-
-  #hsv = imutils.resize(hsv, width=600)
   hsv = cv2.GaussianBlur(image, (11, 11), 0)
-  
 
- 
   # construct a mask for the color "green", then perform
   # a series of dilations and erosions to remove any small
   # blobs left in the mask
@@ -151,7 +139,6 @@ def colordetection2(frame):
   mask12 = mask1 | mask2
   mask12 = cv2.dilate(mask12, None, iterations=10)   #multiple dilations/erosions due to STOP-word implying 2 blobs #same for blue
   mask12 = cv2.erode(mask12, None, iterations=10)
-  #mask2 = cv2.inRange(hsv, BlueLower, BlueUpper)
   mask3 = cv2.inRange(hsv, YellowLower, YellowUpper)
   
   mask = mask12 | mask3
@@ -163,8 +150,8 @@ def colordetection2(frame):
      cv2.imshow("asdf1", mask)
   key = cv2.waitKey(1) & 0xFF    
   
-    # find contours in the mask and initialize the current
-# (x, y) center of the ball
+  # find contours in the mask and initialize the current
+  # (x, y) center of the ball
   cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
     cv2.CHAIN_APPROX_SIMPLE)[-2]
   center = None
@@ -176,55 +163,39 @@ def colordetection2(frame):
     # find the largest contour in the mask, then use
     # it to compute the minimum enclosing circle and
     # centroid  q
-#    c = max(cnts, key=cv2.contourArea)
-    #find largests contours
+    # c = max(cnts, key=cv2.contourArea)
+    # find largests contours, only the biggest and thus closest are of interest
     cnts = sorted(cnts, key = cv2.contourArea, reverse = True)[:3]
     color = ""
     h = -1
     i = 0
     for c in cnts:
-    
+      #only continue if the area is big enough
       area = cv2.contourArea(c)
-      #print area
-      if area > 2000.0:
-        #peri = cv2.arcLength(c, True)
-        #approx = cv2.approxPolyDP(c, 0.20 * peri, True)
-#        cv2.drawContours(image, approx, -1, (0, 255, 0), 3)
-        x,y,w,h = cv2.boundingRect(c)
-        #(x,y),radius = cv2.minEnclosingCircle(approx)
-        #radius = int(radius)
-        #center = (int(x),int(y))
-        
-#        print('radius is',radius, 'x is',x, 'y is',y)
-#        cv2.circle(image,center,radius,(255,255,255),2)
-#        yr = int(y-radius)
-#        xr = int(x-radius)
-#        yr2 = int(y+radius)
-#        xr2 = int(x+radius)
-#        y = int (y)
-#        x = int (x)
-      
-        yr = y
-        xr = x
-        yr2 = y + h
-        xr2 = x + w
+      if area > 2000.0: 
+        x,y,w,h = cv2.boundingRect(c)    
+        yr = y      #bounding rectangle start y
+        xr = x      #bounding rectangle start x 
+        yr2 = y + h #bounding rectangle end y
+        xr2 = x + w #bounding rectangle end x
 
-
+        #Make sure the values are not outside the image
         if yr < 0:  
           yr = 0
         if xr < 0:
           xr = 0
-        if yr2 > 480:    ##possibly redundant
+        if yr2 > 480:
           yr2 = 480
         if xr2 > 640:
           xr2 = 640
-          
-#          print('yr is',yr, 'xr is',xr, 'yr2 is',yr2, 'xr2 is', xr2) 
-          
-#          roi = image[yr:yr2,xr:xr2]
+       
+        #cut out the region of interest (roi)
         roi = mask1[yr:yr2,xr:xr2]
         
-       # print cv2.countNonZero(roi)
+        #Try to find the color of the ROI
+        #The if-else-if-else constuction is to reduce
+        #computations. The order of colors is dependent
+        #on some properties of the pi camera
         if cv2.countNonZero(roi) > 1000:
           color = "red"
         else:
@@ -238,39 +209,24 @@ def colordetection2(frame):
             else:
               color = "nothing"
               continue
-          
         
- #       roi3 = mask3[yr:yr2,xr:xr2]
- #       if cv2.countNonZero(roi2) > 250:
- #         color = "blue"
- #       elif cv2.countNonZero(roi1) > 200:
- #         color = "red"
- #       elif cv2.countNonZero(roi3) > 200:
- #         color = "yellow"
- #       else:
- #         color = "nothing"
- #         continue
-        ##ADD PRIORITY BASED ON RADIUS
-  #        roi = image[50:200,50:100]
-  #        cv2.imwrite("derp.png", roi)
-        #roi = cv2.cvtColor(roi,cv2.COLOR_BGR2GRAY)
-       # _, roi = cv2.threshold(roi,127,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-  #      roi = cv2.Canny(roi,80,150,apertureSize = 3) 
+        #resize the roi to reduce computation
         roi= cv2.resize(roi,(int(100),int(100)))
         
         if SHOW_VIDEO:
           cv2.imshow("roi", roi)
-          
+        
+        #try to find the sign
         prval = False
         white = -1
         sign = ""
         result = stop_xor
         if color == "red":
-          result = cv2.bitwise_xor(roi,stop_xor)
-          white2 = cv2.countNonZero(result)
-          #print white2
+          result = cv2.bitwise_xor(roi,stop_xor) #bitwise XOR the ROI and a black/white stop image
+          white2 = cv2.countNonZero(result)      #count the white pixels
       
-          if  white2 < (0.7*5041):
+          #at least 70% of the image should match (is white) to consider the ROI to be a stop sign
+          if  white2 < (0.7*5041): 
             prval = True
             white = white2
             i = 1
@@ -278,21 +234,27 @@ def colordetection2(frame):
             break
         
         elif color == "blue":
-          #print radius
-          #check if approx circle:
+          #first check if the ROI is round
+          #This information is needed so that we can be more focussing on the inside of the sign later on
+          #(check documentation)
           check = cv2.bitwise_and(roi,circle_and_100)
           white_check = cv2.countNonZero(check)
-          if white_check < (0.3*2272):        #threshold for circle check
-            if h >= 100:
-              result = cv2.bitwise_xor(roi,right_xor)                        
-              white2 = cv2.countNonZero(result)
-              if white2 < 1500:            #threshold for arrowcheck
+          if white_check < (0.3*2272):                 #threshold for circle check
+          
+            #The ROI is rezized to 100;100 before. Depending on if we had to scale up or scale down 
+            #we choose a different algorithm. Scaling up means, next to the fact that the sign is far away,
+            #the quality of will be a lot lower.
+            if h >= 100: #The image is scaled down, choose less compute heavy algorithm
+              result = cv2.bitwise_xor(roi,right_xor)  #bitwise XOR the ROI and a black/white right image 
+              white2 = cv2.countNonZero(result)        #count the white pixels
+              if white2 < 1500:                        #threshold for arrowcheck
                 prval = True
                 white = white2
                 i = 3
                 sign="right"
                 break
                 
+              #continue if a sign hasn't been found yet
               if sign == "":
                 result = cv2.bitwise_xor(roi,left_xor)
                 white2 = cv2.countNonZero(result)
@@ -302,7 +264,8 @@ def colordetection2(frame):
                   i = 2
                   sign="left"
                   break
-                  
+              
+              #continue if a sign hasn't been found yet              
               if sign == "":
                 result = cv2.bitwise_xor(roi,straight_xor)
                 white2 = cv2.countNonZero(result)
@@ -312,7 +275,9 @@ def colordetection2(frame):
                   i = 4
                   sign="straight"
                   break
-            else:
+                  
+            #The image is scaled up, compare all signs and return the one that resembles the b/w image most
+            else:  
               result = cv2.bitwise_xor(roi,right_xor)                        
               white2 = cv2.countNonZero(result)
               white = white2
@@ -339,18 +304,18 @@ def colordetection2(frame):
         elif color == "yellow":  
           result = cv2.bitwise_xor(roi,uturn_xor)
           white2 = cv2.countNonZero(result)
-          if white2 < (0.7*6772): #TODO: DEFINE THRESHOLD FOR YELLOW
+          if white2 < (0.7*6772):
             prval = True
             white = white2
             i = 5
             sign="uturn"
             break
-        
-    if prval:
-      cv2.putText(image, color+":"+sign+":"+str(h)+":"+str(white2), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
-    
+
     if SHOW_VIDEO:
+      if prval:
+        cv2.putText(image, color+":"+sign+":"+str(h)+":"+str(white2), (x,y),cv2.FONT_HERSHEY_SIMPLEX,1,0xffff, 3)
       cv2.imshow("kak", image)
+      
     
   if prval:
     return [i, sign, [x+(0.5*w), y+(0.5*h),h]]

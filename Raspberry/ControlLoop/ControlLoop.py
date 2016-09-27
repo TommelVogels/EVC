@@ -17,9 +17,6 @@ from Communication.CommandEncoder  import DecodeCmd
 from Communication.CommandEncoder  import EncodeCmd
 from Communication.CommunicationBuffer  import PopCmd
 from Communication.CommunicationBuffer  import PushCmd
-#from Communication.CommunicationBuffer  import SendCmds
-#from Communication.CommunicationBuffer  import ReceiveCmds
-
 from Communication.Commands.Commands  import CommandType
 
 from ImageProcessing.PathRecognition.PathRecognition  import findPath
@@ -42,8 +39,6 @@ SENSOR_TIME = 1
 def main():
   logToAll("main ; Main application started ; ",1)
   global current_time
-
-  #while 1:
   
   for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     t1 = time.time()
@@ -60,9 +55,7 @@ def main():
       PushCmd(CommandType.BATTERY_CURRENT,bytearray(0))
       PushCmd(CommandType.SYSTEM_CURRENT,bytearray(0))
       current_time = time.time()
-      
     
-    #time.sleep(1)
     while 1:
       cmd = PopCmd()
     
@@ -71,10 +64,7 @@ def main():
       elif cmd["cmdID"] == CommandType.SYSTEM_CURRENT:
         logToAll("SYSTEM_CURRENT ; SYSTEM_CURRENT ;  "+ binascii.hexlify(cmd["data"]) + " mA",0)
       elif cmd["cmdID"] == CommandType.NO_COMMAND:
-        #logToAll("Other command: "+str(cmd["cmdID"]),0)
         break; 
-      #else:
-        #logToAll("Other command: "+str(cmd["cmdID"]),0)
         
     pathData = findPath(frameCut[1])
     signData,coords = findSigns(frameCut[0])
@@ -86,9 +76,8 @@ def main():
     print(pathData)
     
     runStateActions(signData,coords,pathData)    
-	
+
     # send motor speeds
-	
     speedData = bytearray(4);
     
     if getVariableState("leftMotorSpeed")>0:
@@ -172,19 +161,6 @@ def relativeSpeeds(direction, speed):
   if direction=="left":
     motorFast = "rightMotorSpeed"
     motorSlow = "leftMotorSpeed"
-  
-  # if speed==1:
-    # setVariableState(motorFast, 100)
-    # setVariableState(motorSlow, 5)
-  # elif speed==2:
-    # setVariableState(motorFast, 70)
-    # setVariableState(motorSlow, 5)  
-  # elif speed==3:
-    # setVariableState(motorFast, 50)
-    # setVariableState(motorSlow, 5) 
-  # elif speed==4:
-    # setVariableState(motorFast, 20)
-    # setVariableState(motorSlow, 5) 
   
   if speed==1:
     setVariableState(motorFast, 5)
